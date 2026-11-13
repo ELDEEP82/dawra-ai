@@ -1,0 +1,128 @@
+id,module,parameter,value,unit,justification,source
+clim.peff_a,climate,USDA-SCS effective rain divisor,125,mm/month,Peff=P(125-0.2P)/125 for P<=250 mm/month,FAO CROPWAT (USDA-SCS method); FAO-46 Smith 1992
+clim.peff_b,climate,USDA-SCS effective rain coefficient,0.2,-,see clim.peff_a,FAO CROPWAT (USDA-SCS)
+clim.peff_cap,climate,USDA-SCS breakpoint,250,mm/month,Peff=125+0.1P above 250 mm/month (never reached at Ras Sudr),FAO CROPWAT (USDA-SCS)
+clim.albedo,climate,reference-crop albedo,0.23,-,grass reference surface,FAO-56 (Allen et al. 1998) Eq.38
+clim.ang_a,climate,Angstrom a_s,0.25,-,only used to reproduce FAO-56 Example 18 in tests,FAO-56 (Allen et al. 1998) Eq.35
+clim.ang_b,climate,Angstrom b_s,0.5,-,only used to reproduce FAO-56 Example 18 in tests,FAO-56 (Allen et al. 1998) Eq.35
+clim.krs,climate,Hargreaves radiation coefficient (interior),0.16,degC^-0.5,gap-fill Rs only if POWER solar is missing,FAO-56 (Allen et al. 1998) Eq.50
+clim.heat_report_c,climate,generic heat-day threshold for reporting,35,degC,common heat-stress threshold for field crops; per-crop thresholds in heat.*,assumption (reporting only)
+clim.normal_start,climate,climatology start year,1991,year,WMO 30-year standard normal,WMO-No.1203
+clim.normal_end,climate,climatology end year,2020,year,WMO 30-year standard normal,WMO-No.1203
+ws.frac_ini,water_salt,initial-stage share of season,0.15,-,default when Crops.stage_days_source has no 4-number split (Prompt 3),FAO-56 (Allen et al. 1998) Table 11 typical
+ws.frac_dev,water_salt,development-stage share,0.25,-,as above,FAO-56 (Allen et al. 1998) Table 11 typical
+ws.frac_mid,water_salt,mid-season share,0.4,-,as above,FAO-56 (Allen et al. 1998) Table 11 typical
+ws.frac_late,water_salt,late-season share,0.2,-,as above,FAO-56 (Allen et al. 1998) Table 11 typical
+ws.ea_drip,water_salt,application efficiency drip,0.9,-,Prompt 3 spec,FAO-56 (Allen et al. 1998)
+ws.ea_sprinkler,water_salt,application efficiency sprinkler,0.75,-,Prompt 3 spec,FAO-56 (Allen et al. 1998)
+ws.ea_furrow,water_salt,application efficiency furrow,0.6,-,Prompt 3 spec; S1 trial used furrow,FAO-56 (Allen et al. 1998)
+ws.lr_cap,water_salt,maximum leaching requirement,0.5,-,cap from Prompt 3; above this the crop is not viable,FAO-29 (Ayers & Westcot 1985)
+ws.peak_window_days,water_salt,window for peak daily demand,10,days,peak = max 10-day mean gross demand (design practice),assumption
+ws.kc_ini.bermuda,water_salt,Kc_ini bermuda,0.55,-,"Bermuda hay, averaged cutting effects",FAO-56 (Allen et al. 1998) Table 12
+ws.kc_mid.bermuda,water_salt,Kc_mid bermuda,1.0,-,"Bermuda hay, averaged cutting effects",FAO-56 (Allen et al. 1998) Table 12
+ws.kc_end.bermuda,water_salt,Kc_end bermuda,0.85,-,"Bermuda hay, averaged cutting effects",FAO-56 (Allen et al. 1998) Table 12
+ws.kc_ini.rhodes,water_salt,Kc_ini rhodes,0.55,-,not in FAO-56; set equal to Bermuda hay (similar warm-season perennial grass),FAO-56 (Allen et al. 1998) Table 12 (proxy)
+ws.kc_mid.rhodes,water_salt,Kc_mid rhodes,1.0,-,proxy = Bermuda,FAO-56 (Allen et al. 1998) Table 12 (proxy)
+ws.kc_end.rhodes,water_salt,Kc_end rhodes,0.85,-,proxy = Bermuda,FAO-56 (Allen et al. 1998) Table 12 (proxy)
+ws.kc_ini.quinoa,water_salt,Kc_ini quinoa,0.52,-,not in FAO-56; field-measured values,Garcia et al. 2003 Agric. Water Manag. 60:119
+ws.kc_mid.quinoa,water_salt,Kc_mid quinoa,1.0,-,as above,Garcia et al. 2003
+ws.kc_end.quinoa,water_salt,Kc_end quinoa,0.7,-,as above,Garcia et al. 2003
+ws.kc_ini.sesbania,water_salt,Kc_ini sesbania,0.4,-,not in FAO-56; proxy = cowpea row of Crops sheet (summer legume),Crops sheet cowpea proxy
+ws.kc_mid.sesbania,water_salt,Kc_mid sesbania,1.05,-,proxy = cowpea,Crops sheet cowpea proxy
+ws.kc_end.sesbania,water_salt,Kc_end sesbania,0.48,-,proxy = cowpea,Crops sheet cowpea proxy
+ws.root.bermuda,water_salt,root depth bermuda,1.25,m,Bermuda for hay 1.0-1.5 m (mean),FAO-56 (Allen et al. 1998) Table 22
+ws.root.rhodes,water_salt,root depth rhodes,1.25,m,proxy = Bermuda,FAO-56 (Allen et al. 1998) Table 22 (proxy)
+ws.root.quinoa,water_salt,root depth quinoa,1.0,m,typical 0.8-1.2 m; no local data,assumption
+ws.root.sesbania,water_salt,root depth sesbania,1.0,m,between cowpea (0.8) and alfalfa (1.5),assumption
+ws.fallow_zone_m,water_salt,salt-mixing depth under fallow,1.0,m,Soil_Baseline TAW is given per metre,Soil_Baseline
+sow.barley,calendar,sowing offset vs Nov 1,-7,days,25 Oct early sowing (S1 best date),S1
+sow.wheat,calendar,sowing offset vs Nov 1,14,days,Crops window Nov-Dec (mid-Nov),Crops sheet
+sow.triticale,calendar,sowing offset vs Nov 1,14,days,Crops window Nov-Dec,Crops sheet
+sow.barley_forage,calendar,sowing offset vs Nov 1,0,days,Crops window Oct-Nov,Crops sheet
+sow.sugar_beet,calendar,sowing offset vs Nov 1,-17,days,window Sep-Nov; 15 Oct so 205 d ends before summer sowing,Crops sheet
+sow.quinoa,calendar,sowing offset vs Nov 1,14,days,Crops window Nov,Crops sheet
+sow.faba_bean,calendar,sowing offset vs Nov 1,-7,days,Crops window Oct-Nov,Crops sheet
+sow.tomato,calendar,sowing offset vs Nov 1,0,days,Crops window Oct/Nov,Crops sheet
+sow.squash,calendar,sowing offset vs Nov 1,30,days,Crops window Dec,Crops sheet
+sow.alfalfa,calendar,sowing offset vs Nov 1,0,days,Crops window Oct-Nov,Crops sheet
+sow.sorghum,calendar,sowing offset vs May 1,14,days,Crops window Apr-Jun,Crops sheet
+sow.pearl_millet,calendar,sowing offset vs May 1,14,days,Crops window Apr-Jun,Crops sheet
+sow.sudan_grass,calendar,sowing offset vs May 1,0,days,Crops window Apr-Jun,Crops sheet
+sow.cotton,calendar,sowing offset vs May 1,0,days,"Crops window Mar-May (latest date, after the winter crop)",Crops sheet
+sow.cowpea,calendar,sowing offset vs May 1,14,days,Crops window Mar-Jun,Crops sheet
+sow.sesbania,calendar,sowing offset vs May 1,14,days,Crops window Apr-Jun,Crops sheet
+sow.watermelon,calendar,sowing offset vs May 1,0,days,Crops window Mar-May,Crops sheet
+sow.bermuda,calendar,sowing offset vs May 1,0,days,Crops window Mar-May,Crops sheet
+sow.rhodes,calendar,sowing offset vs May 1,0,days,Crops window Mar-May,Crops sheet
+cal.max_overlap_days,calendar,allowed overlap between consecutive crops,7,days,short relay overlap tolerated,assumption
+yield.rating.quinoa,yield,salt rating fallback quinoa,T,class,no FAO-29 entry (README note 5); grown at ECw 7.94 / ECe 8.56 in S4,S4
+yield.rating.pearl_millet,yield,salt rating fallback pearl millet,MT,class,no FAO-29 entry; conservative moderately-tolerant class,assumption
+yield.rating_method,yield,threshold fallback method,median_of_rating_class,-,crops without FAO-29 numbers get the median ECe_100 / ECe_50 of Crops-sheet crops with the same salt_rating,FAO-29 Table 4/5 via Crops sheet
+heat.tcrit.winter_cereal,yield,critical Tmax winter cereals,32,degC,wheat/barley anthesis-grain fill damage above ~31-32 degC,Porter & Gawith 1999 Eur. J. Agron. 10:23
+heat.tcrit.c4_grass,yield,critical Tmax C4 summer grasses,40,degC,sorghum/millet pollen viability falls above ~38-40 degC,Prasad et al. 2008 Crop Sci. 48:1911
+heat.tcrit.cotton,yield,critical Tmax cotton,38,degC,boll retention drops above ~36-38 degC,Reddy et al. 1991
+heat.tcrit.legume,yield,critical Tmax summer legumes,36,degC,cowpea flower abortion with hot days,Hall 2004 Eur. J. Agron. 21:447
+heat.tcrit.cool_legume,yield,critical Tmax faba bean,30,degC,cool-season legume,assumption (literature range 28-32)
+heat.tcrit.vegetable,yield,critical Tmax tomato/cucurbits,35,degC,fruit set failure,assumption (literature range 32-35)
+heat.tcrit.root_pseudo,yield,critical Tmax sugar beet/quinoa,32,degC,quinoa anthesis sensitive above ~32 degC,Hinojosa et al. 2018
+heat.tcrit.perennial,yield,critical Tmax perennial forages,40,degC,warm-season perennials,assumption
+heat.penalty_per_day,yield,yield loss per hot day in mid stage,0.01,fraction/day,linear damage function; 1 % per day,assumption
+heat.max_penalty,yield,maximum heat penalty,0.5,fraction,cap,assumption
+ymax.wheat,yield,attainable grain yield wheat,5000,kg/ha,irrigated good commercial 4-6 t/ha (midpoint); independent of the S6 holdout,FAO-33 (Doorenbos & Kassam 1979)
+ymax.triticale,yield,attainable grain yield triticale,5000,kg/ha,no FAO-33 entry; set equal to wheat,assumption
+ymax.sorghum,yield,attainable grain yield sorghum,4250,kg/ha,3.5-5 t/ha midpoint,FAO-33 (Doorenbos & Kassam 1979)
+ymax.pearl_millet,yield,attainable grain yield pearl millet,3000,kg/ha,arid-zone irrigated typical,assumption
+ymax.sudan_grass,yield,attainable hay DM per season,10000,kg/ha,multi-cut summer hay,assumption
+ymax.bermuda,yield,attainable hay DM per season,7500,kg/ha,15 t DM/yr split over two seasons,assumption
+ymax.rhodes,yield,attainable hay DM per season,7500,kg/ha,proxy = Bermuda,assumption
+ymax.sugar_beet,yield,attainable root yield,50000,kg/ha,40-60 t/ha midpoint,FAO-33 (Doorenbos & Kassam 1979)
+ymax.quinoa,yield,attainable seed yield,2500,kg/ha,irrigated 2-3 t/ha; no local numeric yield in Local_Yields,assumption
+ymax.cotton,yield,attainable seed cotton,4500,kg/ha,4-5 t/ha midpoint,FAO-33 (Doorenbos & Kassam 1979)
+ymax.alfalfa,yield,attainable hay DM per season,7500,kg/ha,15 t DM/yr (range 8-22) split over two seasons,FAO-33 (Doorenbos & Kassam 1979)
+ymax.cowpea,yield,attainable dry grain,2000,kg/ha,1.5-2.5 t/ha (dry bean class) midpoint,FAO-33 (Doorenbos & Kassam 1979)
+ymax.faba_bean,yield,attainable dry grain,2500,kg/ha,2-3 t/ha midpoint,FAO-33 (Doorenbos & Kassam 1979)
+ymax.sesbania,yield,attainable biomass (green manure),6000,kg/ha,"DM incorporated, not sold",assumption
+ymax.tomato,yield,attainable fresh fruit,55000,kg/ha,45-65 t/ha midpoint,FAO-33 (Doorenbos & Kassam 1979)
+ymax.squash,yield,attainable fresh fruit,20000,kg/ha,no FAO-33 entry,assumption
+ymax.watermelon,yield,attainable fresh fruit,30000,kg/ha,25-35 t/ha midpoint,FAO-33 (Doorenbos & Kassam 1979)
+rev.sesbania,revenue,revenue-index weight sesbania,0,-,green manure: no marketable product,Crops sheet use = green manure
+soil.lf_cal,soil_twin,leaching fraction behind measured ECe/ECw,0.15,-,"Soil_Baseline leaching_fraction, used to calibrate ECe/ECw = 8.56/7.94 (S4)",Soil_Baseline; S4
+soil.fallow_ece_rise,soil_twin,ECe rise per unirrigated fallow season,0.05,fraction,evaporative concentration in topsoil; no local measurement - high uncertainty (sensitivity tested),assumption
+soil.bulk_density,soil_twin,bulk density,1.5,g/cm3,typical loamy sand,assumption (Saxton & Rawls 2006 range 1.45-1.6)
+soil.pool_depth,soil_twin,SOC/N pool depth,0.3,m,matches SoilGrids 0-30 cm layer,S18
+soil.soc_decay_crop,soil_twin,SOC decay per irrigated season,0.02,fraction,~4 %/yr for warm irrigated sandy soils,assumption (ICBM-type first order)
+soil.soc_decay_fallow,soil_twin,SOC decay per dry fallow season,0.005,fraction,decomposition limited by dryness,assumption
+soil.humification,soil_twin,residue humification coefficient,0.125,-,straw humification coefficient,Andren & Katterer 1997 (ICBM)
+soil.resC.cereal,soil_twin,residue C returned cereals,1.2,t C/ha,roots + stubble at full yield (straw grazed/removed),assumption (Bolinder et al. 2007 root:shoot)
+soil.resC.forage,soil_twin,residue C returned forages,0.6,t C/ha,roots/stubble only,assumption
+soil.resC.legume,soil_twin,residue C returned grain legumes,0.8,t C/ha,roots + nodules + stubble,assumption
+soil.resC.green_manure,soil_twin,residue C returned green manure,2.5,t C/ha,whole biomass incorporated,assumption
+soil.resC.cash,soil_twin,residue C returned cash/industrial,0.8,t C/ha,cotton stalks / beet tops partly returned,assumption
+soil.resC.vegetable,soil_twin,residue C returned vegetables,0.4,t C/ha,little residue (Crops soil_role: high input; little residue),Crops sheet soil_role
+soil.resC.perennial,soil_twin,residue C returned perennial forage per season,1.0,t C/ha,"permanent roots, no tillage",assumption
+soil.n_loss_crop,soil_twin,available-N loss per non-legume season,0.1,fraction,leaching under high LF in sand (net of fertiliser),assumption
+soil.nfix.cowpea,soil_twin,residual fixed N to next crop,40,kg N/ha,net N benefit to following crop,assumption (Peoples et al. 2009 range)
+soil.nfix.faba_bean,soil_twin,residual fixed N to next crop,40,kg N/ha,net N benefit to following crop,assumption (Peoples et al. 2009 range)
+soil.nfix.alfalfa,soil_twin,residual fixed N per season,60,kg N/ha,net N benefit,assumption (Peoples et al. 2009 range)
+soil.nfix.sesbania,soil_twin,residual N from green manure,80,kg N/ha,incorporated green manure,assumption (Ladha et al. 1992 range)
+si.w_ece,soil_twin,soil index weight salinity,0.5,-,salinity is the main constraint (README note 1),assumption
+si.w_soc,soil_twin,soil index weight SOC,0.3,-,organic matter is very low (0.18 %),assumption
+si.w_n,soil_twin,soil index weight N,0.2,-,N is low (26.2 mg/kg),assumption
+si.scale,soil_twin,relative change that maps to full score,0.5,fraction,+-50 % change = 0 or 100,assumption
+si.pest_penalty,soil_twin,soil index penalty per repeated-family flag,5,points,3rd consecutive same-family season,assumption
+opt.pop,optimizer,NSGA-II population,120,-,Prompt 5,Prompt 5
+opt.gen,optimizer,NSGA-II generations,200,-,Prompt 5,Prompt 5
+opt.seed,optimizer,random seed,42,-,reproducibility,-
+opt.min_rel_yield,optimizer,minimum relative yield per crop,50,%,Prompt 5 constraint,Prompt 5
+opt.max_family_run,optimizer,max consecutive seasons of one family,2,seasons,no family 3 times in a row,Prompt 5
+opt.min_cropped_slots,optimizer,minimum cropped slots in 6,3,slots,avoid the trivial all-fallow plan,assumption
+opt.guard_productivity,optimizer,min productivity vs current for min_water / best_soil picks,0.8,fraction,no plan should make the farmer much poorer,assumption
+st.n_boot,stress,bootstrap 3-year sequences,200,-,Prompt 6,Prompt 6
+st.n_boot_grid,stress,bootstrap draws per what-if cell,60,-,speed for the 112-cell grid,assumption
+st.seed,stress,random seed,7,-,reproducibility,-
+st.yield_keep,stress,yield share of baseline that counts as success,0.7,fraction,Prompt 6,Prompt 6
+st.ece_tol,stress,allowed final ECe rise above start,0.0,dS/m,Prompt 6: final ECe <= starting ECe,Prompt 6
+st.ecw_step,stress,well salinity scenario step,1,dS/m,+1 and +2 dS/m; highly-saline share 52 % -> 83 % (1996-2022),S16 via Groundwater sheet
+conv.tds_per_ec,calibration,TDS (mg/L) per dS/m,640,mg/L per dS/m,ppm to dS/m conversion used in Soil_Water_Measured,FAO-29 (Soil_Water_Measured note)
+cal.s6_system,calibration,irrigation system assumed for the S6 wheat holdout,furrow,-,S6 does not state the method; DRC station trials used furrow (S1),assumption
+cal.s1_system,calibration,irrigation system of the S1 barley trial,furrow,-,weekly furrow irrigation ~400 mm/season,S1 / Local_Yields
