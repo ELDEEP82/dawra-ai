@@ -107,3 +107,15 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   polygons appear automatically when `data/eo/fields_*.geojson` exists.
 - **D35 Demo mode.** 7 steps × 4.3 s ≈ 30 s: map → NASA snapshot → farm F001 → plans → explanation → what-if (+2 °C,
   −20 % rain, +2 dS/m) → disclaimer.
+
+## P7 — Validation & submission
+- **D36 Validation table** (`reports/validation.md`, copy `07_validation.md`): 11 pass · 4 fail · 3 pending · 2
+  calibrated. Fails are kept: ET0 2024 is 1.5 mm above the 1,970 mm sanity band; POWER Tmin is +1.8 °C vs S1 (coastal
+  0.5° cell); wheat holdout fails under the per-hectare reading of S6; the FAO-29 water requirement is +73 % vs the 400 mm
+  the S1 trial applied (trial leached less). Pending rows need Earth Engine.
+- **D37 Sensitivity** uses a fixed candidate set (baseline Pareto front + current) re-simulated under each ±20 %
+  perturbation with a full engine rebuild (calibration included) — 198 rebuilds instead of 198 NSGA-II runs. 19 of 99
+  assumptions change at least one pick; the most influential are stage-length fractions, drip Ea, quinoa Kc, the S4 ECe
+  calibration LF and the "≥ 3 cropped seasons" rule.
+- **D38 Submission**: `submission/slides.md` (exactly 7 slides) and `submission/video_script.md` (~75 words, mapped to
+  the in-app Demo mode).

@@ -1,0 +1,182 @@
+[
+ {
+  "area": "Climate",
+  "check": "NASA POWER API vs team CSV (2020–21 overlap)",
+  "modelled": "max |Δ| = 0.000",
+  "target / observed": "0",
+  "criterion": "max |Δ| < 0.01",
+  "result": "✅ pass",
+  "note": ""
+ },
+ {
+  "area": "Climate",
+  "check": "FAO-56 PM vs FAO-56 Example 18 (Brussels)",
+  "modelled": "3.9 mm/d (unit test)",
+  "target / observed": "3.9 mm/d",
+  "criterion": "±0.1 mm/d",
+  "result": "✅ pass",
+  "note": ""
+ },
+ {
+  "area": "Climate",
+  "check": "Annual ET0 2020–2025",
+  "modelled": "1,882–1,972 mm",
+  "target / observed": "1,880–1,970 mm (CLAUDE.md)",
+  "criterion": "every year in range",
+  "result": "❌ fail",
+  "note": "2024–25 slightly above the band (hot years)"
+ },
+ {
+  "area": "Climate",
+  "check": "Mean annual ET0 1981–2025",
+  "modelled": "1,912 mm",
+  "target / observed": "≈1,900 mm",
+  "criterion": "±5 %",
+  "result": "✅ pass",
+  "note": ""
+ },
+ {
+  "area": "Climate",
+  "check": "Annual rain 2020–2025",
+  "modelled": "27–97 mm",
+  "target / observed": "27–97 mm (CLAUDE.md)",
+  "criterion": "every year in range",
+  "result": "✅ pass",
+  "note": ""
+ },
+ {
+  "area": "Climate",
+  "check": "Nov–Apr Tmax vs S1 Table 1",
+  "modelled": "max |Δ| 0.6 °C",
+  "target / observed": "S1 1983–2020",
+  "criterion": "≤ 1.5 °C",
+  "result": "✅ pass",
+  "note": ""
+ },
+ {
+  "area": "Climate",
+  "check": "Nov–Apr Tmin vs S1 Table 1",
+  "modelled": "mean Δ +1.8 °C",
+  "target / observed": "S1 1983–2020",
+  "criterion": "≤ 1.5 °C",
+  "result": "❌ fail",
+  "note": "POWER nights warmer: the 0.5° MERRA-2 cell includes the Gulf of Suez (sea moderates Tmin). Affects only ET0's longwave term; frost is not a risk here."
+ },
+ {
+  "area": "Climate",
+  "check": "Nov–Apr rain total vs S1",
+  "modelled": "36.7 mm",
+  "target / observed": "40.8 mm",
+  "criterion": "±25 %",
+  "result": "✅ pass",
+  "note": ""
+ },
+ {
+  "area": "Yield",
+  "check": "Barley grain at ECw 8.35, S1 seasons & water",
+  "modelled": "4,215 kg/ha",
+  "target / observed": "4,215 kg/ha (S1)",
+  "criterion": "fitted (1 parameter: ymax)",
+  "result": "🔧 calibrated",
+  "note": "ymax = 4,268; modelled RY 98.8 %"
+ },
+ {
+  "area": "Yield",
+  "check": "Wheat holdout — S6 read per feddan",
+  "modelled": "5,000 kg/ha",
+  "target / observed": "5,905 kg/ha",
+  "criterion": "±20 %",
+  "result": "✅ pass",
+  "note": "error -15.3 %"
+ },
+ {
+  "area": "Yield",
+  "check": "Wheat holdout — S6 read per hectare",
+  "modelled": "5,000 kg/ha",
+  "target / observed": "2,480 kg/ha",
+  "criterion": "±20 %",
+  "result": "❌ fail",
+  "note": "error +101.6 % — S6 does not state the area unit; per-feddan reading is the one in the data sheet. Needs confirmation from DRC."
+ },
+ {
+  "area": "Yield",
+  "check": "Salinity_Yield sheet reproduced (Maas–Hoffman)",
+  "modelled": "sorghum 8 %, cotton 74 %, wheat 53 %…",
+  "target / observed": "sheet values",
+  "criterion": "exact (rounded)",
+  "result": "✅ pass",
+  "note": "unit test test_salinity_sheet_reproduced"
+ },
+ {
+  "area": "Soil",
+  "check": "ECe/ECw at LF 0.15 vs S4",
+  "modelled": "8.56 dS/m",
+  "target / observed": "8.56 dS/m (S4)",
+  "criterion": "fitted (k)",
+  "result": "🔧 calibrated",
+  "note": "k = 0.703"
+ },
+ {
+  "area": "Soil",
+  "check": "Season-mean ECe under the S1 trial (ECw 8.35, 400 mm)",
+  "modelled": "8.25 dS/m",
+  "target / observed": "8.56 dS/m (S4, nearby station)",
+  "criterion": "±15 %",
+  "result": "✅ pass",
+  "note": "independent of the k fit (different water, ECw, season)"
+ },
+ {
+  "area": "Water",
+  "check": "FAO-29 gross requirement vs S1 applied",
+  "modelled": "693 mm",
+  "target / observed": "400 mm",
+  "criterion": "±25 %",
+  "result": "❌ fail",
+  "note": "+73 %: the trial leached less than FAO-29 recommends (LF ≈ 0.16 vs LR 0.26) and furrow losses are counted. Dawra plans are conservative on water."
+ },
+ {
+  "area": "Earth obs.",
+  "check": "ET0 vs MODIS MOD16 ET",
+  "modelled": "—",
+  "target / observed": "MOD16A2GF",
+  "criterion": "pattern r > 0.6",
+  "result": "⏳ pending",
+  "note": "needs Earth Engine"
+ },
+ {
+  "area": "Earth obs.",
+  "check": "Vegetated area (NDVI > 0.1) 2022",
+  "modelled": "—",
+  "target / observed": "1,579 ha (S16)",
+  "criterion": "±25 %",
+  "result": "⏳ pending",
+  "note": "needs Earth Engine"
+ },
+ {
+  "area": "Earth obs.",
+  "check": "CMIP6 scenario family in stress test",
+  "modelled": "—",
+  "target / observed": "SSP2-4.5 / SSP5-8.5",
+  "criterion": "included",
+  "result": "⏳ pending",
+  "note": "needs Earth Engine"
+ },
+ {
+  "area": "App",
+  "check": "Precomputed configurations",
+  "modelled": "75 files",
+  "target / observed": "5 profiles × 5 ECw × 3 water = 75",
+  "criterion": "= 75",
+  "result": "✅ pass",
+  "note": ""
+ },
+ {
+  "area": "App",
+  "check": "Largest plan file (one interaction)",
+  "modelled": "158 KB (≈ 23 KB gzip)",
+  "target / observed": "< 2 s per interaction",
+  "criterion": "< 300 KB raw",
+  "result": "✅ pass",
+  "note": "sliders read an in-memory grid (no network)"
+ }
+]

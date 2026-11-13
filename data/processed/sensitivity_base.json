@@ -1,0 +1,37 @@
+{
+ "max_profit": [
+  "barley",
+  "sorghum",
+  "quinoa",
+  "sorghum",
+  "quinoa",
+  "sorghum"
+ ],
+ "min_water": [
+  "squash",
+  "fallow",
+  "squash",
+  "fallow",
+  "barley_forage",
+  "fallow"
+ ],
+ "best_soil": [
+  "faba_bean",
+  "sorghum",
+  "faba_bean",
+  "sorghum",
+  "faba_bean",
+  "cowpea"
+ ],
+ "compromise": [
+  "barley",
+  "fallow",
+  "barley_forage",
+  "fallow",
+  "barley_forage",
+  "fallow"
+ ],
+ "comp_value": 1.387701504425701,
+ "comp_water": 13654.688090473604,
+ "cur_value": 1.4493694151044791
+}
