@@ -16,3 +16,14 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   `dawra.assumptions.get()`. This makes the ±20 % sensitivity run a loop over ids and keeps every number traceable.
 - **D06 Prices.** `data/prices_egp.csv` has one row per crop with blank price/cost and `is_assumption=1`. Nothing is invented.
   When any needed price is blank the engine switches to a *relative productivity index* (see P3) and flags `prices_pending`.
+
+## P1 — Climate
+- **D07 POWER extension.** 1981-01-01→2019-12-31 from the POWER daily point API (community AG, same pixel as our file);
+  2020+ from the team CSV. 2020–2021 overlap: max abs difference 0.0 for all 8 variables. Cached as
+  `data/processed/power_1981_2026.parquet` and committed so the build runs offline.
+- **D08 Solar gap 1981–1983.** POWER has no CERES radiation for 1981–83. Hargreaves (FAO-56 Eq.50, kRs 0.16) is −24 %
+  vs CERES here (coastal site), so it is bias-corrected per calendar month with the CERES/Hargreaves ratio from all
+  overlapping days; filled days carry `rs_filled = 1`.
+- **D09 ET0.** Full FAO-56 PM with ea from daily mean RH (Eq.19), G = 0, Rso = (0.75+2e-5 z)Ra. Unit-tested against
+  FAO-56 Example 18 (3.9 mm/d) and Example 8 (Ra). Warming scenarios shift Tmax/Tmin and hold RH constant.
+- **D10 Effective rain.** USDA-SCS monthly formula (FAO CROPWAT), applied to monthly totals and distributed back to days.
