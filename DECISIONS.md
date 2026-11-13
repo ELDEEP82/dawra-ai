@@ -81,3 +81,15 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   after summer fallow).
 - **D26 Cards** are template-built from the plan JSON (EN + Egyptian-friendly Arabic, Western digits). `llm_polish` is
   an optional hook that raises if any number changes.
+
+## P5 — Earth observation & evidence (M5)
+- **D27 Earth Engine not authenticated on this machine** (no GEE_PROJECT, no credentials). Per the brief the full code is
+  written (`eo.py`: NDVI S2+Landsat, vegetated area, field polygons, SMAP L4, IMERG V07, MODIS LST/ET, SRTM, GRACE mascons,
+  GDDP-CMIP6 deltas) with mocked tests; `extract_all()` returns `status: pending` instead of failing, and every EO output
+  in the web JSON is marked `pending`.
+- **D28 Interim soil-moisture context** = NASA POWER MERRA-2 GWETROOT (already in our series), shown in the app and cards.
+- **D29 Evidence engine** (`evidence.py`) runs on any NDVI DataFrame and is tested on synthetic barley/fallow and
+  double-crop series; rules first, KMeans only as a consistency check; vegetated-area validation vs S16 (1,579 ha) will
+  report pass/fail once EO data exist — it is listed as *pending* in validation, not as passed.
+- **D30 To finish EO:** `earthengine authenticate` → set `GEE_PROJECT` → `make data` (or `python tasks.py data`) →
+  `make build`. CMIP6 deltas then join the stress test as an extra scenario family.
