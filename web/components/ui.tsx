@@ -1,6 +1,6 @@
 "use client";
 /** Small shared UI pieces: animated counter, robustness ring, scroll reveal, skeleton, dataset chip. */
-import { animate, motion, useInView, useReducedMotion } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { fmt } from "@/lib/i18n";
 
@@ -56,12 +56,12 @@ export function Tween({ value, nd = 0, suffix = "" }: { value: number | null | u
 export function Ring({ pct, size = 64, label }: { pct: number; size?: number; label?: string }) {
   const r = (size - 8) / 2;
   const c = 2 * Math.PI * r;
-  const color = pct >= 70 ? "#34d399" : pct >= 40 ? "#fbbf24" : "#fb7185";
+  const color = pct >= 70 ? "#2BB673" : pct >= 40 ? "#E8A23A" : "#E5533D";
   const icon = pct >= 70 ? "✔" : pct >= 40 ? "▲" : "✖";
   return (
     <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }} role="img" aria-label={`${label ?? "robustness"} ${Math.round(pct)}%`}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={r} stroke="rgba(255,255,255,.1)" strokeWidth={6} fill="none" />
+        <circle cx={size / 2} cy={size / 2} r={r} stroke="rgba(20,32,27,.08)" strokeWidth={6} fill="none" />
         <motion.circle
           cx={size / 2}
           cy={size / 2}
@@ -103,7 +103,7 @@ export function Reveal({ children, delay = 0, className = "" }: { children: Reac
 }
 
 export function Skeleton({ className = "h-40" }: { className?: string }) {
-  return <div className={`card animate-pulse bg-white/[0.03] ${className}`} aria-hidden />;
+  return <div className={`shimmer rounded-card border border-line ${className}`} aria-hidden />;
 }
 
 const DATASET_RE = /(NASA POWER|Landsat|Sentinel-2|SMAP|GPM IMERG|IMERG|MODIS|SRTM|GRACE(?:\/GRACE-FO)?|CMIP6|NEX-GDDP-CMIP6|CERES|MERRA-2|FAO-56|FAO-29|S1|S4|S16)/g;
@@ -115,7 +115,7 @@ export function WithChips({ text }: { text: string }) {
     <>
       {parts.map((p, i) =>
         /^(NASA POWER|Landsat|Sentinel-2|SMAP|GPM IMERG|IMERG|MODIS|SRTM|GRACE.*|CMIP6|NEX-GDDP-CMIP6|CERES|MERRA-2|FAO-56|FAO-29|S1|S4|S16)$/.test(p) ? (
-          <span key={i} className="mx-0.5 inline-block rounded-md border border-nasa-cyan/40 bg-nasa-cyan/10 px-1.5 py-px text-[0.8em] font-medium text-nasa-cyan" dir="ltr">
+          <span key={i} className="mx-0.5 inline-block rounded-full border border-brand/25 bg-brand-soft px-2 py-px text-[0.78em] font-semibold text-brand" dir="ltr">
             {p}
           </span>
         ) : (
@@ -144,7 +144,122 @@ export function LazySection({ children, minHeight = 320, margin = "250px" }: { c
   }, [show, margin]);
   return (
     <div ref={ref} style={show ? undefined : { minHeight }}>
-      {show ? children : <div className="card h-full animate-pulse bg-white/[0.02]" style={{ minHeight }} aria-hidden />}
+      {show ? children : <div className="shimmer h-full rounded-card border border-line" style={{ minHeight }} aria-hidden />}
+    </div>
+  );
+}
+
+
+
+/** prefers-reduced-motion, but only after mount — first render matches the server (no hydration mismatch). */
+export function useReducedAfterMount(): boolean {
+  const reduce = useReducedMotion();
+  const [v, setV] = useState(false);
+  useEffect(() => setV(!!reduce), [reduce]);
+  return v;
+}
+
+/** 3D flip card: front/back faces, spring flip on click/Enter/Space, hover tilt with glare; fades when motion is reduced. */
+export function FlipCard({ front, back, label, className = "", flipped: controlled, onFlip, backScroll = true }: {
+  front: ReactNode; back: ReactNode; label: string; className?: string; flipped?: boolean; onFlip?: (f: boolean) => void; backScroll?: boolean;
+}) {
+  const reduce = useReducedAfterMount();
+  const [own, setOwn] = useState(false);
+  const flipped = controlled ?? own;
+  const [rtl, setRtl] = useState(false);
+  useEffect(() => setRtl(document.documentElement.dir === "rtl"), []);
+  const rx = useMotionValue(0), ry = useMotionValue(0), gx = useMotionValue(50), gy = useMotionValue(50);
+  const srx = useSpring(rx, { stiffness: 180, damping: 18 }), sry = useSpring(ry, { stiffness: 180, damping: 18 });
+  const glare = useTransform([gx, gy], ([x, y]) => `radial-gradient(420px circle at ${x}% ${y}%, rgba(255,255,255,.55), transparent 45%)`);
+  const toggle = () => {
+    const f = !flipped;
+    if (controlled === undefined) setOwn(f);
+    onFlip?.(f);
+  };
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (reduce || e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    ry.set((px - 0.5) * 8);
+    rx.set(-(py - 0.5) * 6);
+    gx.set(px * 100);
+    gy.set(py * 100);
+  };
+  const reset = () => { rx.set(0); ry.set(0); };
+  const dir = rtl ? -180 : 180;
+  return (
+    <motion.div className={`flip-scene group ${className}`} style={{ rotateX: srx, rotateY: sry }} onPointerMove={onMove} onPointerLeave={reset}>
+      <div
+        role="button"
+        tabIndex={0}
+        aria-pressed={flipped}
+        onClick={(e) => {
+          if ((e.target as HTMLElement).closest("a,[data-noflip]")) return;
+          toggle();
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        }}
+        className="h-full cursor-pointer rounded-card outline-none focus-visible:ring-4 focus-visible:ring-brand/30"
+      >
+        <span className="sr-only">{label}</span>
+        {reduce ? (
+          <div className="relative h-full">
+            <motion.div className="h-full" animate={{ opacity: flipped ? 0 : 1 }} style={{ pointerEvents: flipped ? "none" : "auto" }}>{front}</motion.div>
+            <motion.div className={`absolute inset-0 ${backScroll ? "overflow-y-auto" : ""}`} initial={false} animate={{ opacity: flipped ? 1 : 0 }} style={{ pointerEvents: flipped ? "auto" : "none" }} aria-hidden={!flipped}>{back}</motion.div>
+          </div>
+        ) : (
+          <motion.div className="flip-inner h-full" animate={{ rotateY: flipped ? dir : 0 }} transition={{ type: "spring", stiffness: 70, damping: 14, mass: 0.9 }}>
+            <div className="flip-face relative h-full" aria-hidden={flipped}>
+              {front}
+              <motion.div aria-hidden className="pointer-events-none absolute inset-0 rounded-card opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ background: glare }} />
+            </div>
+            <div className={`flip-face flip-back ${backScroll ? "overflow-y-auto" : ""} rounded-card`} aria-hidden={!flipped}>{back}</div>
+          </motion.div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+/** Magnetic hover for primary buttons (follows the pointer a few px). */
+export function Magnetic({ children, strength = 10 }: { children: ReactNode; strength?: number }) {
+  const reduce = useReducedAfterMount();
+  const x = useMotionValue(0), y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 220, damping: 15 }), sy = useSpring(y, { stiffness: 220, damping: 15 });
+  return (
+    <motion.span
+      className="inline-flex"
+      style={{ x: sx, y: sy }}
+      onPointerMove={(e) => {
+        if (reduce || e.pointerType !== "mouse") return;
+        const r = e.currentTarget.getBoundingClientRect();
+        x.set(((e.clientX - r.left) / r.width - 0.5) * strength);
+        y.set(((e.clientY - r.top) / r.height - 0.5) * strength);
+      }}
+      onPointerLeave={() => { x.set(0); y.set(0); }}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+/** Segmented tabs with an animated underline (layoutId). */
+export function Tabs<T extends string>({ items, value, onChange, id, label }: { items: { key: T; label: ReactNode }[]; value: T; onChange: (v: T) => void; id: string; label: string }) {
+  return (
+    <div role="tablist" aria-label={label} className="flex flex-wrap gap-1 rounded-full border border-line bg-paper p-1 shadow-card">
+      {items.map((it) => {
+        const on = it.key === value;
+        return (
+          <button key={it.key} role="tab" aria-selected={on} onClick={() => onChange(it.key)} className={`relative min-h-[36px] rounded-full px-3 text-xs font-medium transition sm:text-sm ${on ? "text-paper" : "text-slate-300 hover:text-brand"}`}>
+            {on && <motion.span layoutId={`tab-${id}`} className="absolute inset-0 rounded-full bg-brand" transition={{ type: "spring", stiffness: 380, damping: 32 }} />}
+            <span className="relative z-10 inline-flex items-center gap-1.5">{it.label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }

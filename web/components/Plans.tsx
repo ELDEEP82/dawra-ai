@@ -1,11 +1,11 @@
 "use client";
 /** Plan cards (6-season timeline, EGP profit with P10–P90 band, water, soil, robustness ring, 5-field card) + table. */
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import type { CardFields, Meta, Plan, Season } from "@/lib/types";
 import { fmt, signed, useLang } from "@/lib/i18n";
 import { COPY } from "@/lib/copy";
 import { PLAN_COLORS, cropStyle } from "@/lib/crops";
-import { Ring, WithChips } from "./ui";
+import { FlipCard, Ring, WithChips } from "./ui";
 
 export function planLabel(p: Plan, lang: string) {
   return lang === "ar" ? p.view.label_ar : p.view.label_en;
@@ -64,27 +64,25 @@ export function Explanation({ card, flips }: { card: CardFields; flips: string[]
     ["risks", t.risks, "⚠️"],
   ];
   return (
-    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
-      <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
-        {fields.map(([k, title, icon]) => (
-          <div key={k}>
-            <div className="text-sm font-semibold">
-              <span aria-hidden>{icon}</span> {title}
-            </div>
-            <ul className="mt-1 list-disc space-y-1 ps-5 text-sm text-slate-300">
-              {card[k].map((s, i) => (
-                <li key={i}>{k === "evidence" ? <WithChips text={s} /> : s}</li>
-              ))}
-            </ul>
+    <div className="space-y-3">
+      {fields.map(([k, title, icon]) => (
+        <div key={k}>
+          <div className="text-sm font-semibold text-ink">
+            <span aria-hidden>{icon}</span> {title}
           </div>
-        ))}
-        {flips.length > 0 && (
-          <p className="rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-xs text-amber-200">
-            ⚖ {c.sensitive}: <span dir="ltr">{flips.slice(0, 5).join(", ")}</span>
-          </p>
-        )}
-      </div>
-    </motion.div>
+          <ul className="mt-1 list-disc space-y-1 ps-5 text-[13px] leading-relaxed text-slate-300">
+            {card[k].map((s, i) => (
+              <li key={i}>{k === "evidence" ? <WithChips text={s} /> : s}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      {flips.length > 0 && (
+        <p className="rounded-xl border border-brand-sand/40 bg-brand-sand/10 px-3 py-2 text-xs text-sand-ink">
+          ⚖ {c.sensitive}: <span dir="ltr">{flips.slice(0, 5).join(", ")}</span>
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -93,8 +91,8 @@ function Metric({ label, value, sub, delta, goodDown }: { label: string; value: 
   const good = delta === undefined || delta === null || Math.abs(delta) < 0.5 ? null : goodDown ? delta < 0 : delta > 0;
   return (
     <div className="min-w-0">
-      <div className="text-[11px] text-slate-400">{label}</div>
-      <div className="truncate text-lg font-semibold tabular-nums" dir="ltr">{value}</div>
+      <div className="text-[11px] text-muted">{label}</div>
+      <div className="truncate text-lg font-semibold tabular-nums text-ink" dir="ltr">{value}</div>
       {sub && <div className="text-[11px] text-slate-500" dir="ltr">{sub}</div>}
       {delta !== undefined && delta !== null && (
         <div className={`text-[11px] ${good === null ? "text-slate-500" : good ? "text-emerald-300" : "text-rose-300"}`}>
@@ -111,28 +109,26 @@ export function PlanCard({ p, open, onToggle, highlight, meta, index = 0 }: { p:
   const tot = p.totals;
   const isCur = p.kind === "current";
   const band = p.robustness.bands?.profit_egp;
-  return (
-    <motion.article
-      id={`plan-${p.kind}`}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      whileHover={{ y: -3 }}
-      className={`card scroll-mt-28 p-4 ${highlight ? "demo-ring" : ""}`}
-      style={{ borderInlineStartWidth: 4, borderInlineStartColor: PLAN_COLORS[p.kind] }}
-    >
-      <div className="flex items-start gap-3">
-        <div className="min-w-0 flex-1">
-          <h3 className="text-base font-semibold">{planLabel(p, lang)}</h3>
-          {p.sameAs.length > 0 && <p className="text-[11px] text-slate-500" dir="ltr">= {p.sameAs.join(", ")}</p>}
+  const color = PLAN_COLORS[p.kind];
+  const head = (
+    <div className="flex items-start gap-3">
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: color }} aria-hidden />
+          <h3 className="text-lg font-semibold text-ink">{planLabel(p, lang)}</h3>
         </div>
-        <Ring pct={p.robustness.robustness_pct} size={56} label={c.robust} />
+        {p.sameAs.length > 0 && <p className="mt-0.5 text-[11px] text-muted" dir="ltr">= {p.sameAs.join(", ")}</p>}
       </div>
-      <div className="mt-3">
+      <Ring pct={p.robustness.robustness_pct} size={58} label={c.robust} />
+    </div>
+  );
+  const front = (
+    <div className="card flex h-full flex-col p-5" style={{ borderTop: `4px solid ${color}` }}>
+      {head}
+      <div className="mt-4">
         <Timeline p={p} meta={meta} />
       </div>
-      <div className="mt-4 grid grid-cols-3 gap-3">
+      <div className="mt-5 grid grid-cols-3 gap-3">
         <Metric
           label={c.profit3y}
           value={tot.value_kind === "profit_egp" ? `${fmt(tot.value / 1000, 0)}k EGP` : fmt(tot.value, 2)}
@@ -142,11 +138,34 @@ export function PlanCard({ p, open, onToggle, highlight, meta, index = 0 }: { p:
         <Metric label={c.water3y} value={`${fmt(tot.water_m3)} m³`} sub={tot.egp_per_m3 ? `${fmt(tot.egp_per_m3, 1)} ${c.egpPerM3}` : undefined} delta={isCur ? undefined : tot.water_vs_current_pct} goodDown />
         <Metric label={c.soil} value={`${fmt(tot.soil_index)}/100`} sub={`ECe ${fmt(tot.ECe_end, 1)} · ${fmt(tot.kg_per_m3, 2)} ${c.kgPerM3}`} />
       </div>
-      <button onClick={onToggle} className="mt-4 w-full rounded-xl border border-white/15 py-2 text-sm transition hover:bg-white/5" aria-expanded={open}>
-        {open ? c.hide : c.why}
-      </button>
-      <AnimatePresence initial={false}>{open && <Explanation card={p.view.explanation[lang]} flips={p.view.rank_flips} />}</AnimatePresence>
-    </motion.article>
+      <div className="mt-auto flex items-center justify-center gap-2 pt-5 text-sm font-medium text-brand">
+        <span aria-hidden>↻</span> {c.why}
+      </div>
+    </div>
+  );
+  const back = (
+    <div className="card flex h-full flex-col p-5" style={{ borderTop: `4px solid ${color}` }}>
+      <div className="flex items-center justify-between gap-2">
+        <h3 className="text-base font-semibold text-ink">{planLabel(p, lang)}</h3>
+        <span className="text-xs font-medium text-brand">↻ {c.hide}</span>
+      </div>
+      <div className="mt-3 min-h-0 flex-1 overflow-y-auto pe-1" data-noflip-scroll>
+        <Explanation card={p.view.explanation[lang]} flips={p.view.rank_flips} />
+      </div>
+    </div>
+  );
+  return (
+    <motion.div
+      id={`plan-${p.kind}`}
+      layout
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      className={`scroll-mt-28 ${highlight ? "demo-ring" : ""}`}
+    >
+      <FlipCard label={`${planLabel(p, lang)} — ${open ? c.hide : c.why}`} flipped={open} onFlip={() => onToggle()} className="h-full" backScroll={false} front={front} back={back} />
+    </motion.div>
   );
 }
 

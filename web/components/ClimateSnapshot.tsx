@@ -1,6 +1,8 @@
 "use client";
 /** NASA snapshot: annual rain vs ET0, monthly temperatures vs S1, monthly water balance, soil wetness, heat days, NDVI status. */
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
   CartesianGrid,
@@ -17,17 +19,18 @@ import {
 import type { Climate, EOData } from "@/lib/types";
 import { fmt, useLang } from "@/lib/i18n";
 import { SERIES } from "@/lib/crops";
+import { useReducedMotion } from "framer-motion";
 
-const AX = { stroke: "#64748b", fontSize: 11 };
-const GRID = <CartesianGrid stroke="#ffffff" strokeOpacity={0.06} vertical={false} />;
-const TIP = { contentStyle: { background: "#0a1024", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10, fontSize: 12 }, labelStyle: { color: "#e6e9f2" } };
+const AX = { stroke: "#5E6B66", fontSize: 11 };
+const GRID = <CartesianGrid stroke="#14201B" strokeOpacity={0.07} vertical={false} />;
+const TIP = { contentStyle: { background: "#FFFFFF", border: "1px solid #E8E8E3", color: "#14201B", borderRadius: 10, fontSize: 12 }, labelStyle: { color: "#14201B", fontWeight: 600 } };
 const MONTHS_EN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const MONTHS_AR = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
 
 function ChartCard({ title, children, note }: { title: string; children: React.ReactNode; note?: string }) {
   return (
-    <div className="card p-4">
-      <h3 className="text-sm font-medium text-slate-200">{title}</h3>
+    <div className="card p-5">
+      <h3 className="text-sm font-semibold text-ink">{title}</h3>
       {note && <p className="mt-0.5 text-xs text-slate-500">{note}</p>}
       <div className="mt-3 h-52" dir="ltr">
         {children}
@@ -60,6 +63,7 @@ export function KeyNumbers({ c, salineShare }: { c: Climate; salineShare: [numbe
 
 export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
   const { t, lang } = useLang();
+  const anim = !useReducedMotion();
   const months = lang === "ar" ? MONTHS_AR : MONTHS_EN;
   const monthly = c.monthly.map((m) => ({ ...m, name: months[m.month - 1] }));
   const rainLbl = lang === "ar" ? "المطر" : "Rain";
@@ -74,8 +78,14 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
             <YAxis {...AX} tickLine={false} axisLine={false} unit="" />
             <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v))} mm`} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar isAnimationActive={false} dataKey="rain" name={`${rainLbl} (mm)`} fill={SERIES.rain} radius={[3, 3, 0, 0]} />
-            <Line isAnimationActive={false} dataKey="et0" name={`${et0Lbl} (mm)`} stroke={SERIES.et0} strokeWidth={2} dot={false} />
+            <Bar isAnimationActive={anim} animationDuration={900} dataKey="rain" name={`${rainLbl} (mm)`} fill={SERIES.rain} radius={[6, 6, 0, 0]} />
+            <defs>
+              <linearGradient id="gEt0" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={SERIES.et0} stopOpacity={0.28} />
+                <stop offset="100%" stopColor={SERIES.et0} stopOpacity={0.02} />
+              </linearGradient>
+            </defs>
+            <Area isAnimationActive={anim} animationDuration={900} type="monotone" dataKey="et0" name={`${et0Lbl} (mm)`} stroke={SERIES.et0} strokeWidth={2.5} fill="url(#gEt0)" />
           </ComposedChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -88,10 +98,10 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
             <YAxis {...AX} tickLine={false} axisLine={false} unit="°" />
             <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v), 1)} °C`} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Line isAnimationActive={false} dataKey="tmax" name="Tmax" stroke={SERIES.tmax} strokeWidth={2} dot={false} />
-            <Line isAnimationActive={false} dataKey="tmin" name="Tmin" stroke={SERIES.tmin} strokeWidth={2} dot={false} />
-            <Scatter isAnimationActive={false} dataKey="s1_tmax" name="S1 Tmax" fill={SERIES.tmax} shape="circle" />
-            <Scatter isAnimationActive={false} dataKey="s1_tmin" name="S1 Tmin" fill={SERIES.tmin} shape="circle" />
+            <Line isAnimationActive={anim} animationDuration={900} dataKey="tmax" name="Tmax" stroke={SERIES.tmax} strokeWidth={2} dot={false} />
+            <Line isAnimationActive={anim} animationDuration={900} dataKey="tmin" name="Tmin" stroke={SERIES.tmin} strokeWidth={2} dot={false} />
+            <Scatter isAnimationActive={anim} animationDuration={900} dataKey="s1_tmax" name="S1 Tmax" fill={SERIES.tmax} shape="circle" />
+            <Scatter isAnimationActive={anim} animationDuration={900} dataKey="s1_tmin" name="S1 Tmin" fill={SERIES.tmin} shape="circle" />
           </ComposedChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -104,8 +114,8 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
             <YAxis {...AX} tickLine={false} axisLine={false} />
             <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v), 1)} mm`} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar isAnimationActive={false} dataKey="rain" name={`${rainLbl} (mm)`} fill={SERIES.rain} radius={[3, 3, 0, 0]} />
-            <Bar isAnimationActive={false} dataKey="et0" name={`${et0Lbl} (mm)`} fill={SERIES.et0} radius={[3, 3, 0, 0]} />
+            <Bar isAnimationActive={anim} animationDuration={900} dataKey="rain" name={`${rainLbl} (mm)`} fill={SERIES.rain} radius={[6, 6, 0, 0]} />
+            <Bar isAnimationActive={anim} animationDuration={900} dataKey="et0" name={`${et0Lbl} (mm)`} fill={SERIES.et0} radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -117,7 +127,7 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
             <XAxis dataKey="name" {...AX} tickLine={false} />
             <YAxis {...AX} tickLine={false} axisLine={false} domain={[0, 0.5]} />
             <Tooltip {...TIP} formatter={(v: unknown) => fmt(Number(v), 3)} />
-            <Line isAnimationActive={false} dataKey="gwet" name="GWETROOT" stroke={SERIES.soil} strokeWidth={2} dot={{ r: 4 }} />
+            <Line isAnimationActive={anim} animationDuration={900} dataKey="gwet" name="GWETROOT" stroke={SERIES.soil} strokeWidth={2} dot={{ r: 4 }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -129,7 +139,7 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
             <XAxis dataKey="year" {...AX} tickLine={false} interval={7} />
             <YAxis {...AX} tickLine={false} axisLine={false} />
             <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v))} ${lang === "ar" ? "يوم" : "days"}`} />
-            <Bar isAnimationActive={false} dataKey="heat_days" name={t.heatDays} fill={SERIES.et0} radius={[3, 3, 0, 0]} />
+            <Bar isAnimationActive={anim} animationDuration={900} dataKey="heat_days" name={t.heatDays} fill={SERIES.et0} radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -137,13 +147,19 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
       {eo?.ndvi_station ? (
         <ChartCard title={lang === "ar" ? "خضرة المحطة (NDVI شهري، لاندسات + Sentinel-2)" : "Station greenness (monthly NDVI, Landsat + Sentinel-2)"} note="1990–2026">
           <ResponsiveContainer>
-            <LineChart data={eo.ndvi_station.map(([d, v]) => ({ d, v }))} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
+            <AreaChart data={eo.ndvi_station.map(([d, v]) => ({ d, v }))} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
+              <defs>
+                <linearGradient id="gNdvi" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={SERIES.soil} stopOpacity={0.35} />
+                  <stop offset="100%" stopColor={SERIES.soil} stopOpacity={0.02} />
+                </linearGradient>
+              </defs>
               {GRID}
               <XAxis dataKey="d" {...AX} tickLine={false} interval={60} />
               <YAxis {...AX} tickLine={false} axisLine={false} domain={[0, "auto"]} />
               <Tooltip {...TIP} formatter={(v: unknown) => fmt(Number(v), 3)} />
-              <Line isAnimationActive={false} dataKey="v" name="NDVI" stroke={SERIES.soil} strokeWidth={1.5} dot={false} />
-            </LineChart>
+              <Area isAnimationActive={anim} animationDuration={900} type="monotone" dataKey="v" name="NDVI" stroke={SERIES.soil} strokeWidth={1.5} fill="url(#gNdvi)" />
+            </AreaChart>
           </ResponsiveContainer>
         </ChartCard>
       ) : (
@@ -158,8 +174,8 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
               <YAxis {...AX} tickLine={false} axisLine={false} domain={[0, "auto"]} />
               <Tooltip {...TIP} formatter={(v: unknown) => fmt(Number(v), 3)} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
-              <Line isAnimationActive={false} dataKey="root" name={lang === "ar" ? "الجذور" : "root zone"} stroke={SERIES.rain} strokeWidth={2} dot={false} />
-              <Line isAnimationActive={false} dataKey="surf" name={lang === "ar" ? "السطح" : "surface"} stroke={SERIES.et0} strokeWidth={1.5} dot={false} />
+              <Line isAnimationActive={anim} animationDuration={900} dataKey="root" name={lang === "ar" ? "الجذور" : "root zone"} stroke={SERIES.rain} strokeWidth={2} dot={false} />
+              <Line isAnimationActive={anim} animationDuration={900} dataKey="surf" name={lang === "ar" ? "السطح" : "surface"} stroke={SERIES.et0} strokeWidth={1.5} dot={false} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -172,7 +188,7 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
               <XAxis dataKey="d" {...AX} tickLine={false} interval={48} />
               <YAxis {...AX} tickLine={false} axisLine={false} unit="°" />
               <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v), 1)} °C`} />
-              <Line isAnimationActive={false} dataKey="v" name="LST" stroke={SERIES.et0} strokeWidth={1.5} dot={false} />
+              <Line isAnimationActive={anim} animationDuration={900} dataKey="v" name="LST" stroke={SERIES.et0} strokeWidth={1.5} dot={false} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -185,7 +201,7 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
               <XAxis dataKey="year" {...AX} tickLine={false} interval={4} />
               <YAxis {...AX} tickLine={false} axisLine={false} />
               <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v), 1)} mm`} />
-              <Bar isAnimationActive={false} dataKey="annual_mm" name="IMERG" fill={SERIES.rain} radius={[3, 3, 0, 0]} />
+              <Bar isAnimationActive={anim} animationDuration={900} dataKey="annual_mm" name="IMERG" fill={SERIES.rain} radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -199,8 +215,8 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
               <YAxis {...AX} tickLine={false} axisLine={false} unit="°" />
               <Tooltip {...TIP} formatter={(v: unknown) => `+${fmt(Number(v), 2)} °C`} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
-              <Bar isAnimationActive={false} dataKey="a" name="SSP2-4.5" fill={SERIES.rain} radius={[3, 3, 0, 0]} />
-              <Bar isAnimationActive={false} dataKey="b" name="SSP5-8.5" fill={SERIES.et0} radius={[3, 3, 0, 0]} />
+              <Bar isAnimationActive={anim} animationDuration={900} dataKey="a" name="SSP2-4.5" fill={SERIES.rain} radius={[6, 6, 0, 0]} />
+              <Bar isAnimationActive={anim} animationDuration={900} dataKey="b" name="SSP5-8.5" fill={SERIES.et0} radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -213,7 +229,7 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
               <XAxis dataKey="d" {...AX} tickLine={false} interval={36} />
               <YAxis {...AX} tickLine={false} axisLine={false} />
               <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v), 1)} cm`} />
-              <Line isAnimationActive={false} dataKey="v" name="GRACE" stroke={SERIES.rain} strokeWidth={1.5} dot={false} />
+              <Line isAnimationActive={anim} animationDuration={900} dataKey="v" name="GRACE" stroke={SERIES.rain} strokeWidth={1.5} dot={false} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>

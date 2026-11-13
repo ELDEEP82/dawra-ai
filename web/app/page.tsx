@@ -4,11 +4,12 @@ import { Footer, Header, Section } from "@/components/Chrome";
 import { Hero } from "@/components/Hero";
 import dynamic from "next/dynamic";
 import { FarmPanel, type Selection } from "@/components/FarmPanel";
-import { ComparisonTable, PlanCard } from "@/components/Plans";
 import type { WhatIfState } from "@/components/WhatIf";
 import { Glossary } from "@/components/Glossary";
 import { StoryHeader } from "@/components/StoryHeader";
-import { LazySection, Skeleton } from "@/components/ui";
+import { LazySection, Skeleton } from "@/components/lite";
+const PlanCard = dynamic(() => import("@/components/Plans").then((m) => m.PlanCard), { ssr: false, loading: () => <Skeleton className="h-[380px]" /> });
+const ComparisonTable = dynamic(() => import("@/components/Plans").then((m) => m.ComparisonTable), { ssr: false, loading: () => <Skeleton className="h-80" /> });
 
 const SatelliteStep = dynamic(() => import("@/components/Story").then((m) => m.SatelliteStep), { ssr: false, loading: () => <Skeleton className="h-[520px]" /> });
 const SoilTwin = dynamic(() => import("@/components/Story").then((m) => m.SoilTwin), { ssr: false, loading: () => <Skeleton className="h-72" /> });
@@ -89,7 +90,6 @@ export default function Home() {
       if (timer.current) clearTimeout(timer.current);
     };
   }, [demo, runStep]);
-  const toggleDemo = () => setDemo((d) => (d === null ? 0 : null));
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("demo") === "1") setTimeout(() => setDemo(0), 1200);
   }, []);
@@ -97,9 +97,9 @@ export default function Home() {
 
   return (
     <>
-      <Header onDemo={toggleDemo} demoOn={demo !== null} />
+      <Header />
       <main className="mx-auto max-w-7xl space-y-24 px-4 pb-8">
-        <Hero climate={climate.data} evidence={evidence.data} meta={meta.data} onDemo={toggleDemo} />
+        <Hero climate={climate.data} evidence={evidence.data} meta={meta.data} />
 
         <Section id="story" title={c.storyTitle} lead={c.storyLead}>
           <div className="space-y-16">
@@ -130,6 +130,7 @@ export default function Home() {
           {config.error && <p className="text-rose-300">{config.error}</p>}
           {!plans && !config.error && <div className="grid gap-4 lg:grid-cols-2">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-72" />)}</div>}
           {plans && (
+            <LazySection minHeight={900}>
             <div className={`space-y-8 transition-opacity ${config.loading ? "opacity-60" : ""}`}>
               <div className="grid gap-4 lg:grid-cols-2">
                 {plans.map((p, i) => (
@@ -141,6 +142,7 @@ export default function Home() {
                 <ComparisonTable plans={plans} />
               </div>
             </div>
+            </LazySection>
           )}
         </Section>
 
@@ -161,13 +163,13 @@ export default function Home() {
 
       {demo !== null && (
         <div className="fixed inset-x-0 bottom-4 z-[2000] flex justify-center px-4" role="status" aria-live="polite">
-          <div className="w-full max-w-2xl rounded-2xl border border-nasa-amber/50 bg-space-950/95 p-4 shadow-glow">
+          <div className="w-full max-w-2xl rounded-card border border-line bg-paper/95 p-4 shadow-lift backdrop-blur">
             <div className="flex items-center gap-3">
-              <span className="rounded-full bg-nasa-amber px-2 py-0.5 text-xs font-semibold text-space-950" dir="ltr">{demo + 1}/7</span>
+              <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-paper" dir="ltr">{demo + 1}/7</span>
               <p className="text-base font-medium">{c.demoSteps[demo]}</p>
             </div>
             <div className="mt-3 h-1 overflow-hidden rounded bg-white/10">
-              <div key={demo} className="h-full bg-nasa-amber" style={{ width: "100%", animation: `demoBar ${DEMO_MS}ms linear` }} />
+              <div key={demo} className="h-full bg-brand" style={{ width: "100%", animation: `demoBar ${DEMO_MS}ms linear` }} />
             </div>
           </div>
           <style>{`@keyframes demoBar { from { width: 0% } to { width: 100% } }`}</style>

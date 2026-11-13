@@ -21,20 +21,21 @@ export const CROP_STYLE: Record<string, { color: string; icon: string }> = {
   watermelon: { color: "#ff4d6d", icon: "🍉" },
   date_palm: { color: "#9c6644", icon: "🌴" },
   olive: { color: "#606c38", icon: "🌳" },
-  fallow: { color: "#3a3f55", icon: "·" },
+  fallow: { color: "#C9CBC3", icon: "·" },
 };
 
-/** Categorical plan colours — dataviz reference palette, dark steps, validated on #0a1024 (all checks pass). */
+/** Categorical plan colours — dataviz reference palette, light steps, validated on #FFFFFF (all checks pass;
+ *  three slots < 3:1 contrast, so plans are always shown with their name next to the colour). */
 export const PLAN_COLORS: Record<string, string> = {
-  current: "#3987e5",
-  max_profit: "#d95926",
-  min_water: "#199e70",
-  best_soil: "#c98500",
-  compromise: "#d55181",
+  current: "#2a78d6",
+  max_profit: "#eb6834",
+  min_water: "#1baf7a",
+  best_soil: "#eda100",
+  compromise: "#e87ba4",
 };
 
-/** Two-series charts: rain vs ET0 (same unit, one axis). */
-export const SERIES = { rain: "#3987e5", et0: "#d95926", tmax: "#d95926", tmin: "#3987e5", soil: "#199e70" };
+/** Two-series charts on one axis: rain (sky) vs ET0 (sand); temperature max/min; soil moisture (leaf). */
+export const SERIES = { rain: "#2D8CFF", et0: "#E08A1E", tmax: "#E5533D", tmin: "#2D8CFF", soil: "#2BB673" };
 
 export function cropStyle(id: string) {
   return CROP_STYLE[id] ?? { color: "#888", icon: "🌱" };

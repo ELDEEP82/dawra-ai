@@ -100,7 +100,7 @@ export function FarmPanel({ meta, sel, onChange }: { meta: Meta; sel: Selection;
           <div className="mt-2 flex flex-wrap gap-2" dir="ltr">
             {meta.ecw_options.map((e) => (
               <button key={e} onClick={() => onChange({ ...sel, ecw: e })} className={`chip ${e === sel.ecw ? "chip-on" : "hover:bg-white/5"}`} aria-pressed={e === sel.ecw}>
-                {e} {e === meta.farm.well_ECw_dS_m && <span className="text-[10px] text-nasa-amber">F001</span>}
+                {e} {e === meta.farm.well_ECw_dS_m && <span className="text-[10px] text-sand-ink">F001</span>}
               </button>
             ))}
           </div>
@@ -113,7 +113,7 @@ export function FarmPanel({ meta, sel, onChange }: { meta: Meta; sel: Selection;
           <div className="mt-2 flex flex-wrap gap-2" dir="ltr">
             {meta.water_options.map((w) => (
               <button key={w} onClick={() => onChange({ ...sel, water: w })} className={`chip ${w === sel.water ? "chip-on" : "hover:bg-white/5"}`} aria-pressed={w === sel.water}>
-                {w} m³/d {w === meta.farm.water_m3_per_day && <span className="text-[10px] text-nasa-amber">F001</span>}
+                {w} m³/d {w === meta.farm.water_m3_per_day && <span className="text-[10px] text-sand-ink">F001</span>}
               </button>
             ))}
           </div>

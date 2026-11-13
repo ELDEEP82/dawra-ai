@@ -57,22 +57,22 @@ export function WhatIf({ plans, meta, state, onChange }: { plans: Plan[]; meta: 
         <Slider label={c.leaching} value={state.leach} values={[...g.leach].sort((a, b) => b - a)} onChange={(v) => onChange({ ...state, leach: v })} fmtV={(v) => `${fmt(v)}%`} />
       </div>
       <div className="card p-5">
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-col items-center gap-4 sm:flex-row">
           <Ring pct={Number(cur?.robustness ?? 0)} size={84} label={c.robust} />
-          <div className="grid flex-1 grid-cols-3 gap-4">
+          <div className="grid w-full flex-1 grid-cols-3 gap-3 sm:gap-4">
             <div>
               <div className="text-xs text-slate-400">{c.profit}</div>
-              <div className="kpi"><Tween value={cur?.profit_egp !== null && cur?.profit_egp !== undefined ? Number(cur.profit_egp) / 1000 : null} suffix="k" /></div>
+              <div className="whitespace-nowrap text-lg font-semibold tabular-nums sm:text-2xl"><Tween value={cur?.profit_egp !== null && cur?.profit_egp !== undefined ? Number(cur.profit_egp) / 1000 : null} suffix="k" /></div>
               <div className="text-[11px] text-slate-500" dir="ltr">{signed(pct(cur?.profit_egp, base?.profit_egp))} {c.vsToday}</div>
             </div>
             <div>
               <div className="text-xs text-slate-400">{c.water}</div>
-              <div className="kpi"><Tween value={cur?.water_m3 ?? null} suffix=" m³" /></div>
+              <div className="whitespace-nowrap text-lg font-semibold tabular-nums sm:text-2xl"><Tween value={cur?.water_m3 ?? null} suffix=" m³" /></div>
               <div className="text-[11px] text-slate-500" dir="ltr">{signed(pct(cur?.water_m3, base?.water_m3))} {c.vsToday}</div>
             </div>
             <div>
-              <div className="text-xs text-slate-400">{c.saltEnd}</div>
-              <div className={`kpi ${Number(cur?.ece_end) > 8.56 ? "text-rose-300" : ""}`}><Tween value={cur?.ece_end ?? null} nd={2} /></div>
+              <div className="truncate text-xs text-slate-400">{c.saltEnd}</div>
+              <div className={`whitespace-nowrap text-lg font-semibold tabular-nums sm:text-2xl ${Number(cur?.ece_end) > 8.56 ? "text-rose-300" : ""}`}><Tween value={cur?.ece_end ?? null} nd={2} /></div>
               <div className="text-[11px] text-slate-500" dir="ltr">dS/m · start 8.56</div>
             </div>
           </div>

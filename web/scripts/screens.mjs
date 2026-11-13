@@ -32,15 +32,18 @@ for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
         await el.scrollIntoViewIfNeeded();
         await page.evaluate((i) => document.getElementById(i)?.scrollIntoView({ block: "start" }), id);
       }
-      await page.waitForTimeout(900);
+      await page.waitForTimeout(id === "story-sat" ? 3500 : 900);
       await page.screenshot({ path: `${OUT}${vpName}_${lang}_${id}.png` });
     }
     // open the first plan explanation and screenshot it
-    const btn = await page.$("#plan-compromise button[aria-expanded]");
-    if (btn) {
-      await btn.click();
-      await page.waitForTimeout(700);
-      await (await page.$("#plan-compromise")).screenshot({ path: `${OUT}${vpName}_${lang}_card.png` });
+    const card = await page.$("#plan-compromise [role=button]");
+    if (card) {
+      await card.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(400);
+      await (await page.$("#plan-compromise")).screenshot({ path: `${OUT}${vpName}_${lang}_card_front.png` });
+      await card.click();
+      await page.waitForTimeout(1200);
+      await (await page.$("#plan-compromise")).screenshot({ path: `${OUT}${vpName}_${lang}_card_back.png` });
     }
     for (const path of ["/farmer", "/nasa-data"]) {
       await page.goto(`${BASE}${path}?lang=${lang}`, { waitUntil: "networkidle" });

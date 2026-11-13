@@ -223,10 +223,10 @@ export default function Farmer() {
                       ))}
                     </ul>
                   </div>
-                  <p className="rounded-xl border border-nasa-amber/40 bg-nasa-amber/10 p-4 text-lg text-nasa-amber">👨‍🌾 {L.ask}</p>
+                  <p className="rounded-xl border border-nasa-amber/40 bg-nasa-amber/10 p-4 text-lg text-sand-ink">👨‍🌾 {L.ask}</p>
                   <div className="flex flex-wrap gap-3">
                     <button onClick={() => setQ({ ecw: null, water: null, goal: null })} className="rounded-full border border-white/20 px-5 py-3 text-lg">↺ {L.again}</button>
-                    <Link href="/#plans" className="rounded-full bg-nasa-cyan px-5 py-3 text-lg font-semibold text-space-950">{L.expert}</Link>
+                    <Link href="/#plans" className="rounded-full bg-brand px-5 py-3 text-lg font-semibold text-paper">{L.expert}</Link>
                   </div>
                 </>
               )}

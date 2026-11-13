@@ -52,6 +52,16 @@ practice is the dominant risk**, which is exactly what the cards tell the extens
 Prices: wheat and tomato fully sourced (2025–26), 9 crop prices sourced, the rest flagged estimates
 ([reports/prices.md](reports/prices.md)). Pumping 0.68 EGP/m³ (diesel). Cereal straw revenue included.
 
+## Screenshots
+
+| | |
+|---|---|
+| ![Hero (EN)](submission/screens/desktop_en_hero_motion.png) | ![Hero (AR)](submission/screens/desktop_ar_hero.png) |
+| ![Plans — flip cards (AR)](submission/screens/desktop_ar_plans.png) | ![Card back — 5-field explanation](submission/screens/desktop_en_card_back.png) |
+| ![Satellite story (EN)](submission/screens/desktop_en_story-sat.png) | ![Farmer mode (AR, mobile)](submission/screens/mobile_ar_farmer.png) |
+
+All sections, desktop + mobile × EN + AR: [submission/screens/](submission/screens/) (Playwright, `node web/scripts/screens.mjs`).
+
 ## Validation (honest) — [reports/validation.md](reports/validation.md)
 
 15 pass · 9 fail (kept and explained) · 4 calibrated · 1 not testable. Highlights: POWER vs team file Δ = 0.0; FAO-56

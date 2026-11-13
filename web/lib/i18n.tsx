@@ -17,7 +17,7 @@ const EN = {
   navNasa: "NASA data used",
   demo: "Demo",
   demoStop: "Stop demo",
-  langToggle: "العربية",
+  langToggle: "عربي",
   et0: "Reference evapotranspiration",
   rain: "Rain",
   perYear: "per year",
@@ -291,12 +291,29 @@ export function LangProvider({ children }: { children: ReactNode }) {
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   }, [lang]);
   const setLang = useCallback((l: Lang) => {
-    setLangState(l);
-    try {
-      localStorage.setItem("dawra-lang", l);
-    } catch {
-      /* ignore */
-    }
+    const apply = () => {
+      setLangState(l);
+      try {
+        localStorage.setItem("dawra-lang", l);
+      } catch {
+        /* storage unavailable */
+      }
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", l);
+        window.history.replaceState(null, "", url.toString());
+      } catch {
+        /* ignore */
+      }
+    };
+    const root = document.documentElement;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return apply();
+    root.classList.add("lang-fading"); // cross-fade: fade out, switch language + direction, fade in
+    window.setTimeout(() => {
+      apply();
+      window.setTimeout(() => root.classList.remove("lang-fading"), 40);
+    }, 170);
   }, []);
   const value = useMemo(() => ({ lang, setLang, t: DICTS[lang], dir: (lang === "ar" ? "rtl" : "ltr") as "ltr" | "rtl" }), [lang, setLang]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

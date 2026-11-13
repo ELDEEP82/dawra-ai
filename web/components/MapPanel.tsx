@@ -9,7 +9,7 @@ import { useLang } from "@/lib/i18n";
 
 export type MapLayer = "ndvi" | "lst" | "rain" | "slope" | "none";
 
-const MARKER: Record<string, string> = { drc: "#f9c74f", quinoa: "#90be6d", power: "#4cc9f0" };
+const MARKER: Record<string, string> = { drc: "#E8A23A", quinoa: "#2BB673", power: "#2D8CFF" };
 export const PATTERN_COLOR: Record<string, string> = {
   "perennial/perennial": "#2a9d8f",
   "winter_crop/bare": "#e9c46a",
@@ -33,7 +33,9 @@ export function patternLabel(pattern: string, lang: string): string {
   return pattern.split("/").map((x) => PATTERN_AR[x] ?? x).join(" / ");
 }
 
-export default function MapPanel({ data, layer, year, height = "h-[420px] sm:h-[520px]" }: { data: MapData; layer: MapLayer; year: number; height?: string }) {
+export type Basemap = "light" | "satellite";
+
+export default function MapPanel({ data, layer, year, basemap = "light", height = "h-[420px] sm:h-[520px]" }: { data: MapData; layer: MapLayer; year: number; basemap?: Basemap; height?: string }) {
   const { lang } = useLang();
   const [w, s, e, n] = data.aoi_bbox;
   const ov = data.overlays;
@@ -54,21 +56,31 @@ export default function MapPanel({ data, layer, year, height = "h-[420px] sm:h-[
     l.bindTooltip(html, { sticky: true });
   };
   return (
-    <div className={`relative overflow-hidden rounded-2xl border border-white/10 ${height}`} dir="ltr">
+    <div className={`relative overflow-hidden rounded-card border border-line shadow-card ${height}`} dir="ltr">
       <MapContainer center={data.center} zoom={data.zoom} scrollWheelZoom={false} className="h-full w-full" attributionControl>
-        <TileLayer
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-          attribution="Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community · NASA/USGS Landsat, ESA Sentinel-2, NASA MODIS/GPM/SRTM via Google Earth Engine"
-          maxZoom={18}
-        />
+        {basemap === "satellite" ? (
+          <TileLayer
+            key="sat"
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            attribution="Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community · NASA/USGS Landsat, ESA Sentinel-2, NASA MODIS/GPM/SRTM via Google Earth Engine"
+            maxZoom={18}
+          />
+        ) : (
+          <TileLayer
+            key="light"
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            attribution="Tiles &copy; Esri — Esri, HERE, Garmin, &copy; OpenStreetMap contributors · NASA/USGS Landsat, ESA Sentinel-2, NASA MODIS/GPM/SRTM via Google Earth Engine"
+            maxZoom={16}
+          />
+        )}
         {ov && layer === "ndvi" && ndviFile && <ImageOverlay key={ndviFile} url={`/data/overlays/${ndviFile}`} bounds={aoiBounds} opacity={0.85} />}
         {ov && layer === "lst" && <ImageOverlay url={`/data/overlays/${ov.lst}`} bounds={aoiBounds} opacity={0.6} />}
         {ov && layer === "slope" && <ImageOverlay url={`/data/overlays/${ov.slope}`} bounds={aoiBounds} opacity={0.7} />}
         {ov && layer === "rain" && <ImageOverlay url={`/data/overlays/${ov.rain}`} bounds={[[rb[1], rb[0]], [rb[3], rb[2]]]} opacity={0.55} />}
-        <Rectangle bounds={aoiBounds} pathOptions={{ color: "#4cc9f0", weight: 1, dashArray: "6 6", fillOpacity: 0 }} />
+        <Rectangle bounds={aoiBounds} pathOptions={{ color: "#0F6B4F", weight: 1, dashArray: "6 6", fillOpacity: 0 }} />
         {data.fields && <GeoJSON key={lang} data={data.fields} style={style as (f?: Feature) => PathOptions} onEachFeature={onEach as (f: Feature, l: Layer) => void} />}
         {data.markers.map((m) => (
-          <CircleMarker key={m.id} center={[m.lat, m.lon]} radius={m.id === "drc" ? 9 : 6} pathOptions={{ color: "#050814", weight: 2, fillColor: MARKER[m.id] ?? "#fff", fillOpacity: 1 }}>
+          <CircleMarker key={m.id} center={[m.lat, m.lon]} radius={m.id === "drc" ? 9 : 6} pathOptions={{ color: "#FFFFFF", weight: 2, fillColor: MARKER[m.id] ?? "#fff", fillOpacity: 1 }}>
             <Tooltip direction="top" offset={[0, -8]} permanent={m.id === "drc"}>
               {lang === "ar" ? m.ar : m.en}
             </Tooltip>

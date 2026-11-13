@@ -177,3 +177,21 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   zero console errors in Playwright across desktop/mobile × EN/AR.
 - **D58 Farmer mode** (/farmer): 3 big questions (well salinity, water per day, money/water/soil) → the TOPSIS plan for
   profit_first / water_saving / soil_building, plain-Arabic numbers per year and the top 3 risks.
+
+## Light redesign (visual only — engine results unchanged)
+- **D59 Light design system**: canvas #FAFAF7, white surfaces, 1 px #E8E8E3 borders, layered soft shadows, 22 px radii;
+  brand #0F6B4F, leaf #2BB673, sky #2D8CFF, sand #E8A23A, risk #E5533D, ink #14201B, muted #5E6B66 (AA on white).
+  Legacy Tailwind names were remapped in `tailwind.config.ts` (`white`→ink, `slate`→AA greys, `space`→paper,
+  `nasa`→brand) so every component switched theme consistently. Plan colours = dataviz light reference palette
+  (validated; three slots < 3:1 contrast, so plans are always labelled by name).
+- **D60 Header**: the Demo button is gone everywhere; demo runs only via `?demo=1` (`?lang=ar&demo=1`). One language
+  button ("English" on Arabic pages, "عربي" on English pages) cross-fades, flips direction, saves to localStorage
+  (try/catch) and updates `?lang=`.
+- **D61 Flip cards**: plan cards (front = plan, timeline, EGP, m³, soil, ring + P10–P90; back = 5-field card with NASA
+  dataset chips) and NASA dataset cards flip with spring physics, hover tilt + glare, Enter/Space, mirrored in RTL,
+  fade under reduced motion. Hero stat cards use a CSS-only flip so the first load stays free of framer-motion.
+- **D62 Map**: CARTO tiles now return "API key required", so the light basemap is Esri World Light Gray (no key);
+  satellite imagery is a toggle.
+- **D63 Performance**: above-the-fold animations are CSS (word reveal, fades, scroll cue, progress bar); plan cards,
+  charts, map and what-if mount on approach. Home first-load JS 167 → 117 KB. Lighthouse (local prod): home 93 mobile /
+  98 desktop, farmer 88 / 100, NASA data 89 / 100; accessibility 100 / 100 / 96.

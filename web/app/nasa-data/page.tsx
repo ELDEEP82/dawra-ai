@@ -1,9 +1,12 @@
 "use client";
 import { Footer, Header } from "@/components/Chrome";
+import { FlipCard } from "@/components/ui";
 import { useEvidence, useMeta } from "@/lib/data";
 import { fmt, useLang } from "@/lib/i18n";
 
 type Row = { name: string; provider: string; res: string; period: string; url: string; en: string; ar: string; file?: string };
+
+const ICONS = ["☀️", "🛰️", "🌱", "💧", "🌧️", "🔥", "⛰️", "🌊", "🌡️"];
 
 const DATASETS: Row[] = [
   { name: "NASA POWER daily (AG)", provider: "NASA LaRC — CERES SYN1deg, MERRA-2", res: "0.5° × 0.625°", period: "1981–2026", url: "https://power.larc.nasa.gov/", en: "FAO-56 ET0, effective rain, heat days, root-zone wetness; every stress scenario (45 years).", ar: "البخر-نتح FAO-56، المطر الفعّال، أيام الحر، رطوبة الجذور؛ وكل سيناريوهات التحمّل (45 سنة)." },
@@ -36,31 +39,38 @@ export default function NasaData() {
               : "Every number in Dawra comes from NASA data, a local source (S1–S18) or a documented row in data/assumptions.csv. Earth-observation data were pulled with Google Earth Engine on 2026-11-13."}
           </p>
         </div>
-        <div className="card overflow-x-auto">
-          <table className="w-full min-w-[860px] text-sm">
-            <caption className="sr-only">NASA datasets</caption>
-            <thead>
-              <tr className="border-b border-white/10 text-xs text-slate-400">
-                {(ar ? ["البيانات", "المصدر", "الدقة", "الفترة", "بتغذّي إيه في الموديل", "الحالة"] : ["Dataset", "Provider", "Resolution", "Period", "How it feeds the model", "Status"]).map((h) => (
-                  <th key={h} scope="col" className="p-3 text-start font-medium">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {DATASETS.map((d) => (
-                <tr key={d.name} className="border-b border-white/5 align-top">
-                  <th scope="row" className="p-3 text-start font-medium" dir="ltr">
-                    <a href={d.url} target="_blank" rel="noreferrer" className="text-nasa-cyan underline-offset-4 hover:underline">{d.name}</a>
-                  </th>
-                  <td className="p-3 text-slate-300" dir="ltr">{d.provider}</td>
-                  <td className="p-3 text-slate-300" dir="ltr">{d.res}</td>
-                  <td className="p-3 text-slate-300" dir="ltr">{d.period}</td>
-                  <td className="p-3 text-slate-300">{ar ? d.ar : d.en}</td>
-                  <td className="p-3"><span className="rounded-full border border-emerald-400/50 px-2 py-0.5 text-[11px] text-emerald-300">{okFile(d.file) ? "✔ " + (ar ? "مستخدم" : "used") : "⏳"}</span></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {DATASETS.map((d, i) => (
+            <FlipCard
+              key={d.name}
+              label={d.name}
+              className="h-[230px]"
+              front={
+                <div className="card relative flex h-full flex-col p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-soft text-2xl" aria-hidden>{ICONS[i]}</span>
+                    <span className="rounded-full border border-emerald-400/50 bg-brand-soft px-2 py-0.5 text-[11px] font-medium text-brand">{okFile(d.file) ? "✔ " + (ar ? "مستخدم" : "in use") : "⏳"}</span>
+                  </div>
+                  <h2 className="mt-4 text-base font-semibold leading-snug text-ink" dir="ltr">{d.name}</h2>
+                  <p className="mt-1 text-xs text-muted" dir="ltr">{d.provider}</p>
+                  <div className="mt-auto flex flex-wrap gap-2 text-[11px]" dir="ltr">
+                    <span className="rounded-full bg-space-900 px-2 py-1 text-slate-300">{d.res}</span>
+                    <span className="rounded-full bg-space-900 px-2 py-1 text-slate-300">{d.period}</span>
+                  </div>
+                  <span aria-hidden className="absolute bottom-4 end-4 text-xs text-brand">↻</span>
+                </div>
+              }
+              back={
+                <div className="card flex h-full flex-col p-5">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-brand">{ar ? "بيغذّي الموديل في" : "Feeds the model"}</div>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">{ar ? d.ar : d.en}</p>
+                  <a href={d.url} target="_blank" rel="noreferrer" className="mt-auto inline-flex min-h-[44px] items-center text-sm font-medium text-brand underline-offset-4 hover:underline" dir="ltr">
+                    {ar ? "صفحة البيانات ↗" : "Dataset page ↗"}
+                  </a>
+                </div>
+              }
+            />
+          ))}
         </div>
         <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[

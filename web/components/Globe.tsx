@@ -15,8 +15,8 @@ export type GlobeProps = {
 const DEFAULT_TARGET: GlobeTarget = { lat: 29.6, lon: 32.7 }; // Ras Sudr, South Sinai
 const TEXTURE_URL = "/textures/earth_1024.jpg";
 const LABEL = "Rotating Earth with a satellite scanning Ras Sudr, Egypt";
-const CYAN = 0x4cc9f0;
-const AMBER = 0xffc857;
+const CYAN = 0x2bb673;
+const AMBER = 0xe8a23a;
 const DEG = Math.PI / 180;
 const FOV = 45;
 const CAM_FAR = 3.7; // camera distance (Earth radii) at zoom 0
@@ -117,7 +117,7 @@ export default function Globe({ target, zoom = 0, className, onReady }: GlobePro
       return;
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
-    renderer.setClearColor(0x050814, 0);
+    renderer.setClearColor(0xfafaf7, 0);
     const canvas = renderer.domElement;
     canvas.style.cssText = "display:block;width:100%;height:100%;opacity:0;transition:opacity .8s ease";
     host.appendChild(canvas);
@@ -125,8 +125,8 @@ export default function Globe({ target, zoom = 0, className, onReady }: GlobePro
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(FOV, 1, 0.05, 50);
     camera.position.set(0, 0, CAM_FAR);
-    scene.add(new THREE.AmbientLight(0x9fb4d8, 0.45));
-    const sun = new THREE.DirectionalLight(0xffffff, 2.4);
+    scene.add(new THREE.AmbientLight(0xffffff, 1.25));
+    const sun = new THREE.DirectionalLight(0xfff6e6, 1.35);
     sun.position.set(4, 2.5, 5);
     scene.add(sun);
 
@@ -146,7 +146,7 @@ export default function Globe({ target, zoom = 0, className, onReady }: GlobePro
     const texture = new THREE.TextureLoader().load(TEXTURE_URL, onTexture, undefined, onTexture);
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
-    const earthMat = new THREE.MeshPhongMaterial({ map: texture, specular: 0x1f2c3a, shininess: 14 });
+    const earthMat = new THREE.MeshPhongMaterial({ map: texture, specular: 0x2a3b48, shininess: 12 });
     spinG.add(new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), earthMat));
 
     const glowMat = (back: boolean) =>
@@ -363,19 +363,19 @@ function StaticGlobe({ lat, lon }: GlobeTarget) {
   return (
     <div
       className="relative aspect-square rounded-full"
-      style={{ width: "min(84%, 440px)", boxShadow: "0 0 60px 8px rgba(76,201,240,.28), 0 0 0 1px rgba(76,201,240,.35)" }}
+      style={{ width: "min(84%, 440px)", boxShadow: "0 30px 80px -30px rgba(15,107,79,.45), 0 0 0 1px rgba(15,107,79,.15)" }}
     >
-      <div className="absolute inset-0 overflow-hidden rounded-full bg-[#050814]">
+      <div className="absolute inset-0 overflow-hidden rounded-full bg-[#dfeee7]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={TEXTURE_URL} alt="" className="h-full w-full object-cover" style={{ objectPosition: `${p * 100}% 50%` }} />
         <div
           className="absolute inset-0 rounded-full"
-          style={{ background: "radial-gradient(circle at 38% 32%, rgba(255,255,255,.10), transparent 45%, rgba(5,8,20,.78) 100%)" }}
+          style={{ background: "radial-gradient(circle at 38% 32%, rgba(255,255,255,.10), transparent 45%, rgba(15,107,79,.18) 100%)" }}
         />
       </div>
       <span className="absolute" style={{ left: `${(2 * u - p) * 100}%`, top: `${v * 100}%` }}>
-        <span className="absolute -left-3 -top-3 h-6 w-6 rounded-full border border-[#4cc9f0] motion-safe:animate-ping" />
-        <span className="absolute -left-1.5 -top-1.5 h-3 w-3 rounded-full bg-[#ffc857] shadow-[0_0_12px_4px_rgba(255,200,87,.6)]" />
+        <span className="absolute -left-3 -top-3 h-6 w-6 rounded-full border border-[#2bb673] motion-safe:animate-ping" />
+        <span className="absolute -left-1.5 -top-1.5 h-3 w-3 rounded-full bg-[#e8a23a] shadow-[0_0_12px_4px_rgba(232,162,58,.5)]" />
       </span>
     </div>
   );

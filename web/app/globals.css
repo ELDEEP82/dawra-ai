@@ -2,49 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
+:root {
+  color-scheme: light;
+  --canvas: #fafaf7;
+  --surface: #ffffff;
+  --line: #e8e8e3;
+  --ink: #14201b;
+  --muted: #5e6b66;
+  --primary: #0f6b4f;
+  --leaf: #2bb673;
+  --sky: #2d8cff;
+  --sand: #e8a23a;
+  --risk: #e5533d;
+}
 
 html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
   background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(76, 201, 240, 0.12), transparent 60%),
-    radial-gradient(900px 500px at -10% 20%, rgba(179, 136, 255, 0.10), transparent 60%),
-    #050814;
-  color: #e6e9f2;
+    radial-gradient(1100px 620px at 88% -8%, rgba(43, 182, 115, 0.10), transparent 62%),
+    radial-gradient(900px 560px at -8% 18%, rgba(232, 162, 58, 0.10), transparent 60%),
+    radial-gradient(800px 500px at 50% 110%, rgba(45, 140, 255, 0.06), transparent 60%),
+    var(--canvas);
+  color: var(--ink);
   min-height: 100vh;
 }
 
-/* faint star field */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.35) 50%, transparent 51%),
-    radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,.25) 50%, transparent 51%),
-    radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,.2) 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 85% 15%, rgba(255,255,255,.35) 50%, transparent 51%),
-    radial-gradient(1px 1px at 10% 85%, rgba(255,255,255,.25) 50%, transparent 51%);
-  background-size: 600px 600px;
-  z-index: -1;
-}
+body > * { transition: opacity .17s ease; }
+html.lang-fading body > * { opacity: 0; }
 
-[dir="rtl"] body { font-family: var(--font-plex-ar), var(--font-plex), system-ui, sans-serif; }
+h1, h2, h3 { letter-spacing: -0.02em; }
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 { letter-spacing: 0; }
+[dir="rtl"] body { font-family: var(--font-plex-ar), var(--font-plex), system-ui, sans-serif; line-height: 1.75; }
+[dir="rtl"] p, [dir="rtl"] li { line-height: 1.85; }
+
+::selection { background: rgba(43, 182, 115, 0.25); }
 
 @layer components {
-  .card { @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm; }
-  .chip { @apply inline-flex items-center gap-1 rounded-full border border-white/15 px-3 py-1 text-sm transition; }
-  .chip-on { @apply border-nasa-cyan bg-nasa-cyan/15 text-white; }
-  .section-title { @apply text-2xl font-semibold tracking-tight sm:text-3xl; }
-  .muted { @apply text-slate-400; }
-  .kpi { @apply text-2xl font-semibold tabular-nums; }
+  .card { @apply rounded-card border border-line bg-paper shadow-card; }
+  .chip { @apply inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1 text-sm text-ink transition; }
+  .chip-on { @apply border-brand bg-brand-soft text-brand; }
+  .section-title { @apply text-3xl font-semibold tracking-tight sm:text-4xl; }
+  .muted { @apply text-muted; }
+  .kpi { @apply text-2xl font-semibold tabular-nums text-ink; }
+  .btn-primary { @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-paper shadow-glow transition hover:brightness-110; }
+  .btn-ghost { @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-line bg-paper px-5 text-sm font-medium text-ink transition hover:border-brand/40 hover:bg-brand-soft; }
+  .shimmer {
+    background: linear-gradient(90deg, #f1f1ec 0%, #fafaf7 40%, #f1f1ec 80%);
+    background-size: 800px 100%;
+    @apply animate-shimmer;
+  }
 }
 
-.leaflet-container { background: #0a1024; border-radius: 1rem; }
+/* Leaflet in the light theme */
+.leaflet-container { background: #eef0ea; border-radius: 22px; font-family: inherit; }
+.leaflet-tooltip { border-radius: 10px; border: 1px solid var(--line); box-shadow: 0 8px 24px -12px rgba(20,32,27,.25); color: var(--ink); }
+
 .recharts-tooltip-wrapper { z-index: 30; }
+.recharts-default-tooltip { border-radius: 12px !important; box-shadow: 0 12px 30px -12px rgba(20,32,27,.25); }
 
-input[type="range"] { accent-color: #4cc9f0; }
+input[type="range"] { accent-color: var(--primary); height: 28px; }
 
-.demo-ring { box-shadow: 0 0 0 3px rgba(249, 199, 79, 0.85), 0 0 40px rgba(249, 199, 79, 0.25); transition: box-shadow .4s; }
+.demo-ring { box-shadow: 0 0 0 3px rgba(232, 162, 58, 0.9), 0 0 40px rgba(232, 162, 58, 0.25); transition: box-shadow .4s; border-radius: 24px; }
+
+/* 3D flip cards */
+.flip-scene { perspective: 1400px; }
+.flip-inner { transform-style: preserve-3d; position: relative; }
+.flip-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flip-back { position: absolute; inset: 0; transform: rotateY(180deg); }
+
+/* CSS-only entrance animations (no JS on first paint) */
+@keyframes wordIn { from { transform: translateY(105%); } to { transform: translateY(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.word-in { animation: wordIn .55s cubic-bezier(.22,1,.36,1) both; }
+.fade-up { animation: fadeUp .6s ease-out both; }
+@keyframes scrollDot { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(10px); opacity: .2; } }
+.scroll-dot { animation: scrollDot 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .word-in, .fade-up, .scroll-dot { animation: none; } }
+
+/* CSS flip (above-the-fold cards) */
+.css-flip { perspective: 1200px; }
+.css-flip-inner { position: relative; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2,.8,.2,1.1); }
+.css-flip.is-flipped .css-flip-inner { transform: rotateY(180deg); }
+[dir="rtl"] .css-flip.is-flipped .css-flip-inner { transform: rotateY(-180deg); }
+.css-flip-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.css-flip-back { position: absolute; inset: 0; transform: rotateY(180deg); }
+.css-flip:hover .css-flip-inner { box-shadow: 0 2px 6px rgba(20,32,27,.06), 0 24px 48px -20px rgba(15,107,79,.28); }
+@media (prefers-reduced-motion: reduce) {
+  .css-flip-inner { transition: none; transform: none !important; }
+  .css-flip-back { transform: none; opacity: 0; transition: opacity .2s; }
+  .css-flip.is-flipped .css-flip-back { opacity: 1; }
+  .css-flip.is-flipped .css-flip-face:first-of-type { opacity: 0; }
+}
