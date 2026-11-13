@@ -176,12 +176,20 @@ def ndvi_station(force: bool = False) -> pd.DataFrame:
 # --------------------------------------------------------------------------- vegetated area + overlays
 def annual_ndvi_p90(ee: Any, year: int, geom):
     """Annual 90th-percentile Landsat NDVI (robust 'green at some point in the year')."""
+    land = ee.Image("USGS/SRTMGL1_003").gt(0)  # mask the Gulf of Suez: sea glint inflates NDVI P90 after 2013
     return landsat_ndvi(ee, geom, f"{year}-01-01", f"{year + 1}-01-01").select("ndvi").reduce(
-        ee.Reducer.percentile([90])).rename("ndvi")
+        ee.Reducer.percentile([90])).rename("ndvi").updateMask(land)
 
 
-def vegetated_area_series(y0: int = 1990, y1: int = 2025, threshold: float = 0.1, force: bool = False) -> pd.DataFrame:
-    """Area (ha) with annual P90 NDVI > threshold in the AOI for every year; S16 check in 1996 and 2022."""
+VEG_THRESHOLDS = (0.1, 0.15, 0.2, 0.25)
+
+
+def vegetated_area_series(y0: int = 1990, y1: int = 2025, force: bool = False) -> pd.DataFrame:
+    """Area (ha) with annual P90 Landsat NDVI above each threshold in the AOI, every year.
+
+    S16 reports 'NDVI > 0.1'; with surface-reflectance NDVI the bare desert here sits near 0.09, so several
+    thresholds are kept and compared with S16 (57 ha in 1996, 1,579 ha in 2022) in the validation report.
+    """
     name = "vegetated_area.csv"
     old = cached(name) if not force else None
     done = set(old["year"]) if old is not None else set()
@@ -192,12 +200,14 @@ def vegetated_area_series(y0: int = 1990, y1: int = 2025, threshold: float = 0.1
         if y in done:
             continue
         img = annual_ndvi_p90(ee, y, g)
-        veg = img.gt(threshold).selfMask()
-        ha = veg.multiply(ee.Image.pixelArea()).divide(1e4).reduceRegion(ee.Reducer.sum(), g, 30, maxPixels=1e10,
-                                                                         tileScale=4)
+        bands = ee.Image.cat([img.gt(t).rename(f"t{int(t * 100)}") for t in VEG_THRESHOLDS])
+        ha = bands.multiply(ee.Image.pixelArea()).divide(1e4).reduceRegion(ee.Reducer.sum(), g, 30, maxPixels=1e10,
+                                                                           tileScale=4)
         n = landsat_ndvi(ee, g, f"{y}-01-01", f"{y + 1}-01-01").size()
-        info = _retry(lambda: ee.Dictionary({"ha": ha.get("ndvi"), "n": n}).getInfo())
-        rows.append({"date": f"{y}-12-31", "year": y, "vegetated_ha": info["ha"] or 0.0, "landsat_scenes": info["n"]})
+        info = _retry(lambda ha=ha, n=n: ee.Dictionary({"ha": ha, "n": n}).getInfo())
+        row = {"date": f"{y}-12-31", "year": y, "landsat_scenes": info["n"]}
+        row.update({f"ha_ndvi_gt_{t:g}": info["ha"].get(f"t{int(t * 100)}", 0.0) for t in VEG_THRESHOLDS})
+        rows.append(row)
         pd.DataFrame(rows).sort_values("year").to_csv(_path(name), index=False)
     return cached(name)
 
@@ -215,7 +225,7 @@ def _thumb(ee: Any, img, region, name: str, vis: dict, dims: int = 640) -> str:
     return p.name
 
 
-NDVI_VIS = {"min": 0.1, "max": 0.6, "palette": ["d9f0a3", "addd8e", "78c679", "31a354", "006837"]}
+NDVI_VIS = {"min": 0.2, "max": 0.6, "palette": ["d9f0a3", "addd8e", "78c679", "31a354", "006837"]}
 
 
 def overlays(years: range = range(1990, 2026)) -> dict:
@@ -225,7 +235,7 @@ def overlays(years: range = range(1990, 2026)) -> dict:
     meta: dict[str, Any] = {"aoi_bbox": list(AOI_BBOX), "rain_bbox": list(RAIN_BBOX), "ndvi": {}}
     for y in years:
         img = annual_ndvi_p90(ee, y, g)
-        meta["ndvi"][str(y)] = _thumb(ee, img.updateMask(img.gt(0.1)), g, f"ndvi_{y}", NDVI_VIS, 560)
+        meta["ndvi"][str(y)] = _thumb(ee, img.updateMask(img.gt(0.2)), g, f"ndvi_{y}", NDVI_VIS, 560)
     lst = (ee.ImageCollection("MODIS/061/MOD11A2").filterDate("2020-01-01", "2026-01-01")
            .filter(ee.Filter.calendarRange(6, 9, "month")).select("LST_Day_1km").mean().multiply(0.02).subtract(273.15))
     meta["lst"] = _thumb(ee, lst, g, "lst_summer", {"min": 38, "max": 52, "palette": ["fee08b", "fdae61", "f46d43",
@@ -370,7 +380,8 @@ def smap_rootzone(force: bool = False) -> pd.DataFrame:
     end = date.today().replace(day=1).isoformat()
     col = ee.ImageCollection("NASA/SMAP/SPL4SMGP/008").select(["sm_surface", "sm_rootzone"])
     mon = _monthly(ee, col, "2015-04-01", end)
-    df = _region_series(ee, mon, station_point(ee), ["sm_surface", "sm_rootzone"], 11000)
+    # the station's 9 km cell is coastal (masked); average the land cells within 15 km
+    df = _region_series(ee, mon, station_point(ee, 15000), ["sm_surface", "sm_rootzone"], 9000)
     df.to_csv(_path(name), index=False)
     return df
 
@@ -388,13 +399,17 @@ def imerg_daily(start_year: int = 2001, end_year: int = 2025, force: bool = Fals
         if y in have:
             continue
         d0 = ee.Date(f"{y}-01-01")
-        n = 366 if pd.Timestamp(y, 12, 31).dayofyear == 366 else 365
+        n = 366 if pd.Timestamp(y, 12, 31).day_of_year == 366 else 365
 
-        def daily(i, d0=d0):
-            d = d0.advance(i, "day")
-            v = col.filterDate(d, d.advance(1, "day")).sum().multiply(0.5).reduceRegion(
-                ee.Reducer.mean(), pt, 11132).get("precipitation")
-            return ee.Feature(None, {"date": d.format("YYYY-MM-dd"), "precip_mm": v})
+        def make_daily(start):
+            def daily(i):
+                d = start.advance(ee.Number(i), "day")
+                v = col.filterDate(d, d.advance(1, "day")).sum().multiply(0.5).reduceRegion(
+                    ee.Reducer.mean(), pt, 11132).get("precipitation")
+                return ee.Feature(None, {"date": d.format("YYYY-MM-dd"), "precip_mm": v})
+            return daily
+
+        daily = make_daily(d0)
 
         fc = ee.FeatureCollection(ee.List.sequence(0, n - 1).map(daily))
         rows += [f["properties"] for f in _retry(lambda fc=fc: fc.getInfo())["features"]]
@@ -427,6 +442,21 @@ def modis_lst_et(force: bool = False) -> pd.DataFrame:
     out = pd.merge(a, b, on="date", how="outer").sort_values("date")
     out.to_csv(_path(name), index=False)
     return out
+
+
+def modis_et_fields(year: int = FIELD_YEAR, force: bool = False) -> pd.DataFrame:
+    """MOD16A2GF ET (mm / 8 days) averaged over the cultivated field polygons (MOD16 masks barren pixels)."""
+    name = "modis_et_fields.csv"
+    if not force and (EO_DIR / name).exists():
+        return cached(name)
+    ee = ee_init()
+    gj = field_candidates(year)
+    geom = ee.FeatureCollection([ee.Feature(ee.Geometry(f["geometry"])) for f in gj["features"]]).geometry()
+    et = ee.ImageCollection("MODIS/061/MOD16A2GF").select("ET").map(
+        lambda i: i.multiply(0.1).rename("et_mm_8d").copyProperties(i, ["system:time_start"]))
+    df = _region_series(ee, et, geom, ["et_mm_8d"], 500)
+    df.to_csv(_path(name), index=False)
+    return df
 
 
 def srtm_aoi(force: bool = False) -> pd.DataFrame:
@@ -526,7 +556,7 @@ def cmip6_ensemble(df: pd.DataFrame | None = None) -> dict[str, dict[str, list[f
 EXTRACTORS: dict[str, Callable[[], Any]] = {
     "ndvi_station": ndvi_station, "vegetated_area": vegetated_area_series, "fields": field_candidates,
     "field_ndvi": field_ndvi_monthly, "field_terrain": field_terrain, "overlays": overlays, "smap": smap_rootzone,
-    "imerg": imerg_daily, "modis": modis_lst_et, "srtm": srtm_aoi, "grace": grace_trend, "cmip6": cmip6_deltas,
+    "imerg": imerg_daily, "modis": modis_lst_et, "modis_et_fields": modis_et_fields, "srtm": srtm_aoi, "grace": grace_trend, "cmip6": cmip6_deltas,
 }
 
 

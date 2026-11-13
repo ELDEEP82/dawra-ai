@@ -7,6 +7,8 @@ from .calibration import climate_daily
 from .config import EO_DIR, REPORTS
 from .reporting import md_table, new_fig, save_fig
 
+EO_FILES = ["ndvi_station.csv", "smap_station.csv", "imerg_station.csv", "modis_station.csv", "srtm_aoi.csv",
+            "grace_station.csv", "cmip6_deltas.csv"]
 PRODUCTS = [
     ("NDVI", "Sentinel-2 SR harmonized (10 m, 2017+) + Landsat 5/7/8/9 C2 L2 (30 m, 1990+)", "COPERNICUS/S2_SR_HARMONIZED; LANDSAT/L*0*/C02/T1_L2", "field history, bare seasons, vegetated area"),
     ("Soil moisture", "SMAP L4 surface & root zone (9 km, 2015+)", "NASA/SMAP/SPL4SMGP/008", "drought context; coastal pixel mixing caveat"),

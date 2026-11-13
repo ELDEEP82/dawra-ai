@@ -131,3 +131,21 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   grain/biological yield, wheat HI 0.40 (assumption). Without straw barley would look loss-making, which contradicts
   local practice (straw feeds the farm's 20 head).
 - **D42 S6 resolved**: 16.5 ardeb is **per feddan** (Vetogate 2026-04-30 quote) → wheat holdout −15 % (pass).
+
+## Upgrade round — P1 Earth observation (real data)
+- **D43 Earth Engine live** (project in git-ignored `.env`, loaded with python-dotenv). All downloads cached in `data/eo/`
+  with `data/eo/SOURCES.md` (dataset ids, licences, date 2026-11-13). Extractors are resumable (skip cached outputs).
+- **D44 Fields** = Sentinel-2 2025 NDVI amplitude (P90−P10) > 0.15 and P90 > 0.25, vectorised locally (computePixels →
+  contourpy + shapely; server-side reduceToVectors timed out), ≥ 0.5 ha, simplified 8 m → 122 fields, 125 ha, 61 KB.
+- **D45 Vegetated area vs S16.** S16's "NDVI > 0.1" does not transfer to surface-reflectance NDVI: bare desert at the
+  station reads ≈ 0.09 (median of 677 S2 scenes), so 0.1 flags most of the plain. Sea glint also inflated Landsat-8 P90
+  over the Gulf of Suez → land mask (SRTM > 0). Thresholds 0.1/0.15/0.2/0.25 are all reported; 0.25 matches S16 in 1996
+  (51 vs 57 ha) and 2022 (1,208 vs 1,579 ha) and is used for the chart — reported as *calibrated*, not validated.
+- **D46 SMAP** station cell is coastal/masked → mean of land cells within 15 km. **MOD16 ET** returns no data for any of
+  1,196 images over the fields or the station (MOD16 skips MCD12Q1 barren/urban pixels) → ET0 cross-check reported as
+  *not testable*. **ECOSTRESS** is not in the Earth Engine public catalog → documented; MODIS LST used instead.
+- **D47 Evidence on real NDVI**: per-field monthly S2 NDVI → phenology, rule labels (KMeans agreement 87 %), rotation
+  guess, bare calendar, transitions. 67 of 122 fields are perennial (orchards / palms), 10 follow winter crop + summer
+  fallow (like F001).
+- **D48 CMIP6** (NEX-GDDP, 5 models: ACCESS-CM2, MPI-ESM1-2-HR, MRI-ESM2-0, EC-Earth3, GFDL-ESM4): ensemble monthly
+  ΔTmax and Δpr (2041–2060 vs 1995–2014) applied to the 1981–2025 record as two extra stress families.
