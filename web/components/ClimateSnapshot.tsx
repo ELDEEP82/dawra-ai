@@ -32,7 +32,7 @@ function ChartCard({ title, children, note }: { title: string; children: React.R
     <div className="card p-5">
       <h3 className="text-sm font-semibold text-ink">{title}</h3>
       {note && <p className="mt-0.5 text-xs text-slate-500">{note}</p>}
-      <div className="mt-3 h-52" dir="ltr">
+      <div className="mt-3 h-[240px]" dir="ltr">
         {children}
       </div>
     </div>
@@ -69,7 +69,7 @@ export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
   const rainLbl = lang === "ar" ? "المطر" : "Rain";
   const et0Lbl = "ET0";
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-6 md:grid-cols-2">
       <ChartCard title={t.annualChart} note="NASA POWER · FAO-56 Penman–Monteith">
         <ResponsiveContainer>
           <ComposedChart data={c.annual} margin={{ top: 4, right: 8, left: -8, bottom: 0 }}>

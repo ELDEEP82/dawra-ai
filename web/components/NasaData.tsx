@@ -1,12 +1,13 @@
 "use client";
-import { Footer, Header } from "@/components/Chrome";
+/** NASA datasets (flip cards), EO summary tiles and the source list — shared by the NASA-data tab and /nasa-data. */
+import { CheckCircle2, CloudRain, Droplets, ExternalLink, Flame, Leaf, Mountain, RotateCw, Satellite, Sun, Thermometer, Waves, type LucideIcon } from "lucide-react";
 import { FlipCard } from "@/components/ui";
-import { useEvidence, useMeta } from "@/lib/data";
+import type { Evidence, Meta } from "@/lib/types";
 import { fmt, useLang } from "@/lib/i18n";
 
 type Row = { name: string; provider: string; res: string; period: string; url: string; en: string; ar: string; file?: string };
 
-const ICONS = ["☀️", "🛰️", "🌱", "💧", "🌧️", "🔥", "⛰️", "🌊", "🌡️"];
+const ICONS: LucideIcon[] = [Sun, Satellite, Leaf, Droplets, CloudRain, Flame, Mountain, Waves, Thermometer];
 
 const DATASETS: Row[] = [
   { name: "NASA POWER daily (AG)", provider: "NASA LaRC — CERES SYN1deg, MERRA-2", res: "0.5° × 0.625°", period: "1981–2026", url: "https://power.larc.nasa.gov/", en: "FAO-56 ET0, effective rain, heat days, root-zone wetness; every stress scenario (45 years).", ar: "البخر-نتح FAO-56، المطر الفعّال، أيام الحر، رطوبة الجذور؛ وكل سيناريوهات التحمّل (45 سنة)." },
@@ -20,25 +21,11 @@ const DATASETS: Row[] = [
   { name: "NEX-GDDP-CMIP6", provider: "NASA Earth Exchange", res: "0.25°, daily", period: "1995–2014 vs 2041–2060", url: "https://developers.google.com/earth-engine/datasets/catalog/NASA_GDDP-CMIP6", en: "5-model ensemble monthly Tmax and rain changes (SSP2-4.5, SSP5-8.5) → two stress-test futures.", ar: "تغيّر الحرارة والمطر الشهري من 5 موديلات (SSP2-4.5 و SSP5-8.5) ← مستقبلين في اختبار التحمّل.", file: "cmip6_deltas.csv" },
 ];
 
-export default function NasaData() {
+export function DatasetGrid({ evidence }: { evidence: Evidence | null }) {
   const { lang } = useLang();
-  const ev = useEvidence();
-  const meta = useMeta();
   const ar = lang === "ar";
-  const s = ev.data?.eo.summary ?? {};
-  const okFile = (f?: string) => !f || ev.data?.earth_engine.some((e) => e.status === "ok") || ev.data?.eo_status === "ok";
+  const okFile = (f?: string) => !f || evidence?.earth_engine.some((e) => e.status === "ok") || evidence?.eo_status === "ok";
   return (
-    <>
-      <Header />
-      <main className="mx-auto max-w-6xl space-y-10 px-4 py-10">
-        <div>
-          <h1 className="section-title">{ar ? "بيانات ناسا اللي استخدمناها" : "NASA data used"}</h1>
-          <p className="muted mt-2 max-w-3xl">
-            {ar
-              ? "كل رقم في دورة جاي من بيانات ناسا، أو مصدر محلي (S1–S18)، أو افتراض مكتوب في data/assumptions.csv. البيانات اتنزلت بـ Google Earth Engine يوم 2026-11-13."
-              : "Every number in Dawra comes from NASA data, a local source (S1–S18) or a documented row in data/assumptions.csv. Earth-observation data were pulled with Google Earth Engine on 2026-11-13."}
-          </p>
-        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {DATASETS.map((d, i) => (
             <FlipCard
@@ -48,16 +35,16 @@ export default function NasaData() {
               front={
                 <div className="card relative flex h-full flex-col p-5">
                   <div className="flex items-start justify-between gap-3">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-soft text-2xl" aria-hidden>{ICONS[i]}</span>
-                    <span className="rounded-full border border-emerald-400/50 bg-brand-soft px-2 py-0.5 text-[11px] font-medium text-brand">{okFile(d.file) ? "✔ " + (ar ? "مستخدم" : "in use") : "⏳"}</span>
+                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-soft text-brand" aria-hidden>{(() => { const I = ICONS[i]; return <I size={22} />; })()}</span>
+                    <span className="rounded-full border border-emerald-400/50 bg-brand-soft px-2 py-0.5 text-[11px] font-medium text-brand">{okFile(d.file) ? <><CheckCircle2 size={12} className="me-1 inline align-[-2px]" aria-hidden />{ar ? "مستخدم" : "in use"}</> : "…"}</span>
                   </div>
-                  <h2 className="mt-4 text-base font-semibold leading-snug text-ink" dir="ltr">{d.name}</h2>
+                  <h3 className="mt-4 text-base font-semibold leading-snug text-ink" dir="ltr">{d.name}</h3>
                   <p className="mt-1 text-xs text-muted" dir="ltr">{d.provider}</p>
                   <div className="mt-auto flex flex-wrap gap-2 text-[11px]" dir="ltr">
                     <span className="rounded-full bg-space-900 px-2 py-1 text-slate-300">{d.res}</span>
                     <span className="rounded-full bg-space-900 px-2 py-1 text-slate-300">{d.period}</span>
                   </div>
-                  <span aria-hidden className="absolute bottom-4 end-4 text-xs text-brand">↻</span>
+                  <RotateCw aria-hidden size={14} className="absolute bottom-4 end-4 text-brand" />
                 </div>
               }
               back={
@@ -65,13 +52,21 @@ export default function NasaData() {
                   <div className="text-xs font-semibold uppercase tracking-wide text-brand">{ar ? "بيغذّي الموديل في" : "Feeds the model"}</div>
                   <p className="mt-2 text-sm leading-relaxed text-slate-300">{ar ? d.ar : d.en}</p>
                   <a href={d.url} target="_blank" rel="noreferrer" className="mt-auto inline-flex min-h-[44px] items-center text-sm font-medium text-brand underline-offset-4 hover:underline" dir="ltr">
-                    {ar ? "صفحة البيانات ↗" : "Dataset page ↗"}
+                    {ar ? "صفحة البيانات" : "Dataset page"} <ExternalLink size={14} className="ms-1" aria-hidden />
                   </a>
                 </div>
               }
             />
           ))}
         </div>
+  );
+}
+
+export function EoTiles({ evidence }: { evidence: Evidence | null }) {
+  const { lang } = useLang();
+  const ar = lang === "ar";
+  const s = evidence?.eo.summary ?? {};
+  return (
         <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
             [ar ? "حقول من Sentinel-2" : "Fields from Sentinel-2", s.n_fields as number, ""],
@@ -81,17 +76,20 @@ export default function NasaData() {
           ].map(([k, v, u]) => (
             <div key={String(k)} className="card p-4">
               <div className="text-xs text-slate-400">{k}</div>
-              <div className="kpi" dir="ltr">{v === undefined || v === null ? "—" : `${String(k).includes("Tmax") || String(k).includes("العظمى") ? "+" : ""}${fmt(Number(v), 1)}${u}`}</div>
+              <div className="kpi" dir="ltr">{v === undefined || v === null ? "—" : `${String(k).includes("Tmax") || String(k).includes("العظمى") ? "+" : ""}${fmt(Number(v), String(k).includes("Sentinel") ? 0 : 1)}${u}`}</div>
             </div>
           ))}
         </section>
-        <p className="text-sm text-slate-400">
-          {ar ? "ECOSTRESS مش موجود في كتالوج Earth Engine العام، فاستخدمنا MODIS بداله." : "ECOSTRESS is not in the public Earth Engine catalog, so MODIS is used instead."}
-        </p>
-        <section>
-          <h2 className="text-lg font-semibold">{ar ? "المصادر المحلية والعلمية" : "Local & scientific sources"}</h2>
-          <ol className="mt-3 space-y-2 text-sm">
-            {meta.data?.sources.map((src) => (
+  );
+}
+
+export function SourceList({ meta }: { meta: Meta | null }) {
+  const { lang } = useLang();
+  const ar = lang === "ar";
+  return (
+        <div>
+                    <ol className="mt-3 space-y-2 text-sm">
+            {meta?.sources.map((src) => (
               <li key={src.id} className="card p-3" dir="ltr">
                 <span className="me-2 font-semibold text-nasa-cyan">{src.id}</span>
                 {src.reference}{" "}
@@ -105,11 +103,7 @@ export default function NasaData() {
               <span className="me-2 font-semibold text-nasa-cyan">Prices</span>2025–26 Egyptian prices & costs (Ahram, Masrawy, Al-Mal, Obour market, FAOSTAT) — see data/prices_egp.csv; estimates are flagged.
             </li>
           </ol>
-          {meta.data && <p className="mt-3 text-xs text-slate-500">{ar ? "افتراضات موثّقة" : "Documented assumptions"}: {meta.data.n_assumptions} · {ar ? "آخر بناء" : "built"} {meta.data.built_utc}</p>}
-        </section>
-        <p className="text-xs text-slate-500">Map imagery: Esri World Imagery. NASA does not endorse this tool. Earth globe texture: NASA Visible Earth (Blue Marble).</p>
-      </main>
-      <Footer />
-    </>
+          {meta && <p className="mt-3 text-xs text-slate-500">{ar ? "افتراضات موثّقة" : "Documented assumptions"}: {meta.n_assumptions} · {ar ? "آخر بناء" : "built"} {meta.built_utc}</p>}
+        </div>
   );
 }

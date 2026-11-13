@@ -8,39 +8,12 @@ function prefersReduced(): boolean {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-/** Counts up once when visible (requestAnimationFrame, ease-out). */
-export function Counter({ value, nd = 0, prefix = "", suffix = "", duration = 1400 }: { value: number; nd?: number; prefix?: string; suffix?: string; duration?: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [v, setV] = useState(0);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (prefersReduced()) {
-      setV(value);
-      return;
-    }
-    let raf = 0;
-    const io = new IntersectionObserver((es) => {
-      if (!es.some((e) => e.isIntersecting)) return;
-      io.disconnect();
-      const t0 = performance.now();
-      const tick = (t: number) => {
-        const k = Math.min(1, (t - t0) / duration);
-        setV(value * (1 - Math.pow(1 - k, 3)));
-        if (k < 1) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-    });
-    io.observe(el);
-    return () => {
-      io.disconnect();
-      cancelAnimationFrame(raf);
-    };
-  }, [value, duration]);
+/** Static number: the final value is in the server HTML (no count-up flash on first load). */
+export function Counter({ value, nd = 0, prefix = "", suffix = "" }: { value: number; nd?: number; prefix?: string; suffix?: string; duration?: number }) {
   return (
-    <span ref={ref} className="tabular-nums" dir="ltr">
+    <span className="tabular-nums" dir="ltr">
       {prefix}
-      {fmt(v, nd)}
+      {fmt(value, nd)}
       {suffix}
     </span>
   );
@@ -51,7 +24,7 @@ export function Skeleton({ className = "h-40" }: { className?: string }) {
 }
 
 /** Mounts its children only when scrolled near (IDs stay on the parent). */
-export function LazySection({ children, minHeight = 320, margin = "250px" }: { children: ReactNode; minHeight?: number; margin?: string }) {
+export function LazySection({ children, minHeight = 320, margin = "800px", fallback }: { children: ReactNode; minHeight?: number; margin?: string; fallback?: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -68,7 +41,7 @@ export function LazySection({ children, minHeight = 320, margin = "250px" }: { c
   }, [show, margin]);
   return (
     <div ref={ref} style={show ? undefined : { minHeight }}>
-      {show ? children : <div className="shimmer h-full rounded-card border border-line" style={{ minHeight }} aria-hidden />}
+      {show ? children : fallback ?? <div className="shimmer h-full rounded-card border border-line" style={{ minHeight }} aria-hidden />}
     </div>
   );
 }

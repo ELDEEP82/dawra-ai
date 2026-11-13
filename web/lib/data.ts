@@ -59,6 +59,46 @@ export function useAfterPaint(delay = 1200): boolean {
   return ok;
 }
 
+/** Runs `fn` when the browser is idle after first paint (falls back to a short timeout). */
+export function onIdle(fn: () => void, timeout = 1500): () => void {
+  if (typeof window === "undefined") return () => undefined;
+  const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void };
+  if (w.requestIdleCallback) {
+    const id = w.requestIdleCallback(fn, { timeout });
+    return () => w.cancelIdleCallback?.(id);
+  }
+  const id = window.setTimeout(fn, 300);
+  return () => window.clearTimeout(id);
+}
+
+/** Runs `fn` once, on the visitor's first interaction (pointer, scroll, key or touch). */
+export function onFirstInteraction(fn: () => void): () => void {
+  if (typeof window === "undefined") return () => undefined;
+  const evs = ["pointermove", "pointerdown", "scroll", "keydown", "touchstart", "wheel"] as const;
+  let done = false;
+  const run = () => {
+    if (done) return;
+    done = true;
+    off();
+    fn();
+  };
+  const off = () => evs.forEach((e) => window.removeEventListener(e, run));
+  evs.forEach((e) => window.addEventListener(e, run, { passive: true, once: true }));
+  return off;
+}
+
+/** True once the browser has been idle after first paint. */
+export function useIdle(timeout = 1500): boolean {
+  const [ok, setOk] = useState(false);
+  useEffect(() => onIdle(() => setOk(true), timeout), [timeout]);
+  return ok;
+}
+
+/** Warm the JSON cache for every file the tabs need (called on idle). */
+export function prefetchCore(ecw = 8.35, water = 60): void {
+  ["/data/meta.json", "/data/climate.json", "/data/evidence.json", "/data/map.json", configPath(ecw, water)].forEach((p) => void load(p).catch(() => undefined));
+}
+
 export function prefetch(ecw: number, water: number): void {
   void load(configPath(ecw, water)).catch(() => undefined);
 }

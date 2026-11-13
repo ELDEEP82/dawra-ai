@@ -1,0 +1,89 @@
+cold      en desktop #1  globe=poster  lang=ok  console=ok  cls=0
+cold      en desktop #2  globe=poster  lang=ok  console=ok  cls=0
+cold      en desktop #3  globe=poster  lang=ok  console=ok  cls=0
+cold      en desktop #4  globe=poster  lang=ok  console=ok  cls=0
+cold      en desktop #5  globe=poster  lang=ok  console=ok  cls=0
+cold      en mobile  #1  globe=poster  lang=ok  console=ok  cls=0
+cold      en mobile  #2  globe=poster  lang=ok  console=ok  cls=0
+cold      en mobile  #3  globe=poster  lang=ok  console=ok  cls=0
+cold      en mobile  #4  globe=poster  lang=ok  console=ok  cls=0
+cold      en mobile  #5  globe=poster  lang=ok  console=ok  cls=0
+cold      ar desktop #1  globe=poster  lang=ok  console=ok  cls=0
+cold      ar desktop #2  globe=poster  lang=ok  console=ok  cls=0
+cold      ar desktop #3  globe=poster  lang=ok  console=ok  cls=0
+cold      ar desktop #4  globe=poster  lang=ok  console=ok  cls=0
+cold      ar desktop #5  globe=poster  lang=ok  console=ok  cls=0
+cold      ar mobile  #1  globe=poster  lang=ok  console=ok  cls=0
+cold      ar mobile  #2  globe=poster  lang=ok  console=ok  cls=0
+cold      ar mobile  #3  globe=poster  lang=ok  console=ok  cls=0
+cold      ar mobile  #4  globe=poster  lang=ok  console=ok  cls=0
+cold      ar mobile  #5  globe=poster  lang=ok  console=ok  cls=0
+incognito en desktop #1  globe=poster  lang=ok  console=ok  cls=0
+incognito en desktop #2  globe=poster  lang=ok  console=ok  cls=0
+incognito en desktop #3  globe=poster  lang=ok  console=ok  cls=0
+incognito en desktop #4  globe=poster  lang=ok  console=ok  cls=0
+incognito en desktop #5  globe=poster  lang=ok  console=ok  cls=0
+incognito en mobile  #1  globe=poster  lang=ok  console=ok  cls=0
+incognito en mobile  #2  globe=poster  lang=ok  console=ok  cls=0
+incognito en mobile  #3  globe=poster  lang=ok  console=ok  cls=0
+incognito en mobile  #4  globe=poster  lang=ok  console=ok  cls=0
+incognito en mobile  #5  globe=poster  lang=ok  console=ok  cls=0
+incognito ar desktop #1  globe=poster  lang=ok  console=ok  cls=0
+incognito ar desktop #2  globe=poster  lang=ok  console=ok  cls=0
+incognito ar desktop #3  globe=poster  lang=ok  console=ok  cls=0
+incognito ar desktop #4  globe=poster  lang=ok  console=ok  cls=0
+incognito ar desktop #5  globe=poster  lang=ok  console=ok  cls=0
+incognito ar mobile  #1  globe=poster  lang=ok  console=ok  cls=0
+incognito ar mobile  #2  globe=poster  lang=ok  console=ok  cls=0
+incognito ar mobile  #3  globe=poster  lang=ok  console=ok  cls=0
+incognito ar mobile  #4  globe=poster  lang=ok  console=ok  cls=0
+incognito ar mobile  #5  globe=poster  lang=ok  console=ok  cls=0
+slow4g    en desktop #1  globe=preview  lang=ok  console=ok  cls=0
+slow4g    en desktop #2  globe=preview  lang=ok  console=ok  cls=0
+slow4g    en desktop #3  globe=preview  lang=ok  console=ok  cls=0
+slow4g    en desktop #4  globe=preview  lang=ok  console=ok  cls=0
+slow4g    en desktop #5  globe=preview  lang=ok  console=ok  cls=0
+slow4g    en mobile  #1  globe=preview  lang=ok  console=ok  cls=0
+slow4g    en mobile  #2  globe=preview  lang=ok  console=ok  cls=0
+slow4g    en mobile  #3  globe=preview  lang=ok  console=ok  cls=0
+slow4g    en mobile  #4  globe=preview  lang=ok  console=ok  cls=0
+slow4g    en mobile  #5  globe=preview  lang=ok  console=ok  cls=0
+slow4g    ar desktop #1  globe=preview  lang=ok  console=ok  cls=0.001
+slow4g    ar desktop #2  globe=preview  lang=ok  console=ok  cls=0.001
+slow4g    ar desktop #3  globe=preview  lang=ok  console=ok  cls=0.001
+slow4g    ar desktop #4  globe=preview  lang=ok  console=ok  cls=0.001
+slow4g    ar desktop #5  globe=preview  lang=ok  console=ok  cls=0.001
+slow4g    ar mobile  #1  globe=preview  lang=ok  console=ok  cls=0.005
+slow4g    ar mobile  #2  globe=preview  lang=ok  console=ok  cls=0.005
+slow4g    ar mobile  #3  globe=preview  lang=ok  console=ok  cls=0.005
+slow4g    ar mobile  #4  globe=preview  lang=ok  console=ok  cls=0.005
+slow4g    ar mobile  #5  globe=preview  lang=ok  console=ok  cls=0.005
+{
+  "base": "http://localhost:3123",
+  "repeats": 5,
+  "runs": 60,
+  "1_hero_numbers_and_lang_in_initial_html": true,
+  "2_globe_never_blank_after_1.5s": true,
+  "3_no_console_errors_or_warnings": true,
+  "4_no_hydration_warnings": true,
+  "5_cls_le_0.05": true,
+  "max_cls": 0.005,
+  "globe_states": {
+    "poster": 40,
+    "preview": 20
+  },
+  "globe_3d_after_first_pointer_move": "20/20",
+  "html": {
+    "en": {
+      "ok": true,
+      "missing": [],
+      "htmlTag": "<html lang=\"en\" dir=\"ltr\" class=\"__variable_dea3f1 __variable_a2d0e6\">"
+    },
+    "ar": {
+      "ok": true,
+      "missing": [],
+      "htmlTag": "<html lang=\"ar\" dir=\"rtl\" class=\"__variable_dea3f1 __variable_a2d0e6\">"
+    }
+  }
+}
+Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\win\async.c, line 94

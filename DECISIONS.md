@@ -195,3 +195,30 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
 - **D63 Performance**: above-the-fold animations are CSS (word reveal, fades, scroll cue, progress bar); plan cards,
   charts, map and what-if mount on approach. Home first-load JS 167 → 117 KB. Lighthouse (local prod): home 93 mobile /
   98 desktop, farmer 88 / 100, NASA data 89 / 100; accessibility 100 / 100 / 96.
+
+## First-load reliability + app layout (UI only — engine results unchanged)
+- **D64 Language on the server**: the refresh problem came from choosing the language *after* hydration (English SSR,
+  then localStorage/`?lang` flipped to Arabic), so first-time visitors saw an English flash, a layout jump and
+  hydration mismatches. Now `middleware.ts` resolves `?lang=` → `lang` cookie → Accept-Language and rewrites to the
+  prerendered `/en` or `/ar` route (`app/[lang]`, static), so `<html lang dir>` is right on the first byte. The toggle
+  only sets the cookie and reloads the other prerendered page; localStorage is no longer used.
+- **D65 Above-the-fold values in HTML**: `app/[lang]/page.tsx` (server) reads `public/data/{climate,meta,evidence}.json`
+  at build time and passes the hero numbers (rain 2.4 % of ET0, ECw 8.35 dS/m, 1,579 ha green in 2022, S16) to the
+  client app; counters no longer start at 0.
+- **D66 Globe never blank**: a 480/960 px WebP poster (rendered from the Blue Marble texture by
+  `scripts/make_poster.py`, Ras Sudr marker) plus a 1 KB inline 32 px preview are in the HTML; the WebGL globe mounts on
+  the visitor's first interaction (≥640 px, motion allowed, WebGL available) and cross-fades in only after its first
+  textured frame (~0.75 s locally). If that takes >2 s it is dropped and the poster stays.
+- **D67 App structure**: compact hero (fits 1280×720) + sticky segmented tabs (① Your farm ② Plans ③ What-if
+  ④ Satellite evidence ⑤ NASA data) with ARIA tabs, arrow keys, URL hash + back button, a direction-aware slide, and a
+  mobile bottom tab bar. Bento grid (max 1200 px, 12 columns, 24 px gaps), one card header style (lucide icon, ≤5-word
+  title, one-line explanation), error boundary with Retry per card, content-shaped skeletons. Plans tab: summary strip
+  computed from the plan JSON (+26 % profit · −11 % water · robustness 49 % vs 32 % today for F001) and a
+  "Recommended for you" badge on the farmer-weighted compromise.
+- **D68 Loading**: the core JSON (meta, climate, evidence, map, default plan file) is prefetched on
+  `requestIdleCallback` after first paint; tab code (charts, map, motion) and the neighbouring well/water plan files are
+  warmed on the first interaction, and Next link prefetch is off for Farmer mode / NASA data — executing those during
+  load added ~0.8 s of blocking time on mobile. Lazy mounts use an 800 px root margin. Fonts trimmed to the two weights
+  used (400/600). Cache headers: `/data/*` 1 h + stale-while-revalidate 1 day; `/textures/*` 1 year immutable.
+- **D69 Map stacking**: Leaflet controls use z-index 1000; the map container is now `isolation: isolate` so they can no
+  longer paint over the sticky header or the mobile bottom tab bar (found by the screenshot run).

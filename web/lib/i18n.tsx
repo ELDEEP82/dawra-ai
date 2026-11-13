@@ -1,6 +1,6 @@
 "use client";
 /** Bilingual UI strings (English / Arabic) and the language context with RTL switching. */
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
 import type { Lang } from "./types";
 
 const EN = {
@@ -275,45 +275,24 @@ interface LangCtx {
 
 const Ctx = createContext<LangCtx | null>(null);
 
-export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
-  useEffect(() => {
-    try {
-      const q = new URLSearchParams(window.location.search).get("lang");
-      const saved = q ?? localStorage.getItem("dawra-lang");
-      if (saved === "ar" || saved === "en") setLangState(saved);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  useEffect(() => {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-  }, [lang]);
+/** Language comes from the server (route segment /en or /ar resolved by middleware): no client-side switching
+ *  after hydration. Changing language writes the `lang` cookie and navigates, so the next page arrives already
+ *  rendered in the right language and direction. */
+export function LangProvider({ children, lang }: { children: ReactNode; lang: Lang }) {
   const setLang = useCallback((l: Lang) => {
-    const apply = () => {
-      setLangState(l);
-      try {
-        localStorage.setItem("dawra-lang", l);
-      } catch {
-        /* storage unavailable */
-      }
-      try {
-        const url = new URL(window.location.href);
-        url.searchParams.set("lang", l);
-        window.history.replaceState(null, "", url.toString());
-      } catch {
-        /* ignore */
-      }
-    };
-    const root = document.documentElement;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return apply();
-    root.classList.add("lang-fading"); // cross-fade: fade out, switch language + direction, fade in
-    window.setTimeout(() => {
-      apply();
-      window.setTimeout(() => root.classList.remove("lang-fading"), 40);
-    }, 170);
+    try {
+      document.cookie = `lang=${l}; path=/; max-age=31536000; samesite=lax`;
+    } catch {
+      /* cookies unavailable — the ?lang= param still works */
+    }
+    const url = new URL(window.location.href);
+    url.pathname = url.pathname.replace(/^\/(en|ar)(?=\/|$)/, "") || "/";
+    url.searchParams.set("lang", l);
+    url.searchParams.delete("demo");
+    const go = () => window.location.assign(url.toString());
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return go();
+    document.documentElement.classList.add("lang-fading");
+    window.setTimeout(go, 160);
   }, []);
   const value = useMemo(() => ({ lang, setLang, t: DICTS[lang], dir: (lang === "ar" ? "rtl" : "ltr") as "ltr" | "rtl" }), [lang, setLang]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

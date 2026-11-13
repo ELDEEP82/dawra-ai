@@ -2,8 +2,9 @@
 /** Farmer mode: three big questions → one recommended 3-year rotation in plain words (Arabic first). */
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Footer, Header } from "@/components/Chrome";
+import { CropIcon } from "@/components/CropIcon";
 import { FARMER_PROFILE, plansFor, useConfig, useMeta } from "@/lib/data";
 import { fmt, useLang } from "@/lib/i18n";
 import { cropStyle } from "@/lib/crops";
@@ -86,13 +87,10 @@ function Big({ on, onClick, children }: { on: boolean; onClick: () => void; chil
 }
 
 export default function Farmer() {
-  const { lang, setLang } = useLang();
+  const { lang } = useLang();
   const L = T[lang];
   const meta = useMeta();
   const [q, setQ] = useState<Q>({ ecw: null, water: null, goal: null });
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("lang") !== "en") setLang("ar");
-  }, [setLang]);
   const cfg = useConfig(q.ecw ?? 8.35, q.water ?? 60, q.water !== null);
   const plans = useMemo(() => (cfg.data && q.goal ? plansFor(cfg.data, FARMER_PROFILE[q.goal]) : null), [cfg.data, q.goal]);
   const rec = plans?.find((p) => p.kind === "compromise");
@@ -173,7 +171,7 @@ export default function Farmer() {
                           const fallow = s.crop_id === "fallow";
                           return (
                             <div key={s.slot} className="flex min-w-0 flex-1 flex-col gap-1 rounded-xl border border-white/10 p-3 sm:flex-row sm:items-center sm:gap-3" style={fallow ? undefined : { borderColor: st.color }}>
-                              <span className="text-3xl sm:text-4xl" aria-hidden>{fallow ? "🟫" : st.icon}</span>
+                              <CropIcon id={s.crop_id} size={32} />
                               <div className="min-w-0">
                                 <div className="text-sm text-slate-400">{k === 0 ? `❄️ ${L.winter}` : `☀️ ${L.summer}`}</div>
                                 <div className="break-words text-lg font-semibold sm:text-xl">{fallow ? L.fallow : lang === "ar" ? s.crop_ar : s.crop_en.replace(/ \(.+\)/, "")}</div>
@@ -226,7 +224,7 @@ export default function Farmer() {
                   <p className="rounded-xl border border-nasa-amber/40 bg-nasa-amber/10 p-4 text-lg text-sand-ink">👨‍🌾 {L.ask}</p>
                   <div className="flex flex-wrap gap-3">
                     <button onClick={() => setQ({ ecw: null, water: null, goal: null })} className="rounded-full border border-white/20 px-5 py-3 text-lg">↺ {L.again}</button>
-                    <Link href="/#plans" className="rounded-full bg-brand px-5 py-3 text-lg font-semibold text-paper">{L.expert}</Link>
+                    <Link prefetch={false} href={`/${lang}#plans`} className="rounded-full bg-brand px-5 py-3 text-lg font-semibold text-paper">{L.expert}</Link>
                   </div>
                 </>
               )}

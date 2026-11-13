@@ -2,9 +2,9 @@
 import type { Lang } from "./types";
 
 const EN = {
-  heroKicker: "NASA Space Apps Cairo 2026 · Field Shift · Ras Sudr, Sinai",
-  heroTitle: "From space to the field: smarter rotations for salty, dry farms",
-  heroProblem: "Wells are getting saltier and rain covers almost none of what crops drink. Which 3-year rotation saves water, keeps salt out and still pays?",
+  heroKicker: "NASA Space Apps Cairo 2026 · Ras Sudr, Sinai",
+  heroTitle: "Smarter rotations for salty, dry farms",
+  heroProblem: "NASA data + AI pick a 3-year rotation that saves water and still pays.",
   cRain: "of crop water need covered by rain",
   cWell: "dS/m — salinity of the farm's well",
   cGreen: "ha green in 2022 (57 ha in 1996, S16)",
@@ -84,9 +84,9 @@ const EN = {
 type Copy = typeof EN;
 
 const AR: Copy = {
-  heroKicker: "ناسا Space Apps القاهرة 2026 · تحدي Field Shift · رأس سدر، سيناء",
-  heroTitle: "من الفضاء للغيط: دورات زراعية أذكى للأراضي المالحة والناشفة",
-  heroProblem: "الآبار بتملح والمطر تقريبًا مبيغطيش حاجة من شرب الزرع. أنهي دورة لـ 3 سنين توفّر مية، وتبعد الملح، وتكسّب؟",
+  heroKicker: "ناسا Space Apps القاهرة 2026 · رأس سدر، سيناء",
+  heroTitle: "دورات زراعية أذكى للأراضي المالحة والناشفة",
+  heroProblem: "بيانات ناسا والذكاء الاصطناعي بيختاروا دورة 3 سنين توفّر مية وتكسّب.",
   cRain: "من احتياج الزرع للمية بيغطيه المطر",
   cWell: "dS/m — ملوحة بير المزرعة",
   cGreen: "هكتار أخضر في 2022 (57 هكتار في 1996، S16)",

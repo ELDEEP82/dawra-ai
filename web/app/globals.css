@@ -27,6 +27,8 @@ body {
     var(--canvas);
   color: var(--ink);
   min-height: 100vh;
+  font-size: 16.5px;
+  line-height: 1.6;
 }
 
 body > * { transition: opacity .17s ease; }
@@ -34,8 +36,9 @@ html.lang-fading body > * { opacity: 0; }
 
 h1, h2, h3 { letter-spacing: -0.02em; }
 [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 { letter-spacing: 0; }
-[dir="rtl"] body { font-family: var(--font-plex-ar), var(--font-plex), system-ui, sans-serif; line-height: 1.75; }
-[dir="rtl"] p, [dir="rtl"] li { line-height: 1.85; }
+[dir="rtl"] body { font-family: var(--font-plex-ar), var(--font-plex), system-ui, sans-serif; line-height: 1.8; }
+[dir="rtl"] p, [dir="rtl"] li { line-height: 1.8; }
+p { max-width: 70ch; }
 
 ::selection { background: rgba(43, 182, 115, 0.25); }
 
@@ -95,3 +98,15 @@ input[type="range"] { accent-color: var(--primary); height: 28px; }
   .css-flip.is-flipped .css-flip-back { opacity: 1; }
   .css-flip.is-flipped .css-flip-face:first-of-type { opacity: 0; }
 }
+
+/* Tab panels: short slide + fade (direction-aware, RTL mirrored) */
+@keyframes panelNext { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes panelPrev { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+.panel-in.panel-next { animation: panelNext .32s cubic-bezier(.22,1,.36,1) both; }
+.panel-in.panel-prev { animation: panelPrev .32s cubic-bezier(.22,1,.36,1) both; }
+[dir="rtl"] .panel-in.panel-next { animation-name: panelPrev; }
+[dir="rtl"] .panel-in.panel-prev { animation-name: panelNext; }
+@media (prefers-reduced-motion: reduce) { .panel-in.panel-next, .panel-in.panel-prev { animation: none; } }
+
+:focus-visible { outline: 3px solid rgba(15, 107, 79, .45); outline-offset: 2px; }
+details > summary::-webkit-details-marker { display: none; }

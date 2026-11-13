@@ -56,11 +56,13 @@ Prices: wheat and tomato fully sourced (2025–26), 9 crop prices sourced, the r
 
 | | |
 |---|---|
-| ![Hero (EN)](submission/screens/desktop_en_hero_motion.png) | ![Hero (AR)](submission/screens/desktop_ar_hero.png) |
-| ![Plans — flip cards (AR)](submission/screens/desktop_ar_plans.png) | ![Card back — 5-field explanation](submission/screens/desktop_en_card_back.png) |
-| ![Satellite story (EN)](submission/screens/desktop_en_story-sat.png) | ![Farmer mode (AR, mobile)](submission/screens/mobile_ar_farmer.png) |
+| ![Hero (EN, 1280×720)](submission/screens/v3/1280x720_en_hero.png) | ![Hero (AR, phone)](submission/screens/v3/390x844_ar_hero.png) |
+| ![Plans tab (EN)](submission/screens/v3/1440x900_en_plans_view.png) | ![Satellite evidence tab (AR)](submission/screens/v3/1440x900_ar_evidence_view.png) |
+| ![What-if tab (EN)](submission/screens/v3/1280x720_en_whatif_view.png) | ![NASA data tab (AR, phone)](submission/screens/v3/390x844_ar_nasa_view.png) |
 
-All sections, desktop + mobile × EN + AR: [submission/screens/](submission/screens/) (Playwright, `node web/scripts/screens.mjs`).
+Every tab × EN + AR at 1280×720, 1440×900 and 390×844: [submission/screens/v3/](submission/screens/v3/)
+(Playwright, `node web/scripts/screens_v3.mjs`). First-load reliability suite: `node web/scripts/reliability.mjs`
+(results in [submission/reliability_report.json](submission/reliability_report.json)).
 
 ## Validation (honest) — [reports/validation.md](reports/validation.md)
 
@@ -134,7 +136,8 @@ make test                         # or: python tasks.py test    (Windows without
 make data                         # NASA POWER + Earth Engine extraction (resumable, cached in data/eo)
 make build                        # optimise + stress-test + export JSON (~6 min on 6 cores)
 cd web && npm install && npm run dev        # http://localhost:3000  (?lang=ar, /farmer, ?demo=1)
-node scripts/screens.mjs http://localhost:3000   # Playwright screenshots → submission/screens
+node scripts/screens_v3.mjs http://localhost:3000   # Playwright screenshots → submission/screens/v3
+node scripts/reliability.mjs http://localhost:3000 5 # cold / incognito / Slow 4G first-load checks
 ```
 
 Deploy: Vercel project root = **`web/`** (`web/vercel.json`); pushes to `main` redeploy.

@@ -1,7 +1,8 @@
 "use client";
-/** Header (brand, nav, single language toggle, scroll progress), sticky section titles and footer. */
+/** Header (brand, NASA data, Farmer mode, single language toggle, scroll progress) and footer. */
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { AlertTriangle, Tractor } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 
 export function ScrollProgress() {
@@ -29,7 +30,7 @@ export function LangToggle() {
   return (
     <button
       onClick={() => setLang(next)}
-      className="inline-flex min-h-[44px] min-w-[72px] items-center justify-center rounded-full border border-line bg-paper px-4 text-sm font-semibold text-ink shadow-card transition hover:border-brand/40 hover:bg-brand-soft"
+      className="inline-flex min-h-[44px] min-w-[64px] items-center justify-center rounded-full border border-line bg-paper px-4 text-sm font-semibold text-ink shadow-card transition hover:border-brand/40 hover:bg-brand-soft"
       aria-label={lang === "ar" ? "Switch to English" : "التحويل للعربي"}
       lang={next}
     >
@@ -40,75 +41,49 @@ export function LangToggle() {
 
 export function Header() {
   const { t, lang } = useLang();
-  const nav: [string, string][] = [
-    ["/#story", lang === "ar" ? "من الفضاء" : "From space"],
-    ["/#farm", t.navFarm],
-    ["/#plans", t.navPlans],
-    ["/#whatif", t.navWhatIf],
-    ["/nasa-data", t.navNasa],
-    ["/farmer", lang === "ar" ? "وضع المزارع" : "Farmer mode"],
-  ];
+  const ar = lang === "ar";
   return (
     <>
       <ScrollProgress />
-      <header className="sticky top-0 z-[1000] border-b border-line/70 bg-canvas/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2.5">
-          <Link href="/" className="flex min-h-[44px] items-center gap-2" aria-label="Dawra AI home">
+      <header className="sticky top-0 z-[1000] border-b border-line/70 bg-canvas/85 backdrop-blur-xl">
+        <div className="mx-auto flex h-14 max-w-[1200px] items-center gap-2 px-4">
+          <Link prefetch={false} href={`/${lang}`} className="flex min-h-[44px] items-center gap-2" aria-label="Dawra AI home">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icon.svg" alt="" width={32} height={32} className="rounded-lg" />
+            <img src="/icon.svg" alt="" width={30} height={30} className="rounded-lg" />
             <span className="text-lg font-semibold tracking-tight text-ink">
               Dawra <span className="text-brand">AI</span>
-              <span className="ms-2 font-ar text-sm font-medium text-muted">دورة</span>
+              <span className="ms-2 hidden font-ar text-sm font-medium text-muted sm:inline">دورة</span>
             </span>
           </Link>
-          <nav className="ms-6 hidden gap-1 lg:flex" aria-label="Main">
-            {nav.map(([h, l]) => (
-              <Link key={h} href={h} className={`rounded-full px-3 py-2 text-sm transition hover:bg-brand-soft hover:text-brand ${h === "/farmer" ? "font-semibold text-brand" : "text-slate-300"}`}>
-                {l}
-              </Link>
-            ))}
-          </nav>
-          <div className="ms-auto">
-            <LangToggle />
-          </div>
-        </div>
-        <nav className="flex gap-1 overflow-x-auto px-3 pb-2 lg:hidden" aria-label="Sections">
-          {nav.map(([h, l]) => (
-            <Link key={h} href={h} className="inline-flex min-h-[40px] items-center whitespace-nowrap rounded-full px-3 text-xs text-slate-300 hover:bg-brand-soft">
-              {l}
+          <nav className="ms-auto flex items-center gap-2" aria-label="Main">
+            <Link prefetch={false} href={`/${lang}/nasa-data`} className="hidden min-h-[44px] items-center rounded-full px-3 text-sm text-slate-300 transition hover:bg-brand-soft hover:text-brand md:inline-flex">
+              {t.navNasa}
             </Link>
-          ))}
-        </nav>
+            <Link prefetch={false} href="/ar/farmer" className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-brand/30 bg-brand-soft px-3 text-sm font-semibold text-brand transition hover:bg-brand hover:text-paper">
+              <Tractor size={16} aria-hidden />
+              <span>{ar ? "وضع المزارع" : "Farmer mode"}</span>
+            </Link>
+            <LangToggle />
+          </nav>
+        </div>
       </header>
     </>
   );
 }
 
 export function Footer() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   return (
-    <footer className="mt-24 border-t border-line bg-paper">
-      <div className="mx-auto max-w-7xl px-4 py-10 text-sm">
-        <p className="rounded-2xl border border-brand-sand/40 bg-brand-sand/10 px-4 py-3 font-medium text-sand-ink">⚠ {t.footer}</p>
+    <footer className="mt-16 border-t border-line bg-paper">
+      <div className="mx-auto max-w-[1200px] px-4 pb-24 pt-10 text-sm sm:pb-10">
+        <p className="rounded-2xl border border-brand-sand/40 bg-brand-sand/10 px-4 py-3 font-medium text-sand-ink"><AlertTriangle size={16} className="me-1.5 inline align-[-3px]" aria-hidden />{t.footer}</p>
         <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-muted">
           <span>{t.builtWith}</span>
-          <Link href="/nasa-data" className="underline-offset-4 hover:text-brand hover:underline">{t.navNasa}</Link>
+          <Link prefetch={false} href={`/${lang}/nasa-data`} className="underline-offset-4 hover:text-brand hover:underline">{t.navNasa}</Link>
           <a href="https://power.larc.nasa.gov/" target="_blank" rel="noreferrer" className="underline-offset-4 hover:text-brand hover:underline">NASA POWER</a>
           <a href="https://github.com/ELDEEP82/dawra-ai" target="_blank" rel="noreferrer" className="underline-offset-4 hover:text-brand hover:underline">GitHub</a>
         </div>
       </div>
     </footer>
-  );
-}
-
-export function Section({ id, title, lead, children, highlight }: { id: string; title: string; lead?: string; children: React.ReactNode; highlight?: boolean }) {
-  return (
-    <section id={id} className={`scroll-mt-24 ${highlight ? "demo-ring p-2" : ""}`}>
-      <div className="sticky top-[100px] z-20 -mx-4 mb-4 border-b border-line/70 bg-canvas/[0.97] px-4 py-2.5 backdrop-blur-md lg:top-[57px]">
-        <h2 className="section-title">{title}</h2>
-      </div>
-      {lead && <p className="muted mb-6 max-w-3xl text-base">{lead}</p>}
-      {children}
-    </section>
   );
 }

@@ -5,8 +5,9 @@ import type { Meta, Plan } from "@/lib/types";
 import { whatifCell } from "@/lib/data";
 import { fmt, signed, useLang } from "@/lib/i18n";
 import { COPY } from "@/lib/copy";
-import { PLAN_COLORS, cropStyle } from "@/lib/crops";
+import { PLAN_COLORS } from "@/lib/crops";
 import { Ring, Tween } from "./ui";
+import { CropIcon } from "./CropIcon";
 import { planLabel } from "./Plans";
 
 export interface WhatIfState {
@@ -82,7 +83,7 @@ export function WhatIf({ plans, meta, state, onChange }: { plans: Plan[]; meta: 
           {ys.map(({ slot, base: b, now }) => (
             <div key={slot.slot} className="grid grid-cols-[110px_1fr_44px] items-center gap-2 text-xs sm:grid-cols-[150px_1fr_48px]">
               <span className="truncate text-slate-300">
-                {slot.slot} {cropStyle(slot.crop_id).icon} {lang === "ar" ? slot.crop_ar : slot.crop_en.replace(/ \(.+\)/, "")}
+                {slot.slot} <CropIcon id={slot.crop_id} size={13} className="inline align-[-2px]" /> {lang === "ar" ? slot.crop_ar : slot.crop_en.replace(/ \(.+\)/, "")}
               </span>
               <div className="relative h-3 rounded-full bg-white/5" dir="ltr">
                 {b !== null && <div className="absolute inset-y-0 start-0 rounded-full bg-slate-500/50" style={{ width: `${b}%` }} />}

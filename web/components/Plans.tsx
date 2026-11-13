@@ -1,11 +1,12 @@
 "use client";
 /** Plan cards (6-season timeline, EGP profit with P10–P90 band, water, soil, robustness ring, 5-field card) + table. */
-import { motion } from "framer-motion";
 import type { CardFields, Meta, Plan, Season } from "@/lib/types";
 import { fmt, signed, useLang } from "@/lib/i18n";
 import { COPY } from "@/lib/copy";
 import { PLAN_COLORS, cropStyle } from "@/lib/crops";
 import { FlipCard, Ring, WithChips } from "./ui";
+import { CropIcon } from "./CropIcon";
+import { AlertTriangle, CheckCircle2, HelpCircle, Lightbulb, RotateCw, Satellite, Scale, Sparkles, type LucideIcon } from "lucide-react";
 
 export function planLabel(p: Plan, lang: string) {
   return lang === "ar" ? p.view.label_ar : p.view.label_en;
@@ -25,7 +26,7 @@ function SlotCell({ s, estimated }: { s: Season; estimated: boolean }) {
         {estimated && !fallow && <span title="price estimated">*</span>}
       </div>
       <div className="mt-0.5 flex items-start gap-1 font-medium">
-        <span aria-hidden className="text-base leading-none">{fallow ? "·" : st.icon}</span>
+        <span className="mt-px shrink-0"><CropIcon id={s.crop_id} size={14} /></span>
         <span className="break-words">{fallow ? t.fallow : lang === "ar" ? s.crop_ar : s.crop_en.replace(/ \(.+\)/, "")}</span>
       </div>
       {!fallow && (
@@ -56,19 +57,19 @@ export function Timeline({ p, meta }: { p: Plan; meta?: Meta | null }) {
 export function Explanation({ card, flips }: { card: CardFields; flips: string[] }) {
   const { t, lang } = useLang();
   const c = COPY[lang];
-  const fields: [keyof CardFields, string, string][] = [
-    ["why", t.why, "💡"],
-    ["evidence", t.evidence, "🛰️"],
-    ["benefits", t.benefits, "✅"],
-    ["gaps", t.gaps, "❔"],
-    ["risks", t.risks, "⚠️"],
+  const fields: [keyof CardFields, string, LucideIcon, string][] = [
+    ["why", t.why, Lightbulb, "text-brand-sand"],
+    ["evidence", t.evidence, Satellite, "text-brand-sky"],
+    ["benefits", t.benefits, CheckCircle2, "text-brand"],
+    ["gaps", t.gaps, HelpCircle, "text-muted"],
+    ["risks", t.risks, AlertTriangle, "text-brand-risk"],
   ];
   return (
     <div className="space-y-3">
-      {fields.map(([k, title, icon]) => (
+      {fields.map(([k, title, Icon, tone]) => (
         <div key={k}>
-          <div className="text-sm font-semibold text-ink">
-            <span aria-hidden>{icon}</span> {title}
+          <div className="flex items-center gap-1.5 text-sm font-semibold text-ink">
+            <Icon size={15} className={tone} aria-hidden /> {title}
           </div>
           <ul className="mt-1 list-disc space-y-1 ps-5 text-[13px] leading-relaxed text-slate-300">
             {card[k].map((s, i) => (
@@ -79,7 +80,7 @@ export function Explanation({ card, flips }: { card: CardFields; flips: string[]
       ))}
       {flips.length > 0 && (
         <p className="rounded-xl border border-brand-sand/40 bg-brand-sand/10 px-3 py-2 text-xs text-sand-ink">
-          ⚖ {c.sensitive}: <span dir="ltr">{flips.slice(0, 5).join(", ")}</span>
+          <Scale size={13} className="me-1 inline align-[-2px]" aria-hidden />{c.sensitive}: <span dir="ltr">{flips.slice(0, 5).join(", ")}</span>
         </p>
       )}
     </div>
@@ -103,7 +104,7 @@ function Metric({ label, value, sub, delta, goodDown }: { label: string; value: 
   );
 }
 
-export function PlanCard({ p, open, onToggle, highlight, meta, index = 0 }: { p: Plan; open: boolean; onToggle: () => void; highlight?: boolean; meta?: Meta | null; index?: number }) {
+export function PlanCard({ p, open, onToggle, highlight, meta, index = 0, recommended = false }: { p: Plan; open: boolean; onToggle: () => void; highlight?: boolean; meta?: Meta | null; index?: number; recommended?: boolean }) {
   const { lang } = useLang();
   const c = COPY[lang];
   const tot = p.totals;
@@ -117,6 +118,11 @@ export function PlanCard({ p, open, onToggle, highlight, meta, index = 0 }: { p:
           <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: color }} aria-hidden />
           <h3 className="text-lg font-semibold text-ink">{planLabel(p, lang)}</h3>
         </div>
+        {recommended && (
+          <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-brand px-2.5 py-0.5 text-[11px] font-semibold text-paper" data-testid="recommended">
+            <Sparkles size={12} aria-hidden /> {lang === "ar" ? "مقترحة ليك" : "Recommended for you"}
+          </span>
+        )}
         {p.sameAs.length > 0 && <p className="mt-0.5 text-[11px] text-muted" dir="ltr">= {p.sameAs.join(", ")}</p>}
       </div>
       <Ring pct={p.robustness.robustness_pct} size={58} label={c.robust} />
@@ -139,7 +145,7 @@ export function PlanCard({ p, open, onToggle, highlight, meta, index = 0 }: { p:
         <Metric label={c.soil} value={`${fmt(tot.soil_index)}/100`} sub={`ECe ${fmt(tot.ECe_end, 1)} · ${fmt(tot.kg_per_m3, 2)} ${c.kgPerM3}`} />
       </div>
       <div className="mt-auto flex items-center justify-center gap-2 pt-5 text-sm font-medium text-brand">
-        <span aria-hidden>↻</span> {c.why}
+        <RotateCw size={14} aria-hidden /> {c.why}
       </div>
     </div>
   );
@@ -147,7 +153,7 @@ export function PlanCard({ p, open, onToggle, highlight, meta, index = 0 }: { p:
     <div className="card flex h-full flex-col p-5" style={{ borderTop: `4px solid ${color}` }}>
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-base font-semibold text-ink">{planLabel(p, lang)}</h3>
-        <span className="text-xs font-medium text-brand">↻ {c.hide}</span>
+        <span className="inline-flex items-center gap-1 text-xs font-medium text-brand"><RotateCw size={12} aria-hidden /> {c.hide}</span>
       </div>
       <div className="mt-3 min-h-0 flex-1 overflow-y-auto pe-1" data-noflip-scroll>
         <Explanation card={p.view.explanation[lang]} flips={p.view.rank_flips} />
@@ -155,17 +161,9 @@ export function PlanCard({ p, open, onToggle, highlight, meta, index = 0 }: { p:
     </div>
   );
   return (
-    <motion.div
-      id={`plan-${p.kind}`}
-      layout
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      className={`scroll-mt-28 ${highlight ? "demo-ring" : ""}`}
-    >
+    <div id={`plan-${p.kind}`} className={`fade-up h-full scroll-mt-28 ${highlight ? "demo-ring" : ""}`} style={{ animationDelay: `${index * 60}ms` }}>
       <FlipCard label={`${planLabel(p, lang)} — ${open ? c.hide : c.why}`} flipped={open} onFlip={() => onToggle()} className="h-full" backScroll={false} front={front} back={back} />
-    </motion.div>
+    </div>
   );
 }
 
@@ -187,7 +185,7 @@ export function ComparisonTable({ plans }: { plans: Plan[] }) {
     ...[100, 70, 40].map((lv) => [`${c.robust} · ${lv}% leaching`, (p: Plan) => `${fmt(p.robustness.by_leaching.find((b) => b.leach_pct === lv)?.pass_pct)}%`] as [string, (p: Plan) => string]),
   ];
   return (
-    <div className="card overflow-x-auto">
+    <div className="overflow-x-auto">
       <table className="w-full min-w-[720px] text-sm">
         <caption className="sr-only">{lang === "ar" ? "مقارنة الخطط" : "Plan comparison"}</caption>
         <thead>

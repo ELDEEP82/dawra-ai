@@ -1,0 +1,302 @@
+[
+  {
+    "vp": "1280x720",
+    "lang": "en",
+    "tab": "farm",
+    "over": 0,
+    "clipped": [],
+    "hash": "#farm"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "en",
+    "tab": "plans",
+    "over": 0,
+    "clipped": [],
+    "hash": "#plans"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "en",
+    "tab": "whatif",
+    "over": 0,
+    "clipped": [],
+    "hash": "#whatif"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "en",
+    "tab": "evidence",
+    "over": 0,
+    "clipped": [],
+    "hash": "#evidence"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "en",
+    "tab": "nasa",
+    "over": 0,
+    "clipped": [],
+    "hash": "#nasa"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "en",
+    "fold": {
+      "stats": 428.875,
+      "cta": 492.875,
+      "h1Lines": 2
+    },
+    "errors": []
+  },
+  {
+    "vp": "1280x720",
+    "lang": "ar",
+    "tab": "farm",
+    "over": 0,
+    "clipped": [],
+    "hash": "#farm"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "ar",
+    "tab": "plans",
+    "over": 0,
+    "clipped": [],
+    "hash": "#plans"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "ar",
+    "tab": "whatif",
+    "over": 0,
+    "clipped": [],
+    "hash": "#whatif"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "ar",
+    "tab": "evidence",
+    "over": 0,
+    "clipped": [],
+    "hash": "#evidence"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "ar",
+    "tab": "nasa",
+    "over": 0,
+    "clipped": [],
+    "hash": "#nasa"
+  },
+  {
+    "vp": "1280x720",
+    "lang": "ar",
+    "fold": {
+      "stats": 463.484375,
+      "cta": 527.484375,
+      "h1Lines": 2
+    },
+    "errors": []
+  },
+  {
+    "vp": "1440x900",
+    "lang": "en",
+    "tab": "farm",
+    "over": 0,
+    "clipped": [],
+    "hash": "#farm"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "en",
+    "tab": "plans",
+    "over": 0,
+    "clipped": [],
+    "hash": "#plans"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "en",
+    "tab": "whatif",
+    "over": 0,
+    "clipped": [],
+    "hash": "#whatif"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "en",
+    "tab": "evidence",
+    "over": 0,
+    "clipped": [],
+    "hash": "#evidence"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "en",
+    "tab": "nasa",
+    "over": 0,
+    "clipped": [],
+    "hash": "#nasa"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "en",
+    "fold": {
+      "stats": 430.9375,
+      "cta": 494.9375,
+      "h1Lines": 2
+    },
+    "errors": []
+  },
+  {
+    "vp": "1440x900",
+    "lang": "ar",
+    "tab": "farm",
+    "over": 0,
+    "clipped": [],
+    "hash": "#farm"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "ar",
+    "tab": "plans",
+    "over": 0,
+    "clipped": [],
+    "hash": "#plans"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "ar",
+    "tab": "whatif",
+    "over": 0,
+    "clipped": [],
+    "hash": "#whatif"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "ar",
+    "tab": "evidence",
+    "over": 0,
+    "clipped": [],
+    "hash": "#evidence"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "ar",
+    "tab": "nasa",
+    "over": 0,
+    "clipped": [],
+    "hash": "#nasa"
+  },
+  {
+    "vp": "1440x900",
+    "lang": "ar",
+    "fold": {
+      "stats": 465.984375,
+      "cta": 529.984375,
+      "h1Lines": 2
+    },
+    "errors": []
+  },
+  {
+    "vp": "390x844",
+    "lang": "en",
+    "tab": "farm",
+    "over": 0,
+    "clipped": [],
+    "hash": "#farm"
+  },
+  {
+    "vp": "390x844",
+    "lang": "en",
+    "tab": "plans",
+    "over": 0,
+    "clipped": [],
+    "hash": "#plans"
+  },
+  {
+    "vp": "390x844",
+    "lang": "en",
+    "tab": "whatif",
+    "over": 0,
+    "clipped": [],
+    "hash": "#whatif"
+  },
+  {
+    "vp": "390x844",
+    "lang": "en",
+    "tab": "evidence",
+    "over": 0,
+    "clipped": [],
+    "hash": "#evidence"
+  },
+  {
+    "vp": "390x844",
+    "lang": "en",
+    "tab": "nasa",
+    "over": 0,
+    "clipped": [],
+    "hash": "#nasa"
+  },
+  {
+    "vp": "390x844",
+    "lang": "en",
+    "fold": {
+      "stats": 569.75,
+      "cta": 633.75,
+      "h1Lines": 2
+    },
+    "errors": []
+  },
+  {
+    "vp": "390x844",
+    "lang": "ar",
+    "tab": "farm",
+    "over": 0,
+    "clipped": [],
+    "hash": "#farm"
+  },
+  {
+    "vp": "390x844",
+    "lang": "ar",
+    "tab": "plans",
+    "over": 0,
+    "clipped": [],
+    "hash": "#plans"
+  },
+  {
+    "vp": "390x844",
+    "lang": "ar",
+    "tab": "whatif",
+    "over": 0,
+    "clipped": [],
+    "hash": "#whatif"
+  },
+  {
+    "vp": "390x844",
+    "lang": "ar",
+    "tab": "evidence",
+    "over": 0,
+    "clipped": [],
+    "hash": "#evidence"
+  },
+  {
+    "vp": "390x844",
+    "lang": "ar",
+    "tab": "nasa",
+    "over": 0,
+    "clipped": [],
+    "hash": "#nasa"
+  },
+  {
+    "vp": "390x844",
+    "lang": "ar",
+    "fold": {
+      "stats": 598.984375,
+      "cta": 662.984375,
+      "h1Lines": 2
+    },
+    "errors": []
+  }
+]

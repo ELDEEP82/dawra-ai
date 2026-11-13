@@ -2,6 +2,8 @@
 /** Farm profile card, presets, and the three selectors that pick a precomputed plan file. */
 import type { Meta } from "@/lib/types";
 import { fmt, useLang } from "@/lib/i18n";
+import { ArrowRight, SlidersHorizontal, Sprout } from "lucide-react";
+import { Card } from "./Card";
 
 export interface Selection {
   ecw: number;
@@ -25,7 +27,7 @@ const CRIT: Record<string, [string, string]> = {
   risk_climate: ["Weather", "الجو"],
 };
 
-export function FarmPanel({ meta, sel, onChange }: { meta: Meta; sel: Selection; onChange: (s: Selection) => void }) {
+export function FarmPanel({ meta, sel, onChange, onNext }: { meta: Meta; sel: Selection; onChange: (s: Selection) => void; onNext?: () => void }) {
   const { t, lang } = useLang();
   const f = meta.farm;
   const crop = (id: string) => meta.crops.find((c) => c.id === id)?.[lang === "ar" ? "ar" : "en"] ?? id;
@@ -43,13 +45,14 @@ export function FarmPanel({ meta, sel, onChange }: { meta: Meta; sel: Selection;
     [t.avoid, f.avoid_crops.map(crop).join(", ")],
   ];
   return (
-    <div className="grid gap-4 lg:grid-cols-[1fr_1.4fr]">
-      <div className="card p-5">
-        <div className="flex items-baseline justify-between">
-          <h3 className="text-lg font-semibold">{lang === "ar" ? "المزرعة" : "Farm"} {f.farmer_id}</h3>
-          <span className="text-xs text-slate-500">Farmer_Priorities · Soil_Baseline</span>
-        </div>
-        <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+    <>
+      <Card
+        icon={Sprout}
+        title={`${lang === "ar" ? "المزرعة" : "Farm"} ${f.farmer_id}`}
+        explain={lang === "ar" ? "المزرعة اللي اتعمل لها المسح (Farmer_Priorities · Soil_Baseline)." : "The surveyed pilot farm (Farmer_Priorities · Soil_Baseline)."}
+        className="col-span-12 lg:col-span-5"
+      >
+        <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
           {facts.map(([k, v]) => (
             <div key={k}>
               <dt className="text-xs text-slate-400">{k}</dt>
@@ -63,7 +66,7 @@ export function FarmPanel({ meta, sel, onChange }: { meta: Meta; sel: Selection;
             {presets.map((p) => {
               const on = p.s.ecw === sel.ecw && p.s.water === sel.water && (p.s.profile === sel.profile);
               return (
-                <button key={p.label} onClick={() => onChange(p.s)} className={`flex items-center justify-between rounded-xl border px-3 py-2 text-start text-sm transition ${on ? "border-nasa-cyan bg-nasa-cyan/10" : "border-white/10 hover:bg-white/5"}`}>
+                <button key={p.label} onClick={() => onChange(p.s)} className={`flex items-center justify-between rounded-xl border px-3 py-2 text-start text-sm transition ${on ? "border-nasa-cyan bg-nasa-cyan/10" : "border-white/10 hover:bg-brand-soft"}`}>
                   <span>{p.label}</span>
                   <span className="text-xs text-slate-400" dir="ltr">{p.note}</span>
                 </button>
@@ -71,16 +74,22 @@ export function FarmPanel({ meta, sel, onChange }: { meta: Meta; sel: Selection;
             })}
           </div>
         </div>
-      </div>
+      </Card>
 
-      <div className="card space-y-6 p-5">
+      <Card
+        icon={SlidersHorizontal}
+        title={lang === "ar" ? "ظروفك وأولوياتك" : "Your water & priorities"}
+        explain={lang === "ar" ? "غيّر ملوحة البير والمية والأولويات؛ كل الخطط محسوبة مقدمًا." : "Change well salinity, water and priorities; every plan is precomputed."}
+        className="col-span-12 lg:col-span-7"
+        bodyClass="space-y-6"
+      >
         <div>
           <div className="text-sm font-medium">{t.priorities}</div>
           <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
             {meta.profiles.map((p) => {
               const on = p.id === sel.profile;
               return (
-                <button key={p.id} onClick={() => onChange({ ...sel, profile: p.id })} className={`rounded-xl border p-2.5 text-start transition ${on ? "border-nasa-cyan bg-nasa-cyan/10" : "border-white/10 hover:bg-white/5"}`} aria-pressed={on}>
+                <button key={p.id} onClick={() => onChange({ ...sel, profile: p.id })} className={`rounded-xl border p-2.5 text-start transition ${on ? "border-nasa-cyan bg-nasa-cyan/10" : "border-white/10 hover:bg-brand-soft"}`} aria-pressed={on}>
                   <div className="text-sm font-medium">{lang === "ar" ? p.label_ar : PROFILE_EN[p.id]}</div>
                   <div className="mt-2 space-y-1">
                     {Object.entries(p.weights).filter(([, w]) => w > 0).map(([k, w]) => (
@@ -99,7 +108,7 @@ export function FarmPanel({ meta, sel, onChange }: { meta: Meta; sel: Selection;
           <div className="text-sm font-medium">{t.wellEcw}</div>
           <div className="mt-2 flex flex-wrap gap-2" dir="ltr">
             {meta.ecw_options.map((e) => (
-              <button key={e} onClick={() => onChange({ ...sel, ecw: e })} className={`chip ${e === sel.ecw ? "chip-on" : "hover:bg-white/5"}`} aria-pressed={e === sel.ecw}>
+              <button key={e} onClick={() => onChange({ ...sel, ecw: e })} className={`chip ${e === sel.ecw ? "chip-on" : "hover:bg-brand-soft"}`} aria-pressed={e === sel.ecw}>
                 {e} {e === meta.farm.well_ECw_dS_m && <span className="text-[10px] text-sand-ink">F001</span>}
               </button>
             ))}
@@ -112,13 +121,18 @@ export function FarmPanel({ meta, sel, onChange }: { meta: Meta; sel: Selection;
           <div className="text-sm font-medium">{t.waterSupply}</div>
           <div className="mt-2 flex flex-wrap gap-2" dir="ltr">
             {meta.water_options.map((w) => (
-              <button key={w} onClick={() => onChange({ ...sel, water: w })} className={`chip ${w === sel.water ? "chip-on" : "hover:bg-white/5"}`} aria-pressed={w === sel.water}>
+              <button key={w} onClick={() => onChange({ ...sel, water: w })} className={`chip ${w === sel.water ? "chip-on" : "hover:bg-brand-soft"}`} aria-pressed={w === sel.water}>
                 {w} m³/d {w === meta.farm.water_m3_per_day && <span className="text-[10px] text-sand-ink">F001</span>}
               </button>
             ))}
           </div>
         </div>
-      </div>
-    </div>
+        {onNext && (
+          <button onClick={onNext} className="btn-primary w-full sm:w-auto">
+            {lang === "ar" ? "شوف الخطط" : "See the plans"} <ArrowRight size={16} className="rtl:rotate-180" aria-hidden />
+          </button>
+        )}
+      </Card>
+    </>
   );
 }

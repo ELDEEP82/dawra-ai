@@ -56,7 +56,7 @@ export default function MapPanel({ data, layer, year, basemap = "light", height 
     l.bindTooltip(html, { sticky: true });
   };
   return (
-    <div className={`relative overflow-hidden rounded-card border border-line shadow-card ${height}`} dir="ltr">
+    <div className={`relative isolate overflow-hidden rounded-card border border-line shadow-card ${height}`} dir="ltr">
       <MapContainer center={data.center} zoom={data.zoom} scrollWheelZoom={false} className="h-full w-full" attributionControl>
         {basemap === "satellite" ? (
           <TileLayer
