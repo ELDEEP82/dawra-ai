@@ -93,3 +93,17 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   report pass/fail once EO data exist — it is listed as *pending* in validation, not as passed.
 - **D30 To finish EO:** `earthengine authenticate` → set `GEE_PROJECT` → `make data` (or `python tasks.py data`) →
   `make build`. CMIP6 deltas then join the stress test as an extra scenario family.
+
+## P6 — Web app
+- **D31 Static architecture.** `engine/build.py` precomputes 75 configuration files (5 profiles × 5 ECw × 3 water) plus
+  meta/climate/evidence/map JSON; the Next.js 14 App Router app only fetches them (memoised + neighbour prefetch). No
+  Python at runtime; deploys to Vercel from `web/` (`web/vercel.json`). Vercel's Root Directory cannot be set from a
+  root `vercel.json`, so the README documents `cd web && npx vercel --prod` or Root Directory = `web`.
+- **D32 Bilingual + RTL.** `LangProvider` switches `<html lang dir>`; `?lang=ar` deep-links Arabic. Arabic text uses
+  Western digits throughout (as on Egyptian price boards). Charts stay LTR inside RTL pages; mixed text uses `<bdi>`.
+- **D33 Charts.** Plan colours = the dataviz reference categorical palette (dark steps), validated on the app surface
+  (#0a1024): all checks pass. No dual-axis charts (rain and ET0 share mm). Animations off for instant interaction.
+- **D34 Map.** Esri World Imagery with attribution; markers as circle markers (no icon assets); AOI rectangle; field
+  polygons appear automatically when `data/eo/fields_*.geojson` exists.
+- **D35 Demo mode.** 7 steps × 4.3 s ≈ 30 s: map → NASA snapshot → farm F001 → plans → explanation → what-if (+2 °C,
+  −20 % rain, +2 dS/m) → disclaimer.

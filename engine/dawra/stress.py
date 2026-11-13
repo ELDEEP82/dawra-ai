@@ -42,11 +42,11 @@ def scenario_families() -> list[Scenario]:
     """The Prompt-6 scenario families (CMIP6 handled separately)."""
     step = A.get("st.ecw_step")
     return [
-        Scenario("historical", "Past climate 1981–2025", "مناخ الماضي ١٩٨١–٢٠٢٥"),
+        Scenario("historical", "Past climate 1981–2025", "مناخ الماضي 1981–2025"),
         Scenario("warm1", "+1 °C warmer", "أدفى بدرجة", d_t=1.0),
         Scenario("warm2", "+2 °C warmer", "أدفى بدرجتين", d_t=2.0),
-        Scenario("dry10", "10 % less rain", "مطر أقل ١٠٪", rain_scale=0.9),
-        Scenario("dry20", "20 % less rain", "مطر أقل ٢٠٪", rain_scale=0.8),
+        Scenario("dry10", "10 % less rain", "مطر أقل 10٪", rain_scale=0.9),
+        Scenario("dry20", "20 % less rain", "مطر أقل 20٪", rain_scale=0.8),
         Scenario("ecw1", f"Well +{step:g} dS/m saltier", f"البير أملح بـ {step:g} dS/m", d_ecw=step),
         Scenario("ecw2", f"Well +{2 * step:g} dS/m saltier", f"البير أملح بـ {2 * step:g} dS/m", d_ecw=2 * step),
     ]
