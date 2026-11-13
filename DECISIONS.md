@@ -48,3 +48,20 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   16,923 (S1 best genotype: 16,977). Other ymax are FAO-33 midpoints or flagged assumptions.
 - **D16 Wheat holdout.** S6 ("16.5 ardeb ≈ 2.48 t", area unit not stated) is reported under both readings: per feddan
   −15 % (pass ±20 %), per hectare +102 % (fail). Not hidden; explained in reports.
+
+## P3 — Optimiser (M6)
+- **D17 Encoding.** 6 integer genes; gene domain = crops sown in that slot type (W/S, from `season_ras_sudr` and the
+  sowing window for "winter or spring" / perennials) minus avoided crops, plus fallow. A perennial chosen in slot i
+  automatically occupies slot i+1 (decode); a perennial in S3 is a constraint violation. Date palm / olive are excluded
+  (border options).
+- **D18 Constraints** (pymoo inequality ≤ 0): wrong slot, broken perennial, sowing overlap > 7 days (cyclic: S3 → next W1),
+  > 2 consecutive seasons of one family (fallow breaks a run), min relative yield ≥ 50 %, ≥ 3 cropped seasons.
+  Peak water ≤ well capacity holds by construction (D14).
+- **D19 Prices pending → relative productivity index** = Σ seasons (planted share × relative yield × revenue weight; green
+  manure weight 0). JSON carries `prices_pending: true` and `value_kind: "productivity_index"`. When all prices are filled
+  the same code returns net profit in EGP.
+- **D20 Picks.** max_profit = max value; min_water / best_soil = best among plans keeping ≥ 80 % of the current rotation's
+  value (no plan should make the farmer much poorer); compromise = TOPSIS over 6 criteria with the profile weights
+  (risk_climate = robustness from M7). The current rotation is always simulated with the same `simulate()`.
+- **D21 Speed.** Assumptions are cached in a dict, prices pre-mapped and plan evaluations memoised: ~1.8 ms per plan,
+  ~27 s per NSGA-II run (120 × 200).

@@ -193,9 +193,23 @@ class Engine:
     bank: BankArrays
     k_cal: float
     prices: pd.DataFrame | None = None
+    price_map: dict[str, tuple[float, float]] = field(default_factory=dict)
+    _area_memo: dict[tuple, float] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if self.prices is not None:
+            ok = self.prices.dropna(subset=["price_egp_per_ton", "cost_egp_per_feddan"])
+            self.price_map = {str(k): (float(r["price_egp_per_ton"]), float(r["cost_egp_per_feddan"]))
+                              for k, r in ok.iterrows()}
 
     def area_limit(self, cid: str, farm: Farm, ecw: float) -> float:
         """Feddan the well can irrigate at the crop's peak (typical climate), capped at farm area."""
+        key = (cid, farm.system, farm.area_fdn, farm.water_m3_day, ecw)
+        if key not in self._area_memo:
+            self._area_memo[key] = self._area_limit(cid, farm, ecw)
+        return self._area_memo[key]
+
+    def _area_limit(self, cid: str, farm: Farm, ecw: float) -> float:
         c = self.crops[cid]
         lr = leaching_requirement(ecw, c.ece100)
         ea = efficiency(farm.system)
@@ -264,19 +278,16 @@ def simulate(plan: tuple[str, ...], farm: Farm, eng: Engine, years: np.ndarray |
 
 def _profit(slots: list[SlotResult], eng: Engine) -> np.ndarray | None:
     """Net profit in EGP when every crop in the plan has a price and cost; else None."""
-    if eng.prices is None:
-        return None
     crops_in = [s.crop_id for s in slots if s.crop_id != FALLOW]
-    sub = eng.prices.reindex(crops_in)
-    if sub[["price_egp_per_ton", "cost_egp_per_feddan"]].isna().any().any():
+    if not crops_in or any(c not in eng.price_map for c in crops_in):
         return None
     total = 0.0
     for s in slots:
         if s.crop_id == FALLOW:
             continue
-        pr = eng.prices.loc[s.crop_id]
+        price, cost = eng.price_map[s.crop_id]
         t_per_fdn = np.nan_to_num(s.yield_kg_ha) * HA_PER_FEDDAN / 1000.0
-        total = total + (t_per_fdn * pr["price_egp_per_ton"] - pr["cost_egp_per_feddan"]) * s.area_fdn
+        total = total + (t_per_fdn * price - cost) * s.area_fdn
     return total
 
 

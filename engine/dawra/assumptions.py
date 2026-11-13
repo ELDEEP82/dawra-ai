@@ -27,14 +27,21 @@ def table() -> pd.DataFrame:
     return df.set_index("id")
 
 
+@lru_cache(maxsize=1)
+def _numeric() -> dict[str, float]:
+    """All numeric assumption values as a plain dict (fast lookups in inner loops)."""
+    vals = pd.to_numeric(table()["value"], errors="coerce")
+    return {k: float(v) for k, v in vals.items() if pd.notna(v)}
+
+
 def get(aid: str) -> float:
     """Return the numeric value of assumption ``aid`` (honouring overrides)."""
-    if aid in _OVERRIDES:
+    if _OVERRIDES and aid in _OVERRIDES:
         return _OVERRIDES[aid]
-    tab = table()
-    if aid not in tab.index:
-        raise KeyError(f"assumption '{aid}' missing from {ASSUMPTIONS_CSV.name}")
-    return float(tab.at[aid, "value"])
+    try:
+        return _numeric()[aid]
+    except KeyError:
+        raise KeyError(f"assumption '{aid}' missing or not numeric in {ASSUMPTIONS_CSV.name}") from None
 
 
 def get_str(aid: str) -> str:
