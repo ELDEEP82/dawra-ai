@@ -1,47 +1,80 @@
 "use client";
-/** Leaflet map with Esri World Imagery, DRC station markers, AOI and (when available) field polygons. */
+/** Leaflet map: Esri World Imagery + NASA layers (NDVI by year, MODIS LST, IMERG rain, SRTM slope) + Sentinel-2 fields. */
 import "leaflet/dist/leaflet.css";
-import { CircleMarker, GeoJSON, MapContainer, Rectangle, TileLayer, Tooltip } from "react-leaflet";
-import type { MapData } from "@/lib/types";
+import { CircleMarker, GeoJSON, ImageOverlay, MapContainer, Rectangle, TileLayer, Tooltip } from "react-leaflet";
+import type { Layer, PathOptions } from "leaflet";
+import type { Feature, Geometry } from "geojson";
+import type { FieldProps, MapData } from "@/lib/types";
 import { useLang } from "@/lib/i18n";
 
-const COLORS: Record<string, string> = { drc: "#f9c74f", quinoa: "#90be6d", power: "#4cc9f0" };
+export type MapLayer = "ndvi" | "lst" | "rain" | "slope" | "none";
 
-export default function MapPanel({ data }: { data: MapData }) {
-  const { lang, t } = useLang();
+const MARKER: Record<string, string> = { drc: "#f9c74f", quinoa: "#90be6d", power: "#4cc9f0" };
+export const PATTERN_COLOR: Record<string, string> = {
+  "perennial/perennial": "#2a9d8f",
+  "winter_crop/bare": "#e9c46a",
+  "winter_crop/summer_crop": "#f4a261",
+  "bare/bare": "#9ca3af",
+  "perennial/bare": "#90be6d",
+  "bare/perennial": "#52b788",
+  "perennial/summer_crop": "#b388ff",
+  "bare/summer_crop": "#d55181",
+};
+const PATTERN_AR: Record<string, string> = {
+  perennial: "معمّر", winter_crop: "شتوي", summer_crop: "صيفي", bare: "بور", unknown: "؟",
+};
+
+export function patternOf(p: FieldProps): string {
+  return `${p.guess_W ?? "unknown"}/${p.guess_S ?? "unknown"}`;
+}
+
+export function patternLabel(pattern: string, lang: string): string {
+  if (lang !== "ar") return pattern.replace(/_/g, " ");
+  return pattern.split("/").map((x) => PATTERN_AR[x] ?? x).join(" / ");
+}
+
+export default function MapPanel({ data, layer, year, height = "h-[420px] sm:h-[520px]" }: { data: MapData; layer: MapLayer; year: number; height?: string }) {
+  const { lang } = useLang();
   const [w, s, e, n] = data.aoi_bbox;
+  const ov = data.overlays;
+  const aoiBounds: [[number, number], [number, number]] = [[s, w], [n, e]];
+  const rb = data.rain_bbox;
+  const ndviFile = ov?.ndvi[String(year)];
+  const style = (f?: Feature<Geometry, FieldProps>): PathOptions => {
+    const c = f ? PATTERN_COLOR[patternOf(f.properties)] ?? "#f9c74f" : "#f9c74f";
+    return { color: c, weight: 1.5, fillColor: c, fillOpacity: 0.35 };
+  };
+  const onEach = (f: Feature<Geometry, FieldProps>, l: Layer) => {
+    const p = f.properties;
+    const pat = patternLabel(patternOf(p), lang);
+    const html =
+      lang === "ar"
+        ? `<b>${p.field_id}</b><br/>${p.area_ha} هكتار · ميل ${p.slope_deg ?? "—"}°<br/>نمط آخر 3 سنين: ${pat}<br/>أعلى NDVI متوسط: ${p.ndvi_peak_mean ?? "—"}`
+        : `<b>${p.field_id}</b><br/>${p.area_ha} ha · slope ${p.slope_deg ?? "—"}°<br/>Last-3-yr pattern: ${pat}<br/>Mean NDVI peak: ${p.ndvi_peak_mean ?? "—"}`;
+    l.bindTooltip(html, { sticky: true });
+  };
   return (
-    <div className="relative h-[380px] overflow-hidden rounded-2xl border border-white/10 sm:h-[460px]" dir="ltr">
-      <MapContainer center={data.center} zoom={data.zoom} scrollWheelZoom={false} className="h-full w-full">
+    <div className={`relative overflow-hidden rounded-2xl border border-white/10 ${height}`} dir="ltr">
+      <MapContainer center={data.center} zoom={data.zoom} scrollWheelZoom={false} className="h-full w-full" attributionControl>
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-          attribution="Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+          attribution="Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community · NASA/USGS Landsat, ESA Sentinel-2, NASA MODIS/GPM/SRTM via Google Earth Engine"
           maxZoom={18}
         />
-        <Rectangle bounds={[[s, w], [n, e]]} pathOptions={{ color: "#4cc9f0", weight: 1, dashArray: "6 6", fillOpacity: 0.03 }}>
-          <Tooltip sticky>{lang === "ar" ? "سهل رأس سدر الزراعي (منطقة الدراسة)" : "Ras Sudr agricultural plain (study AOI)"}</Tooltip>
-        </Rectangle>
-        {data.fields && (
-          <GeoJSON data={data.fields} style={{ color: "#90be6d", weight: 1.5, fillOpacity: 0.25 }} />
-        )}
+        {ov && layer === "ndvi" && ndviFile && <ImageOverlay key={ndviFile} url={`/data/overlays/${ndviFile}`} bounds={aoiBounds} opacity={0.85} />}
+        {ov && layer === "lst" && <ImageOverlay url={`/data/overlays/${ov.lst}`} bounds={aoiBounds} opacity={0.6} />}
+        {ov && layer === "slope" && <ImageOverlay url={`/data/overlays/${ov.slope}`} bounds={aoiBounds} opacity={0.7} />}
+        {ov && layer === "rain" && <ImageOverlay url={`/data/overlays/${ov.rain}`} bounds={[[rb[1], rb[0]], [rb[3], rb[2]]]} opacity={0.55} />}
+        <Rectangle bounds={aoiBounds} pathOptions={{ color: "#4cc9f0", weight: 1, dashArray: "6 6", fillOpacity: 0 }} />
+        {data.fields && <GeoJSON key={lang} data={data.fields} style={style as (f?: Feature) => PathOptions} onEachFeature={onEach as (f: Feature, l: Layer) => void} />}
         {data.markers.map((m) => (
-          <CircleMarker
-            key={m.id}
-            center={[m.lat, m.lon]}
-            radius={m.id === "drc" ? 9 : 7}
-            pathOptions={{ color: "#050814", weight: 2, fillColor: COLORS[m.id] ?? "#fff", fillOpacity: 1 }}
-          >
+          <CircleMarker key={m.id} center={[m.lat, m.lon]} radius={m.id === "drc" ? 9 : 6} pathOptions={{ color: "#050814", weight: 2, fillColor: MARKER[m.id] ?? "#fff", fillOpacity: 1 }}>
             <Tooltip direction="top" offset={[0, -8]} permanent={m.id === "drc"}>
               {lang === "ar" ? m.ar : m.en}
             </Tooltip>
           </CircleMarker>
         ))}
       </MapContainer>
-      {data.fields_status !== "ok" && (
-        <div className="pointer-events-none absolute bottom-3 start-3 z-[500] rounded-lg bg-space-950/85 px-3 py-1.5 text-xs text-slate-300">
-          {t.fieldsPending}
-        </div>
-      )}
     </div>
   );
 }

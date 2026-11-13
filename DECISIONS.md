@@ -164,3 +164,16 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
 - **D53 Export v2**: one file per (ECw × water) with a de-duplicated plan library, picks, per-profile compromise cards,
   Pareto front, optimiser search sample, ECe paths for the stress animation, 7×4×4×3 what-if grid → 4.3 MB total.
 - **D54 Sensitivity** re-run on the new model (106 assumptions): 11 change a pick; flips are shown on each card.
+
+## Upgrade round — P4 World-class web / P5 Verify
+- **D55 Stack**: Next.js 14 static + framer-motion (MotionConfig reducedMotion="user") + plain three.js globe (NASA Blue
+  Marble texture, public domain) + react-leaflet with Esri imagery and Earth Engine PNG overlays (NDVI per year, MODIS
+  LST, IMERG rain, SRTM slope) + the 122 Sentinel-2 fields coloured by their NDVI rotation pattern.
+- **D56 Performance**: below-the-fold sections mount on approach (`LazySection`), charts/map/what-if are dynamic
+  imports, plan/map/evidence JSON load after first paint, WebGL globe only on ≥ 640 px screens after 0.9 s (static Blue
+  Marble image otherwise). First-load JS 318 KB → 161 KB. Lighthouse (local prod build): home desktop 99/100/100/100,
+  home mobile 90/100/100/100, Farmer mode mobile 86/100/100/100.
+- **D57 Hydration**: initial render identical on server and client (no reduced-motion branches in initial state) →
+  zero console errors in Playwright across desktop/mobile × EN/AR.
+- **D58 Farmer mode** (/farmer): 3 big questions (well salinity, water per day, money/water/soil) → the TOPSIS plan for
+  profit_first / water_saving / soil_building, plain-Arabic numbers per year and the top 3 risks.

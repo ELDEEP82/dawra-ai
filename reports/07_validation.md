@@ -33,13 +33,13 @@ Every check, its acceptance criterion and the result. Failures are kept and expl
 | Earth obs. | NDVI season labels: rules vs KMeans | 87 % agree | 122 fields, 2318 field-seasons | ≥ 70 % | ✅ pass | consistency check, not ground truth |
 | Earth obs. | IMERG vs NASA POWER annual rain (2001–2025) | 28 mm | 48 mm (POWER) | ±50 % | ✅ pass | two independent NASA rain products at the station pixel |
 | App | Precomputed configurations | 15 files | 5 ECw × 3 water (5 profiles inside) | = 15 | ✅ pass |  |
-| App | Total web data | 4.3 MB | < 15 MB | < 15 MB | ✅ pass |  |
+| App | Total web data | 4.8 MB | < 15 MB | < 15 MB | ✅ pass |  |
 | App | Largest plan file (one interaction) | 318 KB (≈ 53 KB gzip) | < 2 s per interaction | < 900 KB raw | ✅ pass | sliders read an in-memory grid (no network) |
 
 ## Software
 
-- Engine tests: 66 passed (pytest)
-- Web build: npm run build: see P4
+- Engine tests: 66 passed, 0 failed (pytest)
+- Web build: npm run build: compiled, 0 type/lint errors, 4 static routes; Lighthouse home 99 desktop / 90 mobile, a11y 100
 - Secrets: none committed (`.env` ignored; `.env.example` only holds a placeholder).
 
 ## Sensitivity

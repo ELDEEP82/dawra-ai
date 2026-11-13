@@ -172,8 +172,11 @@ def card_sentences() -> tuple[list[str], list[str]]:
         top = max(s["fields_rotation_guess"], key=s["fields_rotation_guess"].get)
         en.append(f"Sentinel-2 finds {s['n_fields']} cultivated fields ({s['fields_ha']:,.0f} ha) nearby; the most common "
                   f"pattern over the last 3 years is {top.replace('_', ' ')} (winter/summer).")
+        names = {"perennial": "معمّر", "winter_crop": "محصول شتوي", "summer_crop": "محصول صيفي", "bare": "بور",
+                 "unknown": "مش واضح"}
+        top_ar = " / ".join(names.get(x, x) for x in top.split("/"))
         ar.append(f"Sentinel-2 لقى {s['n_fields']} حقل مزروع ({s['fields_ha']:,.0f} هكتار) حوالينا؛ أكتر نمط في آخر 3 سنين "
-                  f"هو {top} (شتا/صيف).")
+                  f"هو {top_ar} (شتا / صيف).")
     if "smap_rootzone_summer" in s:
         en.append(f"SMAP root-zone moisture: {s['smap_rootzone_summer']:.2f} m³/m³ in summer vs "
                   f"{s['smap_rootzone_winter']:.2f} in winter.")

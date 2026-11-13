@@ -6,7 +6,7 @@ import { useLang } from "@/lib/i18n";
 export function Header({ onDemo, demoOn }: { onDemo?: () => void; demoOn?: boolean }) {
   const { t, lang, setLang } = useLang();
   const nav = [
-    ["#map", t.navMap],
+    ["#story", lang === "ar" ? "من الفضاء" : "From space"],
     ["#farm", t.navFarm],
     ["#plans", t.navPlans],
     ["#whatif", t.navWhatIf],
@@ -31,6 +31,9 @@ export function Header({ onDemo, demoOn }: { onDemo?: () => void; demoOn?: boole
           ))}
           <Link href="/nasa-data" className="rounded-lg px-3 py-1.5 text-sm text-slate-300 hover:bg-white/5 hover:text-white">
             {t.navNasa}
+          </Link>
+          <Link href="/farmer" className="rounded-lg px-3 py-1.5 text-sm text-nasa-amber hover:bg-white/5">
+            {lang === "ar" ? "وضع المزارع" : "Farmer mode"}
           </Link>
         </nav>
         <div className="ms-auto flex items-center gap-2">

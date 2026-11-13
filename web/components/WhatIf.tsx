@@ -1,121 +1,103 @@
 "use client";
-/** What-if sliders reading the precomputed 7×4×4 stress grid of each plan (instant, no server). */
-import { useMemo } from "react";
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import type { Meta, Plan, WhatIfCell } from "@/lib/types";
+/** What-if lab: temperature, rain, well salinity and leaching achieved → precomputed 7×4×4×3 grid (instant). */
+import { motion } from "framer-motion";
+import type { Meta, Plan } from "@/lib/types";
+import { whatifCell } from "@/lib/data";
 import { fmt, signed, useLang } from "@/lib/i18n";
-import { PLAN_COLORS } from "@/lib/crops";
-import { RobustBadge, planLabel } from "./Plans";
+import { COPY } from "@/lib/copy";
+import { PLAN_COLORS, cropStyle } from "@/lib/crops";
+import { Ring, Tween } from "./ui";
+import { planLabel } from "./Plans";
 
 export interface WhatIfState {
   kind: string;
   dT: number;
   dRain: number;
   dECw: number;
+  leach: number;
 }
 
-function cell(p: Plan, s: WhatIfState): WhatIfCell | undefined {
-  return p.whatif.find((c) => c.dT === s.dT && c.dRain === s.dRain && c.dECw === s.dECw);
-}
-
-function Slider({ label, value, min, max, step, onChange, fmtV }: { label: string; value: number; min: number; max: number; step: number; onChange: (v: number) => void; fmtV: (v: number) => string }) {
+function Slider({ label, value, values, onChange, fmtV }: { label: string; value: number; values: number[]; onChange: (v: number) => void; fmtV: (v: number) => string }) {
+  const i = Math.max(0, values.indexOf(value));
   return (
     <label className="block">
       <div className="flex items-baseline justify-between text-sm">
         <span>{label}</span>
         <span className="font-semibold tabular-nums text-nasa-cyan" dir="ltr">{fmtV(value)}</span>
       </div>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} className="mt-2 w-full" dir="ltr" />
+      <input type="range" min={0} max={values.length - 1} step={1} value={i} onChange={(e) => onChange(values[Number(e.target.value)])} className="mt-2 w-full" dir="ltr" aria-valuetext={fmtV(value)} />
     </label>
   );
 }
 
 export function WhatIf({ plans, meta, state, onChange }: { plans: Plan[]; meta: Meta; state: WhatIfState; onChange: (s: WhatIfState) => void }) {
-  const { t, lang } = useLang();
-  const plan = plans.find((p) => p.kind === state.kind) ?? plans[0];
-  const base = cell(plan, { ...state, dT: 0, dRain: 0, dECw: 0 });
-  const cur = cell(plan, state);
+  const { lang } = useLang();
+  const c = COPY[lang];
+  const uniq = plans.filter((p, i, a) => a.findIndex((q) => q.view.sig === p.view.sig) === i);
+  const plan = uniq.find((p) => p.kind === state.kind) ?? uniq[0];
   const g = meta.grid;
-  const data = useMemo(
-    () =>
-      plan.seasons.map((s, i) => ({
-        slot: s.slot,
-        name: `${s.slot} ${s.crop_id === "fallow" ? (lang === "ar" ? "بور" : "fallow") : lang === "ar" ? s.crop_ar : s.crop_en.replace(/ \(.+\)/, "")}`,
-        base: base?.rel_yield[i] ?? null,
-        now: cur?.rel_yield[i] ?? null,
-      })),
-    [plan, base, cur, lang],
-  );
-  const allRob = plans.map((p) => ({ p, c: cell(p, state) }));
+  const base = whatifCell(plan.whatif, 0, 0, 0, 100);
+  const cur = whatifCell(plan.whatif, state.dT, state.dRain, state.dECw, state.leach);
+  const ys = [1, 2, 3, 4, 5, 6].map((k) => ({ slot: plan.seasons[k - 1], base: base?.[`y${k}`] ?? null, now: cur?.[`y${k}`] ?? null }));
+  const pct = (a?: number | null, b?: number | null) => (a !== null && a !== undefined && b ? ((a - b) / Math.abs(b)) * 100 : null);
   return (
     <div className="grid gap-4 lg:grid-cols-[320px_1fr]">
       <div className="card space-y-5 p-5">
-        <div>
-          <div className="text-sm">{t.choosePlan}</div>
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            {plans.map((p) => (
-              <button key={p.kind} onClick={() => onChange({ ...state, kind: p.kind })} className={`chip text-xs ${p.kind === plan.kind ? "chip-on" : "hover:bg-white/5"}`}>
-                <span className="h-2 w-2 rounded-full" style={{ background: PLAN_COLORS[p.kind] }} />
-                {planLabel(p, lang)}
-              </button>
-            ))}
+        <div className="flex flex-wrap gap-1.5">
+          {uniq.map((p) => (
+            <button key={p.kind} onClick={() => onChange({ ...state, kind: p.kind })} className={`chip text-xs ${p.kind === plan.kind ? "chip-on" : "hover:bg-white/5"}`}>
+              <span className="h-2 w-2 rounded-full" style={{ background: PLAN_COLORS[p.kind] }} />
+              {planLabel(p, lang)}
+            </button>
+          ))}
+        </div>
+        <Slider label={c.hotter} value={state.dT} values={g.dT} onChange={(v) => onChange({ ...state, dT: v })} fmtV={(v) => `+${fmt(v, 1)} °C`} />
+        <Slider label={c.drier} value={state.dRain} values={g.dRain} onChange={(v) => onChange({ ...state, dRain: v })} fmtV={(v) => (v === 0 ? "0%" : `−${fmt(-v)}%`)} />
+        <Slider label={c.saltier} value={state.dECw} values={g.dECw} onChange={(v) => onChange({ ...state, dECw: v })} fmtV={(v) => `+${fmt(v)} dS/m`} />
+        <Slider label={c.leaching} value={state.leach} values={[...g.leach].sort((a, b) => b - a)} onChange={(v) => onChange({ ...state, leach: v })} fmtV={(v) => `${fmt(v)}%`} />
+      </div>
+      <div className="card p-5">
+        <div className="flex flex-wrap items-center gap-4">
+          <Ring pct={Number(cur?.robustness ?? 0)} size={84} label={c.robust} />
+          <div className="grid flex-1 grid-cols-3 gap-4">
+            <div>
+              <div className="text-xs text-slate-400">{c.profit}</div>
+              <div className="kpi"><Tween value={cur?.profit_egp !== null && cur?.profit_egp !== undefined ? Number(cur.profit_egp) / 1000 : null} suffix="k" /></div>
+              <div className="text-[11px] text-slate-500" dir="ltr">{signed(pct(cur?.profit_egp, base?.profit_egp))} {c.vsToday}</div>
+            </div>
+            <div>
+              <div className="text-xs text-slate-400">{c.water}</div>
+              <div className="kpi"><Tween value={cur?.water_m3 ?? null} suffix=" m³" /></div>
+              <div className="text-[11px] text-slate-500" dir="ltr">{signed(pct(cur?.water_m3, base?.water_m3))} {c.vsToday}</div>
+            </div>
+            <div>
+              <div className="text-xs text-slate-400">{c.saltEnd}</div>
+              <div className={`kpi ${Number(cur?.ece_end) > 8.56 ? "text-rose-300" : ""}`}><Tween value={cur?.ece_end ?? null} nd={2} /></div>
+              <div className="text-[11px] text-slate-500" dir="ltr">dS/m · start 8.56</div>
+            </div>
           </div>
         </div>
-        <Slider label={t.hotter} value={state.dT} min={g.dT[0]} max={g.dT[g.dT.length - 1]} step={0.5} onChange={(v) => onChange({ ...state, dT: v })} fmtV={(v) => `+${fmt(v, 1)} °C`} />
-        <Slider label={t.drier} value={-state.dRain} min={0} max={30} step={10} onChange={(v) => onChange({ ...state, dRain: -v })} fmtV={(v) => (v === 0 ? "0%" : `−${fmt(v)}%`)} />
-        <Slider label={t.saltier} value={state.dECw} min={0} max={3} step={1} onChange={(v) => onChange({ ...state, dECw: v })} fmtV={(v) => `+${fmt(v)} dS/m`} />
-        <div className="space-y-1.5 border-t border-white/10 pt-4 text-xs">
-          <div className="text-slate-400">{t.robustThis}</div>
-          {allRob.map(({ p, c }) => (
-            <div key={p.kind} className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full" style={{ background: PLAN_COLORS[p.kind] }} />
-              <span className="flex-1 truncate">{planLabel(p, lang)}</span>
-              <span className="tabular-nums" dir="ltr">{c ? `${fmt(c.robustness)}%` : "—"}</span>
+        <div className="mt-6 text-sm font-medium">{c.yields}</div>
+        <div className="mt-3 space-y-2">
+          {ys.map(({ slot, base: b, now }) => (
+            <div key={slot.slot} className="grid grid-cols-[110px_1fr_44px] items-center gap-2 text-xs sm:grid-cols-[150px_1fr_48px]">
+              <span className="truncate text-slate-300">
+                {slot.slot} {cropStyle(slot.crop_id).icon} {lang === "ar" ? slot.crop_ar : slot.crop_en.replace(/ \(.+\)/, "")}
+              </span>
+              <div className="relative h-3 rounded-full bg-white/5" dir="ltr">
+                {b !== null && <div className="absolute inset-y-0 start-0 rounded-full bg-slate-500/50" style={{ width: `${b}%` }} />}
+                {now !== null && (
+                  <motion.div className="absolute inset-y-0 start-0 rounded-full" style={{ background: PLAN_COLORS[plan.kind] }} animate={{ width: `${now}%` }} transition={{ type: "spring", stiffness: 120, damping: 20 }} />
+                )}
+              </div>
+              <span className="text-end tabular-nums" dir="ltr">{now === null ? "—" : `${fmt(now)}%`}</span>
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="card p-5">
-        <div className="flex flex-wrap items-center gap-3">
-          <h3 className="text-base font-semibold">{planLabel(plan, lang)}</h3>
-          {cur && <RobustBadge pct={cur.robustness} />}
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          <div>
-            <div className="text-xs text-slate-400">{t.waterUse}</div>
-            <div className="kpi" dir="ltr">{cur ? `${fmt(cur.water_m3)} m³` : "—"}</div>
-            {cur && base && <div className="text-xs text-slate-500" dir="ltr">{signed(((cur.water_m3 / base.water_m3) - 1) * 100)} vs {t.baseline}</div>}
-          </div>
-          <div>
-            <div className="text-xs text-slate-400">{t.ecEnd}</div>
-            <div className="kpi" dir="ltr">{cur ? `${fmt(cur.ece_end, 2)} dS/m` : "—"}</div>
-            {base && <div className="text-xs text-slate-500" dir="ltr">{fmt(base.ece_end, 2)} · {t.baseline}</div>}
-          </div>
-          <div>
-            <div className="text-xs text-slate-400">{t.robust}</div>
-            <div className="kpi" dir="ltr">{cur ? `${fmt(cur.robustness)}%` : "—"}</div>
-            {base && <div className="text-xs text-slate-500" dir="ltr">{fmt(base.robustness)}% · {t.baseline}</div>}
-          </div>
-        </div>
-        <div className="mt-5 text-sm font-medium">{t.yieldBySeason}</div>
-        <div className="mt-2 h-64" dir="ltr">
-          <ResponsiveContainer>
-            <BarChart data={data} margin={{ top: 4, right: 8, left: -16, bottom: 0 }} barGap={2}>
-              <CartesianGrid stroke="#fff" strokeOpacity={0.06} vertical={false} />
-              <XAxis dataKey="name" stroke="#64748b" fontSize={10} tickLine={false} interval={0} />
-              <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} domain={[0, 100]} unit="%" />
-              <Tooltip contentStyle={{ background: "#0a1024", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10, fontSize: 12 }} formatter={(v: unknown) => (v === null || v === undefined ? "—" : `${fmt(Number(v), 1)}%`)} />
-              <Legend wrapperStyle={{ fontSize: 11 }} />
-              <Bar isAnimationActive={false} dataKey="base" name={t.baseline} fill="#64748b" radius={[3, 3, 0, 0]} />
-              <Bar isAnimationActive={false} dataKey="now" name={t.thisCase} fill={PLAN_COLORS[plan.kind]} radius={[3, 3, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        <p className="mt-3 text-xs text-slate-500">
+        <p className="mt-4 text-xs text-slate-500">
           {lang === "ar"
-            ? "الأرض المزروعة متحددة قبل الموسم من المناخ العادي؛ لو الجو أحر أو البير أملح والبير مش مكفّي، أول حاجة بتتقطع هي مية الغسيل (الملح بيزيد) وبعدين مية الزرع."
-            : "Planted area is fixed before the season from normal climate; if it gets hotter or the well saltier and the well can't keep up, leaching water is cut first (salt rises), then crop water."}
+            ? "الرمادي = مناخ النهارده بغسيل كامل. المساحة متحددة قبل الموسم؛ لو البير مش مكفّي، أول حاجة بتتقطع مية الغسيل (الملح يزيد) وبعدين مية الزرع."
+            : "Grey = today's climate with full leaching. Area is fixed before the season; if the well can't keep up, leaching water is cut first (salt rises), then crop water."}
         </p>
       </div>
     </div>

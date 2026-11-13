@@ -245,7 +245,7 @@
  {
   "area": "App",
   "check": "Total web data",
-  "modelled": "4.3 MB",
+  "modelled": "4.8 MB",
   "target / observed": "< 15 MB",
   "criterion": "< 15 MB",
   "result": "✅ pass",

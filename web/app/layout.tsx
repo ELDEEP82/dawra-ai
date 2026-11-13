@@ -7,10 +7,18 @@ const plex = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "
 const plexAr = IBM_Plex_Sans_Arabic({ subsets: ["arabic"], weight: ["400", "500", "600", "700"], variable: "--font-plex-ar", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Dawra AI — crop rotations for salty, dry farms",
+  metadataBase: new URL("https://dawra-ai.vercel.app"),
+  title: "Dawra AI — دورة · smarter crop rotations for salty, dry farms",
   description:
-    "Decision support for Ras Sudr farmers: compare your rotation with optimised 3-year plans, stress-tested with NASA POWER climate. NASA Space Apps Cairo 2026.",
+    "From space to the field: NASA Earth observation + an AI optimiser compare a Ras Sudr farmer's rotation with 3-year plans in EGP and m³, stress-tested on 45 years of NASA climate and CMIP6 futures. دورات زراعية أذكى للأراضي المالحة والناشفة ببيانات ناسا.",
   icons: { icon: "/icon.svg" },
+  openGraph: {
+    title: "Dawra AI — دورة",
+    description: "Smarter crop rotations for salty, dry farms — powered by NASA data. NASA Space Apps Cairo 2026, Team TerraNex.",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Dawra AI — from space to the field" }],
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", title: "Dawra AI — دورة", description: "Smarter crop rotations for salty, dry farms — powered by NASA data.", images: ["/og.png"] },
 };
 
 export const viewport: Viewport = { themeColor: "#050814", width: "device-width", initialScale: 1 };

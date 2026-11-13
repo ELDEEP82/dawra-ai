@@ -1,0 +1,26 @@
+[
+ {
+  "viewport": "desktop",
+  "lang": "en",
+  "overflowPx": 0,
+  "errors": []
+ },
+ {
+  "viewport": "desktop",
+  "lang": "ar",
+  "overflowPx": 0,
+  "errors": []
+ },
+ {
+  "viewport": "mobile",
+  "lang": "en",
+  "overflowPx": 0,
+  "errors": []
+ },
+ {
+  "viewport": "mobile",
+  "lang": "ar",
+  "overflowPx": 0,
+  "errors": []
+ }
+]

@@ -14,7 +14,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { Climate } from "@/lib/types";
+import type { Climate, EOData } from "@/lib/types";
 import { fmt, useLang } from "@/lib/i18n";
 import { SERIES } from "@/lib/crops";
 
@@ -58,7 +58,7 @@ export function KeyNumbers({ c, salineShare }: { c: Climate; salineShare: [numbe
   );
 }
 
-export function ClimateSnapshot({ c, eoStatus }: { c: Climate; eoStatus: string }) {
+export function ClimateSnapshot({ c, eo }: { c: Climate; eo?: EOData | null }) {
   const { t, lang } = useLang();
   const months = lang === "ar" ? MONTHS_AR : MONTHS_EN;
   const monthly = c.monthly.map((m) => ({ ...m, name: months[m.month - 1] }));
@@ -134,21 +134,90 @@ export function ClimateSnapshot({ c, eoStatus }: { c: Climate; eoStatus: string 
         </ResponsiveContainer>
       </ChartCard>
 
-      <div className="card flex flex-col p-4">
-        <div className="flex items-center gap-2">
-          <h3 className="text-sm font-medium text-slate-200">{t.ndviTitle}</h3>
-          {eoStatus !== "ok" && (
-            <span className="rounded-full border border-nasa-amber/50 px-2 py-0.5 text-[11px] text-nasa-amber">{t.pending}</span>
-          )}
-        </div>
-        <p className="mt-3 text-sm text-slate-400">{t.ndviPending}</p>
-        <ul className="mt-3 space-y-1 text-xs text-slate-500" dir="ltr">
-          <li>• Sentinel-2 SR (10 m) · Landsat 5/7/8/9 (30 m)</li>
-          <li>• SMAP L4 · GPM IMERG V07 · MODIS LST/ET</li>
-          <li>• SRTM · GRACE-FO · NEX-GDDP-CMIP6</li>
-        </ul>
-        <div className="mt-auto pt-3 text-xs text-slate-500">engine/dawra/eo.py · earthengine authenticate → make data</div>
-      </div>
+      {eo?.ndvi_station ? (
+        <ChartCard title={lang === "ar" ? "خضرة المحطة (NDVI شهري، لاندسات + Sentinel-2)" : "Station greenness (monthly NDVI, Landsat + Sentinel-2)"} note="1990–2026">
+          <ResponsiveContainer>
+            <LineChart data={eo.ndvi_station.map(([d, v]) => ({ d, v }))} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
+              {GRID}
+              <XAxis dataKey="d" {...AX} tickLine={false} interval={60} />
+              <YAxis {...AX} tickLine={false} axisLine={false} domain={[0, "auto"]} />
+              <Tooltip {...TIP} formatter={(v: unknown) => fmt(Number(v), 3)} />
+              <Line isAnimationActive={false} dataKey="v" name="NDVI" stroke={SERIES.soil} strokeWidth={1.5} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      ) : (
+        <div className="card p-4 text-sm text-slate-400">{t.ndviPending}</div>
+      )}
+      {eo?.smap_rootzone && (
+        <ChartCard title={lang === "ar" ? "رطوبة التربة من SMAP L4 (م³/م³)" : "SMAP L4 soil moisture (m³/m³)"} note={lang === "ar" ? "منطقة الجذور والسطح، 2015–2026" : "root zone & surface, 2015–2026"}>
+          <ResponsiveContainer>
+            <LineChart data={eo.smap_rootzone.map(([d, v], i) => ({ d, root: v, surf: eo.smap_surface?.[i]?.[1] ?? null }))} margin={{ top: 4, right: 8, left: -10, bottom: 0 }}>
+              {GRID}
+              <XAxis dataKey="d" {...AX} tickLine={false} interval={24} />
+              <YAxis {...AX} tickLine={false} axisLine={false} domain={[0, "auto"]} />
+              <Tooltip {...TIP} formatter={(v: unknown) => fmt(Number(v), 3)} />
+              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <Line isAnimationActive={false} dataKey="root" name={lang === "ar" ? "الجذور" : "root zone"} stroke={SERIES.rain} strokeWidth={2} dot={false} />
+              <Line isAnimationActive={false} dataKey="surf" name={lang === "ar" ? "السطح" : "surface"} stroke={SERIES.et0} strokeWidth={1.5} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      )}
+      {eo?.modis_lst && (
+        <ChartCard title={lang === "ar" ? "حرارة سطح الأرض نهارًا (MODIS)" : "Daytime land-surface temperature (MODIS)"} note="MOD11A2, 2000–2026">
+          <ResponsiveContainer>
+            <LineChart data={eo.modis_lst.map(([d, v]) => ({ d, v }))} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
+              {GRID}
+              <XAxis dataKey="d" {...AX} tickLine={false} interval={48} />
+              <YAxis {...AX} tickLine={false} axisLine={false} unit="°" />
+              <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v), 1)} °C`} />
+              <Line isAnimationActive={false} dataKey="v" name="LST" stroke={SERIES.et0} strokeWidth={1.5} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      )}
+      {eo?.imerg_annual && (
+        <ChartCard title={lang === "ar" ? "المطر السنوي من GPM IMERG (مم)" : "Annual rain, GPM IMERG (mm)"} note="2001–2025">
+          <ResponsiveContainer>
+            <BarChart data={eo.imerg_annual} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
+              {GRID}
+              <XAxis dataKey="year" {...AX} tickLine={false} interval={4} />
+              <YAxis {...AX} tickLine={false} axisLine={false} />
+              <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v), 1)} mm`} />
+              <Bar isAnimationActive={false} dataKey="annual_mm" name="IMERG" fill={SERIES.rain} radius={[3, 3, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      )}
+      {eo?.cmip6 && (
+        <ChartCard title={lang === "ar" ? "تغيّر العظمى في الخمسينات (CMIP6، 5 موديلات)" : "2050s change in Tmax (CMIP6, 5-model mean)"} note="NEX-GDDP-CMIP6 · 2041–2060 vs 1995–2014">
+          <ResponsiveContainer>
+            <BarChart data={(lang === "ar" ? MONTHS_AR : MONTHS_EN).map((m, i) => ({ m, a: eo.cmip6!.ensemble.ssp245?.d_t[i], b: eo.cmip6!.ensemble.ssp585?.d_t[i] }))} margin={{ top: 4, right: 8, left: -16, bottom: 0 }} barGap={2}>
+              {GRID}
+              <XAxis dataKey="m" {...AX} tickLine={false} />
+              <YAxis {...AX} tickLine={false} axisLine={false} unit="°" />
+              <Tooltip {...TIP} formatter={(v: unknown) => `+${fmt(Number(v), 2)} °C`} />
+              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <Bar isAnimationActive={false} dataKey="a" name="SSP2-4.5" fill={SERIES.rain} radius={[3, 3, 0, 0]} />
+              <Bar isAnimationActive={false} dataKey="b" name="SSP5-8.5" fill={SERIES.et0} radius={[3, 3, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      )}
+      {eo?.grace && (
+        <ChartCard title={lang === "ar" ? "مخزون المية الإقليمي (GRACE، سم)" : "Regional water storage (GRACE, cm)"} note={lang === "ar" ? "تقريبي جدًا (~300 كم)" : "very coarse (~300 km)"}>
+          <ResponsiveContainer>
+            <LineChart data={eo.grace.map(([d, v]) => ({ d, v }))} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
+              {GRID}
+              <XAxis dataKey="d" {...AX} tickLine={false} interval={36} />
+              <YAxis {...AX} tickLine={false} axisLine={false} />
+              <Tooltip {...TIP} formatter={(v: unknown) => `${fmt(Number(v), 1)} cm`} />
+              <Line isAnimationActive={false} dataKey="v" name="GRACE" stroke={SERIES.rain} strokeWidth={1.5} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      )}
     </div>
   );
 }
