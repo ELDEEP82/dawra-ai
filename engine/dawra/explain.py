@@ -27,6 +27,13 @@ def _n(x: float, nd: int = 0) -> str:
     return f"{x:,.{nd}f}"
 
 
+def money(t: dict, lang: str = "en") -> str:
+    """Plan value as text: EGP over 3 years when priced, else the output index."""
+    if t["value_kind"] == "profit_egp":
+        return f"{t['value']:,.0f} EGP" if lang == "en" else f"{t['value']:,.0f} جنيه"
+    return f"{t['value']:.2f}"
+
+
 def crops_text(plan: list[str], lang: str) -> str:
     """'barley → sorghum → …' without repeated perennial continuation."""
     seq = []
@@ -48,9 +55,9 @@ def why(p: dict, cur: dict, ctx: dict) -> tuple[list[str], list[str]]:
         en.append("This is what you grow today (winter crop, summer fallow). Every other plan is compared with it.")
         ar.append("دي الدورة اللي بتزرعها النهارده (محصول شتوي وبور في الصيف). كل الخطط التانية بتتقارن بيها.")
     elif k == "max_profit":
-        en.append(f"Highest {vk} of all {ctx['n_front']} best-trade-off plans: {t['value']:.2f} vs {c['value']:.2f} "
+        en.append(f"Highest {vk} of all {ctx['n_front']} best-trade-off plans: {money(t)} vs {money(c)} "
                   f"now ({_pct(t['value_vs_current_pct'])}).")
-        ar.append(f"أعلى {vk_ar} بين {ctx['n_front']} خطة متوازنة: {t['value']:.2f} مقابل {c['value']:.2f} "
+        ar.append(f"أعلى {vk_ar} بين {ctx['n_front']} خطة متوازنة: {money(t, 'ar')} مقابل {money(c, 'ar')} "
                   f"دلوقتي ({_pct(t['value_vs_current_pct'])}).")
     elif k == "min_water":
         en.append(f"Uses the least water among plans that keep at least 80% of today's {vk}: "
@@ -152,6 +159,11 @@ def benefits(p: dict, cur: dict) -> tuple[list[str], list[str]]:
 def gaps(p: dict, ctx: dict) -> tuple[list[str], list[str]]:
     """Assumptions and missing data that matter for this plan."""
     en, ar = [], []
+    est = sorted({s["crop_id"] for s in p["seasons"] if s["crop_id"] in ctx.get("price_estimated", set())})
+    if not ctx["prices_pending"] and est:
+        en.append("Prices/costs are estimates (no 2025-26 Egyptian quote found) for: "
+                  + ", ".join(c.replace("_", " ") for c in est) + " — see data/prices_egp.csv.")
+        ar.append("الأسعار أو التكاليف تقديرية (ملقيناش سعر مصري 2025-26) لـ: " + "، ".join(CROP_AR[c] for c in est) + ".")
     if ctx["prices_pending"]:
         en.append("Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an "
                   "output index, not money.")

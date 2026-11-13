@@ -57,13 +57,10 @@ def checks() -> pd.DataFrame:
     add("Yield", "Barley grain at ECw 8.35, S1 seasons & water", f"{c.ymax_kg_ha * c.rel_yield_pct / 100:,.0f} kg/ha",
         "4,215 kg/ha (S1)", "fitted (1 parameter: ymax)", CAL, f"ymax = {c.ymax_kg_ha:,.0f}; modelled RY {c.rel_yield_pct:.1f} %")
     h = info["holdout"]
-    add("Yield", "Wheat holdout — S6 read per feddan", f"{h['per_feddan'].modelled:,.0f} kg/ha",
+    add("Yield", "Wheat holdout (S6, 16.5 ardeb per feddan)", f"{h['per_feddan'].modelled:,.0f} kg/ha",
         f"{h['per_feddan'].observed:,.0f} kg/ha", "±20 %", PASS if abs(h['per_feddan'].error_pct) <= 20 else FAIL,
-        f"error {h['per_feddan'].error_pct:+.1f} %")
-    add("Yield", "Wheat holdout — S6 read per hectare", f"{h['per_ha'].modelled:,.0f} kg/ha",
-        f"{h['per_ha'].observed:,.0f} kg/ha", "±20 %", PASS if abs(h['per_ha'].error_pct) <= 20 else FAIL,
-        f"error {h['per_ha'].error_pct:+.1f} % — S6 does not state the area unit; per-feddan reading is the one in "
-        "the data sheet. Needs confirmation from DRC.")
+        f"error {h['per_feddan'].error_pct:+.1f} %. Unit resolved: Vetogate 2026-04-30 on the same KSIU trial — "
+        "'16.5 أردبًا للفدان، بما يعادل نحو 2.48 طن' (https://www.vetogate.com/5646058).")
     add("Yield", "Salinity_Yield sheet reproduced (Maas–Hoffman)", "sorghum 8 %, cotton 74 %, wheat 53 %…",
         "sheet values", "exact (rounded)", PASS, "unit test test_salinity_sheet_reproduced")
     add("Soil", "ECe/ECw at LF 0.15 vs S4", f"{info['ece_check'].modelled:.2f} dS/m", "8.56 dS/m (S4)",

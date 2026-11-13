@@ -7,7 +7,8 @@ import pandas as pd
 from .config import HA_PER_FEDDAN
 from .crop_params import CROP_AR
 from .optimizer import Evaluated
-from .simulate import FALLOW, Engine, Farm
+from . import assumptions as A
+from .simulate import FALLOW, Engine, Farm, slot_profit, straw_t_per_fdn
 from .water_salt import slot_start
 
 LABELS = {
@@ -52,8 +53,15 @@ def season_rows(e: Evaluated, eng: Engine) -> list[dict]:
             })
             if s.crop_id in eng.price_map:
                 price, cost = eng.price_map[s.crop_id]
-                row["revenue_egp"] = _r(s.yield_kg_ha * HA_PER_FEDDAN / 1000 * s.area_fdn * price, 0)
+                if c.perennial:
+                    cost *= A.get("econ.perennial_cost_split")
+                pump = float(np.asarray(s.water_m3).reshape(-1)[0]) * A.get("econ.pump_egp_m3")
+                grain_t = s.yield_kg_ha * HA_PER_FEDDAN / 1000
+                row["revenue_egp"] = _r(grain_t * s.area_fdn * price
+                                        + straw_t_per_fdn(s.crop_id, grain_t) * s.area_fdn * A.get("econ.straw_price"), 0)
                 row["cost_egp"] = round(cost * s.area_fdn, 0)
+                row["pumping_egp"] = round(pump, 0)
+                row["profit_egp"] = _r(slot_profit(s, eng), 0)
         else:
             row.update({"area_fdn": 0, "water_mm": 0, "water_m3": 0, "rel_yield_pct": None, "yield_kg_ha": 0})
         rows.append(row)
@@ -79,6 +87,7 @@ def plan_json(e: Evaluated, kind: str, eng: Engine, farm: Farm, current: Evaluat
             "value_vs_current_pct": round((e.value / current.value - 1) * 100, 1) if current.value else None,
             "water_m3": round(e.water_m3), "water_vs_current_pct": round((e.water_m3 / current.water_m3 - 1) * 100, 1),
             "water_m3_per_year": round(e.water_m3 / 3), "soil_index": round(e.soil_index, 1),
+            "profit_per_feddan_year": round(e.value / farm.area_fdn / 3) if priced else None,
             "ECe_end": _r(end.ece, 2), "SOC_end": _r(end.soc_pct, 3), "N_end": _r(end.n_mg_kg, 1),
             "min_rel_yield": round(e.min_ry, 1), "market_score": round(e.market, 2),
             "cropped_seasons": sum(1 for c in e.plan if c != FALLOW), "pest_flags": end.pest_flags,

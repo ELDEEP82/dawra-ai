@@ -65,6 +65,10 @@ def test_groundwater_and_classes():
     assert round(hs["share_1996"], 2) == 0.52 and round(hs["share_2022"], 2) == 0.83
 
 
-def test_prices_blank_means_unavailable():
+def test_prices_filled_and_sourced():
     p = d.load_prices()
-    assert not d.prices_available(p, ["barley"])
+    assert d.prices_available(p, list(p.index))
+    assert p["source"].str.len().gt(10).all()
+    unsourced = ~p["source"].str.contains("http")
+    assert (p.loc[unsourced, "is_assumption"] == 1).all()  # anything without a URL must be flagged
+    assert set(p["is_assumption"].unique()) <= {0, 1}

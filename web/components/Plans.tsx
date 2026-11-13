@@ -143,7 +143,7 @@ export function PlanCard({ p, open, onToggle, highlight }: { p: Plan; open: bool
       </div>
       <div className="mt-4 grid grid-cols-3 gap-3">
         <Metric label={t.water3y} value={`${fmt(tot.water_m3)} m³`} delta={isCur ? undefined : tot.water_vs_current_pct} goodDown />
-        <Metric label={valueLabel} value={fmt(tot.value, 2)} delta={isCur ? undefined : tot.value_vs_current_pct} />
+        <Metric label={valueLabel} value={tot.value_kind === "profit_egp" ? `${fmt(tot.value)} EGP` : fmt(tot.value, 2)} delta={isCur ? undefined : tot.value_vs_current_pct} />
         <Metric label={t.soilScore} value={`${fmt(tot.soil_index)}/100`} />
       </div>
       <button onClick={onToggle} className="mt-4 w-full rounded-xl border border-white/15 py-2 text-sm hover:bg-white/5" aria-expanded={open}>
@@ -159,7 +159,7 @@ export function ComparisonTable({ plans }: { plans: Plan[] }) {
   const rows: [string, (p: Plan) => string][] = [
     [t.water3y + " (m³)", (p) => fmt(p.totals.water_m3)],
     [lang === "ar" ? "المية في السنة (م³)" : "Water per year (m³)", (p) => fmt(p.totals.water_m3_per_year)],
-    [plans[0]?.totals.value_kind === "productivity_index" ? t.output : t.profit, (p) => fmt(p.totals.value, 2)],
+    [plans[0]?.totals.value_kind === "productivity_index" ? t.output : t.profit, (p) => (p.totals.value_kind === "profit_egp" ? `${fmt(p.totals.value)} EGP` : fmt(p.totals.value, 2))],
     [t.soilScore, (p) => fmt(p.totals.soil_index)],
     [lang === "ar" ? "ملوحة التربة بعد 3 سنين" : "Soil ECe after 3 yrs (dS/m)", (p) => fmt(p.totals.ECe_end, 2)],
     [t.nitrogen, (p) => fmt(p.totals.N_end, 1)],

@@ -1,22 +1,22 @@
 crop_id,price_egp_per_ton,cost_egp_per_feddan,source,is_assumption
-barley,,,pending - local market survey needed,1
-wheat,,,pending - local market survey needed,1
-triticale,,,pending - local market survey needed,1
-barley_forage,,,pending - local market survey needed,1
-sorghum,,,pending - local market survey needed,1
-pearl_millet,,,pending - local market survey needed,1
-sudan_grass,,,pending - local market survey needed,1
-bermuda,,,pending - local market survey needed,1
-rhodes,,,pending - local market survey needed,1
-sugar_beet,,,pending - local market survey needed,1
-quinoa,,,pending - local market survey needed,1
-cotton,,,pending - local market survey needed,1
-alfalfa,,,pending - local market survey needed,1
-cowpea,,,pending - local market survey needed,1
-faba_bean,,,pending - local market survey needed,1
-sesbania,,,pending - local market survey needed,1
-tomato,,,pending - local market survey needed,1
-squash,,,pending - local market survey needed,1
-watermelon,,,pending - local market survey needed,1
-date_palm,,,pending - local market survey needed,1
-olive,,,pending - local market survey needed,1
+barley,12300,20000,price: https://bulks-faostat.fao.org/production/Prices_E_Africa.zip ; https://almalnews.com/2134811/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+wheat,16667,25000,price: https://gate.ahram.org.eg/News/5596044.aspx | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,0
+triticale,12300,25000,price: https://bulks-faostat.fao.org/production/Prices_E_Africa.zip ; https://almalnews.com/2134811/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+barley_forage,1500,15000,price: https://www.egypttelegraph.com/article/240370/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+sorghum,12800,18000,price: https://almalnews.com/2134811/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+pearl_millet,12800,15000,price: https://almalnews.com/2134811/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+sudan_grass,9500,15000,price: https://www.egypttelegraph.com/article/240370/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+bermuda,9500,20000,price: https://www.egypttelegraph.com/article/240370/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+rhodes,9500,20000,price: https://www.egypttelegraph.com/article/240370/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+sugar_beet,2000,35000,price: https://aboutmsr.com/مصر-تعتمد-أسعار-توريد-محاصيل-القمح-وال/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+quinoa,37000,20000,price: https://www.masrawy.com/news/news_egypt/details/2026/10/28/3070067 | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+cotton,60063,45000,price: https://almalnews.com/2142623/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+alfalfa,12500,35000,price: https://www.egypttelegraph.com/article/240370/ | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+cowpea,37100,18000,price: https://www.masrawy.com/news/news_egypt/details/2026/10/28/3070067 | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+faba_bean,37097,20000,price: https://www.masrawy.com/news/news_egypt/details/2026/10/28/3070067 | cost: https://www.masrawy.com/news/news_egypt/details/2026/5/14/2987824 | see data/external/prices_research.csv,1
+sesbania,0,8000,"price: none (green manure, not sold) | cost: estimate - ESTIMATE: seed + tillage + irrigation + incorporation; no harvest cost | see data/external/prices_research.csv",1
+tomato,14000,100000,price: https://almalnews.com/2145552/ | cost: https://almalnews.com/2145552/ | see data/external/prices_research.csv,0
+squash,10000,60000,price: https://almalnews.com/2145573/ | cost: https://almalnews.com/2145552/ | see data/external/prices_research.csv,1
+watermelon,10000,70000,price: https://almalnews.com/2145573/ | cost: https://almalnews.com/2145552/ | see data/external/prices_research.csv,1
+date_palm,14317,40000,"price: https://bulks-faostat.fao.org/production/Prices_E_Africa.zip | cost: estimate - ESTIMATE: annual cost per feddan of bearing palms (irrigation, fertiliser, pollination, harvest labour) | see data/external/prices_research.csv",1
+olive,55782,35000,"price: https://bulks-faostat.fao.org/production/Prices_E_Africa.zip | cost: estimate - ESTIMATE: annual cost per feddan of bearing grove (irrigation, fertiliser, pruning, hand harvest) | see data/external/prices_research.csv",1

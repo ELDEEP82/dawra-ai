@@ -308,10 +308,31 @@ def _profit(slots: list[SlotResult], eng: Engine) -> np.ndarray | None:
     for s in slots:
         if s.crop_id == FALLOW:
             continue
-        price, cost = eng.price_map[s.crop_id]
-        t_per_fdn = np.nan_to_num(s.yield_kg_ha) * HA_PER_FEDDAN / 1000.0
-        total = total + (t_per_fdn * price - cost) * s.area_fdn
+        total = total + slot_profit(s, eng)
     return total
+
+
+def slot_profit(s: SlotResult, eng: Engine):
+    """Net EGP of one season: revenue − production cost − groundwater pumping (econ.pump_egp_m3)."""
+    if s.crop_id == FALLOW or s.crop_id not in eng.price_map:
+        return 0.0
+    price, cost = eng.price_map[s.crop_id]
+    if eng.crops[s.crop_id].perennial:
+        cost = cost * A.get("econ.perennial_cost_split")
+    t_per_fdn = np.nan_to_num(s.yield_kg_ha) * HA_PER_FEDDAN / 1000.0
+    revenue = t_per_fdn * price + straw_t_per_fdn(s.crop_id, t_per_fdn) * A.get("econ.straw_price")
+    return (revenue - cost) * s.area_fdn - s.water_m3 * A.get("econ.pump_egp_m3")
+
+
+STRAW_HI = {"barley": "econ.hi_barley", "wheat": "econ.hi_wheat", "triticale": "econ.hi_wheat"}
+
+
+def straw_t_per_fdn(crop_id: str, grain_t_per_fdn):
+    """Cereal straw by-product (t/feddan) = grain × (1 − HI) / HI; zero for other crops."""
+    if crop_id not in STRAW_HI:
+        return 0.0
+    hi = A.get(STRAW_HI[crop_id])
+    return grain_t_per_fdn * (1 - hi) / hi
 
 
 def market_score(plan: tuple[str, ...], farm: Farm, crops: dict[str, Crop]) -> float:

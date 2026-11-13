@@ -119,3 +119,15 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   calibration LF and the "≥ 3 cropped seasons" rule.
 - **D38 Submission**: `submission/slides.md` (exactly 7 slides) and `submission/video_script.md` (~75 words, mapped to
   the in-app Demo mode).
+
+## Upgrade round — P2 Prices
+- **D39 Prices** researched (data/external/prices_research.csv, SOURCES_prices.md, accessed 2026-11-13). Fully sourced
+  price + cost: wheat (procurement 2,500 EGP/ardeb, Ahram Apr-2026; cost 25,000 EGP/fdn, Masrawy May-2026) and tomato.
+  Sourced prices also for sugar beet, cotton (Beni Suef auction), faba bean, squash/watermelon (Obour wholesale), dates,
+  olive (FAOSTAT × CBE rate). All other prices/costs are flagged estimates with the method stated. Cards list estimated
+  crops under "information gaps".
+- **D40 Pumping** 0.68 EGP/m³ (diesel 20.50 EGP/L, Nebraska pumping-plant standard, 30 m total head — head assumed).
+- **D41 Straw** revenue for barley/wheat/triticale at 9,500 EGP/t (Egypt Telegraph, May 2026); barley HI 0.505 from S1
+  grain/biological yield, wheat HI 0.40 (assumption). Without straw barley would look loss-making, which contradicts
+  local practice (straw feeds the farm's 20 head).
+- **D42 S6 resolved**: 16.5 ardeb is **per feddan** (Vetogate 2026-04-30 quote) → wheat holdout −15 % (pass).

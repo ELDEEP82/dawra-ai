@@ -128,3 +128,9 @@ cal.s6_system,calibration,irrigation system assumed for the S6 wheat holdout,fur
 cal.s1_system,calibration,irrigation system of the S1 barley trial,furrow,-,weekly furrow irrigation ~400 mm/season,S1 / Local_Yields
 st.peak_share,stress,share of seasonal irrigation applied in the peak-demand period,0.5,fraction,mid-season (highest Kc) is 35-45 % of the season and carries about half the seasonal ETc; the well cap binds only then,FAO-56 Table 11 stage shares (assumption)
 yield.ky,yield,seasonal yield response factor to water deficit,1.0,-,FAO-33 seasonal Ky is 0.85-1.25 for the field crops here; 1.0 used for all,FAO-33 (Doorenbos & Kassam 1979)
+econ.pump_egp_m3,economics,groundwater pumping energy cost,0.68,EGP/m3,diesel 20.50 EGP/L x 0.001107 L/(m3.m) x 30 m total head (lift + drawdown + 1 bar drip); fuel only,data/external/pumping_cost.csv (banker.news 2026-10; UNL CropWatch; FAO ah810e)
+econ.perennial_cost_split,economics,share of annual perennial cost charged per season,0.5,-,perennial forage costs are quoted per year; a perennial occupies 2 seasons,data/external/prices_research.csv (alfalfa note)
+cal.s6_unit_per_feddan,calibration,S6 wheat yield area unit is per feddan,1,flag,Vetogate 2026-04-30 on the same KSIU trial: 16.5 ardeb per feddan (~2.48 t),https://www.vetogate.com/5646058
+econ.straw_price,economics,cereal straw (tibn) farm price,9500,EGP/t,"midpoint of 9,000-10,000 EGP/t wheat straw, Minya, May 2026; used for barley/wheat/triticale straw (fed to the farm livestock or sold)",https://www.egypttelegraph.com/article/240370/
+econ.hi_barley,economics,barley harvest index (grain / biological yield),0.505,-,"S1: grain 4,215 / biological 8,348 kg/ha (Local_Yields)",S1
+econ.hi_wheat,economics,wheat & triticale harvest index,0.4,-,typical irrigated wheat HI 0.35-0.45; no local biological yield,assumption (FAO-33 range)

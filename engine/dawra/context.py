@@ -35,4 +35,5 @@ def card_context(eng: Engine, ecw: float, profile: str, weights: dict[str, float
         "ymax_source": {k: c.ymax_source for k, c in eng.crops.items()},
         "ry_without_leaching": {k: float(maas_hoffman(ece_fao, c.ece100, c.slope_b)) for k, c in eng.crops.items()},
         "eo_sentence_en": "", "eo_sentence_ar": "",
+        "price_estimated": set(eng.prices.index[eng.prices["is_assumption"] == 1]) if eng.prices is not None else set(),
     }
