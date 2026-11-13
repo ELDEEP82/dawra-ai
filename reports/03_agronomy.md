@@ -150,3 +150,5 @@ Barley uses the S1 trial's own water (≈400 mm furrow, Local_Yields) and season
 | conv.tds_per_ec | 640 | mg/L per dS/m | ppm to dS/m conversion used in Soil_Water_Measured | FAO-29 (Soil_Water_Measured note) |
 | cal.s6_system | furrow | - | S6 does not state the method; DRC station trials used furrow (S1) | assumption |
 | cal.s1_system | furrow | - | weekly furrow irrigation ~400 mm/season | S1 / Local_Yields |
+| yield.ky | 1.0 | - | FAO-33 seasonal Ky is 0.85-1.25 for the field crops here; 1.0 used for all | FAO-33 (Doorenbos & Kassam 1979) |
+| cal.s6_unit_per_feddan | 1 | flag | Vetogate 2026-04-30 on the same KSIU trial: 16.5 ardeb per feddan (~2.48 t) | https://www.vetogate.com/5646058 |

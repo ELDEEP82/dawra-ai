@@ -18,8 +18,10 @@ def setup():
 
 
 def test_scenario_families():
-    keys = [s.key for s in S.scenario_families()]
+    keys = [s.key for s in S.scenario_families(include_cmip=False)]
     assert keys == ["historical", "warm1", "warm2", "dry10", "dry20", "ecw1", "ecw2"]
+    cm = [s for s in S.scenario_families() if s.cmip]
+    assert all(s.key.startswith("cmip_") for s in cm)
     fam = {s.key: s for s in S.scenario_families()}
     assert fam["warm1"].d_t == 1.0 and fam["dry20"].rain_scale == pytest.approx(0.8) and fam["ecw2"].d_ecw == 2
 
@@ -37,9 +39,21 @@ def test_bootstrap_shape_and_pairing(setup):
 def test_robustness_summary(setup):
     eng, farm = setup
     r = S.robustness(current_plan("barley"), farm, eng, n=40)
-    assert 0 <= r["robustness_pct"] <= 100 and r["n_draws"] == 40 * 7
+    n_fam = len(S.scenario_families())
+    assert 0 <= r["robustness_pct"] <= 100 and r["n_draws"] == 40 * n_fam * 3
     assert {b["key"] for b in r["by_scenario"]} >= {"historical", "warm2", "ecw2"}
-    assert r["cmip6"] == "pending"
+    assert [b["leach_pct"] for b in r["by_leaching"]] == [100, 70, 40]
+    assert r["cmip6"] in ("pending", "included")
+    assert set(r["bands"]) == {"product_t", "profit_egp", "ece_end"}
+    assert r["bands"]["ece_end"]["p10"] <= r["bands"]["ece_end"]["p50"] <= r["bands"]["ece_end"]["p90"]
+
+
+def test_less_leaching_means_more_salt(setup):
+    eng, farm = setup
+    r = S.robustness(current_plan("barley"), farm, eng, n=40)
+    lv = {b["leach_pct"]: b for b in r["by_leaching"]}
+    assert lv[40]["salt_buildup_pct"] >= lv[100]["salt_buildup_pct"]
+    assert lv[40]["pass_pct"] <= lv[100]["pass_pct"]
 
 
 def test_saltier_well_never_helps_robustness_of_salt_balance(setup):
@@ -47,8 +61,9 @@ def test_saltier_well_never_helps_robustness_of_salt_balance(setup):
     plan = current_plan("barley")
     a = S.scenario_slider(plan, farm, eng, 0, 0, 0)
     b = S.scenario_slider(plan, farm, eng, 0, 0, 3)
-    assert b["water_m3"] >= a["water_m3"] * 0.95  # more leaching water needed (capped by the well)
-    assert len(a["rel_yield"]) == 6 and a["rel_yield"][1] is None
+    col = {c: i for i, c in enumerate(S.WHATIF_COLS)}
+    assert b[col["water_m3"]] >= a[col["water_m3"]] * 0.95  # more leaching water needed (capped by the well)
+    assert len(a) == len(S.WHATIF_COLS) and a[col["y2"]] is None
 
 
 def test_warming_increases_water(setup):
@@ -56,7 +71,14 @@ def test_warming_increases_water(setup):
     plan = ("barley", "sorghum") * 3
     a = S.scenario_slider(plan, farm, eng, 0, 0, 0)
     b = S.scenario_slider(plan, farm, eng, 3, 0, 0)
-    assert b["water_m3"] > a["water_m3"]
+    i = S.WHATIF_COLS.index("water_m3")
+    assert b[i] > a[i]
+
+
+def test_whatif_grid_shape(setup):
+    eng, farm = setup
+    g = S.whatif_grid(current_plan("barley"), farm, eng)
+    assert len(g["rows"]) == 7 * 4 * 4 * 3 and g["cols"] == list(S.WHATIF_COLS)
 
 
 def _plans(setup):

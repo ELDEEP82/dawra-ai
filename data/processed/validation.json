@@ -82,21 +82,12 @@
  },
  {
   "area": "Yield",
-  "check": "Wheat holdout — S6 read per feddan",
+  "check": "Wheat holdout (S6, 16.5 ardeb per feddan)",
   "modelled": "5,000 kg/ha",
   "target / observed": "5,905 kg/ha",
   "criterion": "±20 %",
   "result": "✅ pass",
-  "note": "error -15.3 %"
- },
- {
-  "area": "Yield",
-  "check": "Wheat holdout — S6 read per hectare",
-  "modelled": "5,000 kg/ha",
-  "target / observed": "2,480 kg/ha",
-  "criterion": "±20 %",
-  "result": "❌ fail",
-  "note": "error +101.6 % — S6 does not state the area unit; per-feddan reading is the one in the data sheet. Needs confirmation from DRC."
+  "note": "error -15.3 %. Unit resolved: Vetogate 2026-04-30 on the same KSIU trial — '16.5 أردبًا للفدان، بما يعادل نحو 2.48 طن' (https://www.vetogate.com/5646058)."
  },
  {
   "area": "Yield",
@@ -137,45 +128,135 @@
  {
   "area": "Earth obs.",
   "check": "ET0 vs MODIS MOD16 ET",
-  "modelled": "—",
+  "modelled": "0 valid of 1196 images",
   "target / observed": "MOD16A2GF",
   "criterion": "pattern r > 0.6",
-  "result": "⏳ pending",
-  "note": "needs Earth Engine"
+  "result": "➖ not testable",
+  "note": "MOD16A2GF returns no ET for any image over the 122 field polygons or the station: MOD16 skips pixels its MCD12Q1 land-cover map classes as barren/urban, which covers this desert plain at 500 m. ET0 cannot be cross-checked with MOD16 here."
  },
  {
   "area": "Earth obs.",
-  "check": "Vegetated area (NDVI > 0.1) 2022",
-  "modelled": "—",
+  "check": "Vegetated area 1996, Landsat P90 NDVI > 0.1",
+  "modelled": "6,028 ha",
+  "target / observed": "57 ha (S16)",
+  "criterion": "±25 %",
+  "result": "❌ fail",
+  "note": "S16's own threshold; with surface-reflectance NDVI the bare desert at the station reads ≈0.09 (median of 677 Sentinel-2 scenes), so most of the plain passes 0.1."
+ },
+ {
+  "area": "Earth obs.",
+  "check": "Vegetated area 2022, Landsat P90 NDVI > 0.1",
+  "modelled": "17,828 ha",
   "target / observed": "1,579 ha (S16)",
   "criterion": "±25 %",
-  "result": "⏳ pending",
-  "note": "needs Earth Engine"
+  "result": "❌ fail",
+  "note": "S16's own threshold; with surface-reflectance NDVI the bare desert at the station reads ≈0.09 (median of 677 Sentinel-2 scenes), so most of the plain passes 0.1."
  },
  {
   "area": "Earth obs.",
-  "check": "CMIP6 scenario family in stress test",
-  "modelled": "—",
+  "check": "Vegetated area 1996, Landsat P90 NDVI > 0.15",
+  "modelled": "234 ha",
+  "target / observed": "57 ha (S16)",
+  "criterion": "±25 %",
+  "result": "❌ fail",
+  "note": ""
+ },
+ {
+  "area": "Earth obs.",
+  "check": "Vegetated area 2022, Landsat P90 NDVI > 0.15",
+  "modelled": "4,024 ha",
+  "target / observed": "1,579 ha (S16)",
+  "criterion": "±25 %",
+  "result": "❌ fail",
+  "note": ""
+ },
+ {
+  "area": "Earth obs.",
+  "check": "Vegetated area 1996, Landsat P90 NDVI > 0.2",
+  "modelled": "106 ha",
+  "target / observed": "57 ha (S16)",
+  "criterion": "±25 %",
+  "result": "❌ fail",
+  "note": "operational threshold used for the map layer"
+ },
+ {
+  "area": "Earth obs.",
+  "check": "Vegetated area 2022, Landsat P90 NDVI > 0.2",
+  "modelled": "2,153 ha",
+  "target / observed": "1,579 ha (S16)",
+  "criterion": "±25 %",
+  "result": "❌ fail",
+  "note": "operational threshold used for the map layer"
+ },
+ {
+  "area": "Earth obs.",
+  "check": "Vegetated area 1996, Landsat P90 NDVI > 0.25",
+  "modelled": "51 ha",
+  "target / observed": "57 ha (S16)",
+  "criterion": "±25 %",
+  "result": "🔧 calibrated",
+  "note": "threshold chosen because it matches S16 in both years — a 1-parameter fit, so reported as calibrated; surface-reflectance NDVI reads higher over bare desert than S16's NDVI"
+ },
+ {
+  "area": "Earth obs.",
+  "check": "Vegetated area 2022, Landsat P90 NDVI > 0.25",
+  "modelled": "1,208 ha",
+  "target / observed": "1,579 ha (S16)",
+  "criterion": "±25 %",
+  "result": "🔧 calibrated",
+  "note": "threshold chosen because it matches S16 in both years — a 1-parameter fit, so reported as calibrated; surface-reflectance NDVI reads higher over bare desert than S16's NDVI"
+ },
+ {
+  "area": "Earth obs.",
+  "check": "CMIP6 scenario families in stress test",
+  "modelled": "cmip_ssp245, cmip_ssp585",
   "target / observed": "SSP2-4.5 / SSP5-8.5",
   "criterion": "included",
-  "result": "⏳ pending",
-  "note": "needs Earth Engine"
+  "result": "✅ pass",
+  "note": "5-model ensemble monthly deltas (Tmax, rain) applied to the 1981–2025 record"
+ },
+ {
+  "area": "Earth obs.",
+  "check": "NDVI season labels: rules vs KMeans",
+  "modelled": "87 % agree",
+  "target / observed": "122 fields, 2318 field-seasons",
+  "criterion": "≥ 70 %",
+  "result": "✅ pass",
+  "note": "consistency check, not ground truth"
+ },
+ {
+  "area": "Earth obs.",
+  "check": "IMERG vs NASA POWER annual rain (2001–2025)",
+  "modelled": "28 mm",
+  "target / observed": "48 mm (POWER)",
+  "criterion": "±50 %",
+  "result": "✅ pass",
+  "note": "two independent NASA rain products at the station pixel"
  },
  {
   "area": "App",
   "check": "Precomputed configurations",
-  "modelled": "75 files",
-  "target / observed": "5 profiles × 5 ECw × 3 water = 75",
-  "criterion": "= 75",
+  "modelled": "15 files",
+  "target / observed": "5 ECw × 3 water (5 profiles inside)",
+  "criterion": "= 15",
+  "result": "✅ pass",
+  "note": ""
+ },
+ {
+  "area": "App",
+  "check": "Total web data",
+  "modelled": "4.3 MB",
+  "target / observed": "< 15 MB",
+  "criterion": "< 15 MB",
   "result": "✅ pass",
   "note": ""
  },
  {
   "area": "App",
   "check": "Largest plan file (one interaction)",
-  "modelled": "158 KB (≈ 23 KB gzip)",
+  "modelled": "318 KB (≈ 53 KB gzip)",
   "target / observed": "< 2 s per interaction",
-  "criterion": "< 300 KB raw",
+  "criterion": "< 900 KB raw",
   "result": "✅ pass",
   "note": "sliders read an in-memory grid (no network)"
  }

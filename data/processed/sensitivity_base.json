@@ -1,37 +1,77 @@
 {
  "max_profit": [
-  "barley",
-  "sorghum",
-  "quinoa",
-  "sorghum",
-  "quinoa",
-  "sorghum"
+  [
+   "wheat",
+   "cotton",
+   "wheat",
+   "cotton",
+   "wheat",
+   "cotton"
+  ],
+  [
+   0.9,
+   0.3,
+   0.5,
+   0.4,
+   0.5,
+   0.7
+  ]
  ],
  "min_water": [
-  "squash",
-  "fallow",
-  "squash",
-  "fallow",
-  "barley_forage",
-  "fallow"
+  [
+   "wheat",
+   "fallow",
+   "wheat",
+   "fallow",
+   "wheat",
+   "fallow"
+  ],
+  [
+   0.2,
+   0.0,
+   0.3,
+   0.0,
+   0.1,
+   0.0
+  ]
  ],
  "best_soil": [
-  "faba_bean",
-  "sorghum",
-  "faba_bean",
-  "sorghum",
-  "faba_bean",
-  "cowpea"
+  [
+   "faba_bean",
+   "cotton",
+   "squash",
+   "sesbania",
+   "squash",
+   "sesbania"
+  ],
+  [
+   0.9,
+   0.2,
+   0.5,
+   0.8,
+   0.5,
+   0.7
+  ]
  ],
  "compromise": [
-  "barley",
-  "fallow",
-  "barley_forage",
-  "fallow",
-  "barley_forage",
-  "fallow"
+  [
+   "wheat",
+   "fallow",
+   "wheat",
+   "fallow",
+   "triticale",
+   "fallow"
+  ],
+  [
+   0.9,
+   0.0,
+   0.5,
+   0.0,
+   0.5,
+   0.0
+  ]
  ],
- "comp_value": 1.387701504425701,
- "comp_water": 13654.688090473604,
- "cur_value": 1.4493694151044791
+ "comp_value": 158384.85880762822,
+ "comp_water": 13587.660404509556,
+ "cur_value": 125324.88082341164
 }

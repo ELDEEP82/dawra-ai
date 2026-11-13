@@ -75,14 +75,23 @@ def et0_pm(tmax, tmin, rs, ea, u2, doy, lat_deg: float, elev_m: float) -> np.nda
     return num / (delta + gamma * (1 + 0.34 * u2))
 
 
-def et0_fao56(df: pd.DataFrame, lat: float = POWER_LAT, elev: float = POWER_ELEV_M, d_t: float = 0.0) -> pd.Series:
+def per_day(x, index: pd.DatetimeIndex) -> np.ndarray | float:
+    """Scalar → scalar; 12 monthly values → one value per day of ``index`` (CMIP6 monthly deltas)."""
+    if np.ndim(x) == 0:
+        return float(x)
+    arr = np.asarray(x, dtype=float)
+    return arr[index.month.to_numpy() - 1]
+
+
+def et0_fao56(df: pd.DataFrame, lat: float = POWER_LAT, elev: float = POWER_ELEV_M, d_t=0.0) -> pd.Series:
     """Daily ET0 (mm/day) from a POWER frame; ``ea`` from mean RH (FAO-56 Eq.19).
 
     ``d_t`` shifts Tmax/Tmin for warming scenarios while holding RH constant
     (standard delta-change practice), so ea rises with es.
     """
-    tmax = df["T2M_MAX"].to_numpy() + d_t
-    tmin = df["T2M_MIN"].to_numpy() + d_t
+    dt = per_day(d_t, df.index)
+    tmax = df["T2M_MAX"].to_numpy() + dt
+    tmin = df["T2M_MIN"].to_numpy() + dt
     es = (sat_vp(tmax) + sat_vp(tmin)) / 2
     ea = df["RH2M"].to_numpy() / 100.0 * es
     rs = df["ALLSKY_SFC_SW_DWN"].to_numpy()
@@ -191,12 +200,13 @@ def gap_fill_solar(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # --------------------------------------------------------------------------- summaries
-def add_derived(df: pd.DataFrame, d_t: float = 0.0, rain_scale: float = 1.0) -> pd.DataFrame:
-    """Daily frame with ET0 and Peff (optionally warmed by ``d_t`` and rain scaled)."""
+def add_derived(df: pd.DataFrame, d_t=0.0, rain_scale=1.0) -> pd.DataFrame:
+    """Daily frame with ET0 and Peff (optionally warmed by ``d_t`` and rain scaled; scalars or 12 monthly values)."""
     out = df.copy()
-    out["T2M_MAX"] = out["T2M_MAX"] + d_t
-    out["T2M_MIN"] = out["T2M_MIN"] + d_t
-    out["PRECTOTCORR"] = out["PRECTOTCORR"] * rain_scale
+    dt = per_day(d_t, out.index)
+    out["T2M_MAX"] = out["T2M_MAX"] + dt
+    out["T2M_MIN"] = out["T2M_MIN"] + dt
+    out["PRECTOTCORR"] = out["PRECTOTCORR"] * per_day(rain_scale, out.index)
     out["ET0"] = et0_fao56(df, d_t=d_t).to_numpy()
     out["Peff"] = daily_peff(out["PRECTOTCORR"]).to_numpy()
     return out

@@ -40,14 +40,14 @@ def evaluate(plans: list[tuple[str, ...]], overrides: dict[str, float] | None = 
         farm = default_farm()
         ev = O.Evaluator(eng, farm)
         cur = ev(O.current_plan(farm.last_crop))
-        items = [ev(p) for p in plans]
+        items = [ev(*k) for k in plans]
         front = O.pareto_filter([e for e in items if e.feasible]) or [cur]
         picks = O.pick_extremes(front, cur)
         w = load_farmer_profiles()["balanced"].to_dict()
         w["risk_climate"] = 0.0  # robustness not recomputed per perturbation
-        comp, _ = O.compromise(front, w)
-        out = {k: list(e.plan) for k, e in picks.items()}
-        out["compromise"] = list(comp.plan)
+        comp, _ = O.compromise(front, w, cur)
+        out = {k: [list(e.plan), list(e.area_frac or [])] for k, e in picks.items()}
+        out["compromise"] = [list(comp.plan), list(comp.area_frac or [])]
         out["comp_value"] = comp.value
         out["comp_water"] = comp.water_m3
         out["cur_value"] = cur.value
@@ -66,7 +66,7 @@ def run(workers: int = 6) -> pd.DataFrame:
     """Run the full ±20 % sweep; returns one row per assumption."""
     eng, _ = build_engine()
     front, ev = O.run(eng, default_farm())
-    plans = [e.plan for e in front]
+    plans = [e.key for e in front]
     base = evaluate(plans)
     ids = candidate_ids()
     jobs = [(i, f, plans) for i in ids for f in (0.8, 1.2)]
@@ -126,11 +126,8 @@ def write_report(df: pd.DataFrame | None = None) -> str:
         "## Top 15 by swing", "",
         md_table(df.head(15)[["id", "base_value", "comp_value_-20%", "comp_value_+20%", "comp_water_-20%",
                               "comp_water_+20%", "picks_changed"]], "{:+.1f}"), "",
-        "Reading: the plan ranking is most sensitive to the FAO-56 stage-length fractions and drip efficiency "
-        "(they set peak demand, hence how many feddan the well can water), to quinoa's Kc (quinoa is a FAO-56 gap), "
-        "to the S4-based ECe calibration (`soil.lf_cal`) and to the planning rule 'at least 3 cropped seasons'. "
-        "Prices, once available, will add another first-order driver. Picks are robust to the residue-carbon, "
-        "nitrogen, effective-rain and most heat thresholds.", "",
+        "Reading: the assumptions at the top of the tornado are the ones to verify locally first; flips are also "
+        "shown on each plan card in the app.", "",
         "Full table: `data/processed/sensitivity.csv`.",
     ]
     text = "\n".join(md)

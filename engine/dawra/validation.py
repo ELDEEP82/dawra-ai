@@ -12,7 +12,7 @@ from .config import PROCESSED, REPORTS, WEB_DATA
 from .eo import eo_status
 from .reporting import md_table
 
-PASS, FAIL, PEND, CAL = "✅ pass", "❌ fail", "⏳ pending", "🔧 calibrated"
+PASS, FAIL, PEND, CAL, NA = "✅ pass", "❌ fail", "⏳ pending", "🔧 calibrated", "➖ not testable"
 
 
 def checks() -> pd.DataFrame:
@@ -75,18 +75,57 @@ def checks() -> pd.DataFrame:
         f"{sw.error_pct:+.0f} %: the trial leached less than FAO-29 recommends (LF ≈ 0.16 vs LR 0.26) and "
         "furrow losses are counted. Dawra plans are conservative on water.")
     st = eo_status()
-    add("Earth obs.", "ET0 vs MODIS MOD16 ET", "—", "MOD16A2GF", "pattern r > 0.6", PEND if st != "ok" else PASS,
-        "needs Earth Engine")
-    add("Earth obs.", "Vegetated area (NDVI > 0.1) 2022", "—", "1,579 ha (S16)", "±25 %", PEND if st != "ok" else PASS,
-        "needs Earth Engine")
-    add("Earth obs.", "CMIP6 scenario family in stress test", "—", "SSP2-4.5 / SSP5-8.5", "included",
-        PEND if st != "ok" else PASS, "needs Earth Engine")
+    from .eo_summary import field_evidence, modis_et_check, summary, veg_check  # noqa: PLC0415
+    from .stress import scenario_families  # noqa: PLC0415
+
+    me = modis_et_check()
+    if me is None:
+        add("Earth obs.", "ET0 vs MODIS MOD16 ET", "—", "MOD16A2GF", "pattern r > 0.6", PEND, "not extracted")
+    elif me.get("status") == "no_data":
+        add("Earth obs.", "ET0 vs MODIS MOD16 ET", f"0 valid of {me['n_images']} images", "MOD16A2GF",
+            "pattern r > 0.6", NA, me["reason"])
+    else:
+        add("Earth obs.", "ET0 vs MODIS MOD16 ET (fields)", f"r = {me['r']}", "MOD16A2GF monthly", "r > 0.6",
+            PASS if me["r"] > 0.6 else FAIL, f"implied Kc {me['implied_kc']}")
+    for row in veg_check():
+        t = row["threshold"]
+        for y in (1996, 2022):
+            mv, ref = row.get(f"model_{y}"), row[f"s16_{y}"]
+            if mv is None:
+                continue
+            ok = abs(mv / ref - 1) <= 0.25
+            note = ("S16's own threshold; with surface-reflectance NDVI the bare desert at the station reads ≈0.09 "
+                    "(median of 677 Sentinel-2 scenes), so most of the plain passes 0.1." if t == 0.1 else
+                    "operational threshold used for the map layer" if t == 0.2 else "")
+            if t == 0.25:
+                note = ("threshold chosen because it matches S16 in both years — a 1-parameter fit, so reported as "
+                        "calibrated; surface-reflectance NDVI reads higher over bare desert than S16's NDVI")
+            status = (CAL if ok else FAIL) if t == 0.25 else (PASS if ok else FAIL)
+            add("Earth obs.", f"Vegetated area {y}, Landsat P90 NDVI > {t:g}", f"{mv:,.0f} ha", f"{ref:,.0f} ha (S16)",
+                "±25 %", status, note)
+    fams = [f.key for f in scenario_families()]
+    add("Earth obs.", "CMIP6 scenario families in stress test", ", ".join(k for k in fams if k.startswith("cmip")) or "—",
+        "SSP2-4.5 / SSP5-8.5", "included", PASS if any(k.startswith("cmip") for k in fams) else PEND,
+        "5-model ensemble monthly deltas (Tmax, rain) applied to the 1981–2025 record")
+    fe = field_evidence()
+    if fe.get("status") == "ok":
+        add("Earth obs.", "NDVI season labels: rules vs KMeans", f"{fe['kmeans_agreement'] * 100:.0f} % agree",
+            f"{fe['n_fields']} fields, {sum(fe['labels'].values())} field-seasons", "≥ 70 %",
+            PASS if fe["kmeans_agreement"] >= 0.7 else FAIL, "consistency check, not ground truth")
+    sm = summary()
+    if "imerg_annual_mm" in sm:
+        add("Earth obs.", "IMERG vs NASA POWER annual rain (2001–2025)", f"{sm['imerg_annual_mm']:.0f} mm",
+            f"{long[(long.index >= 2001)]['rain_mm'].mean():.0f} mm (POWER)", "±50 %",
+            PASS if abs(sm["imerg_annual_mm"] / long[(long.index >= 2001)]["rain_mm"].mean() - 1) <= 0.5 else FAIL,
+            "two independent NASA rain products at the station pixel")
     plans = sorted((WEB_DATA / "plans").glob("*.json"))
     sizes = [p.stat().st_size for p in plans]
-    add("App", "Precomputed configurations", f"{len(plans)} files", "5 profiles × 5 ECw × 3 water = 75", "= 75",
-        PASS if len(plans) == 75 else FAIL)
-    add("App", "Largest plan file (one interaction)", f"{max(sizes) / 1024:.0f} KB (≈ {max(sizes) / 1024 / 7:.0f} KB gzip)",
-        "< 2 s per interaction", "< 300 KB raw", PASS if max(sizes) < 300 * 1024 else FAIL,
+    add("App", "Precomputed configurations", f"{len(plans)} files", "5 ECw × 3 water (5 profiles inside)", "= 15",
+        PASS if len(plans) == 15 else FAIL)
+    total = sum(p.stat().st_size for p in WEB_DATA.rglob("*") if p.is_file())
+    add("App", "Total web data", f"{total / 1e6:.1f} MB", "< 15 MB", "< 15 MB", PASS if total < 15e6 else FAIL)
+    add("App", "Largest plan file (one interaction)", f"{max(sizes) / 1024:.0f} KB (≈ {max(sizes) / 1024 / 6:.0f} KB gzip)",
+        "< 2 s per interaction", "< 900 KB raw", PASS if max(sizes) < 900 * 1024 else FAIL,
         "sliders read an in-memory grid (no network)")
     return pd.DataFrame(rows)
 

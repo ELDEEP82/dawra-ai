@@ -149,3 +149,18 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   fallow (like F001).
 - **D48 CMIP6** (NEX-GDDP, 5 models: ACCESS-CM2, MPI-ESM1-2-HR, MRI-ESM2-0, EC-Earth3, GFDL-ESM4): ensemble monthly
   ΔTmax and Δpr (2041–2060 vs 1995–2014) applied to the 1981–2025 record as two extra stress families.
+
+## Upgrade round — P3 Stronger, more honest results
+- **D49 Leaching achieved** is a stress dimension: 100 / 70 / 40 % of the FAO-29 leaching water (S1 itself applied
+  ≈ 60 %). Robustness is pooled over 9 climate families (incl. 2 CMIP6) × 3 leaching levels × 200 draws = 5,400 futures.
+  It now separates plans: current barley/fallow 32 % (salt builds up as soon as leaching drops), balanced 49 %,
+  wheat/cotton 66 %; the minimum-water plan scores 8 % because most of the farm is left idle and salty.
+- **D50 Crop + area genes**: 12 genes (6 crops + 6 irrigated-area levels 10…100 % of the farm, capped by the well).
+  Reported: idle feddan, EGP per m³, kg per m³. The current rotation keeps "as much as the well allows".
+- **D51 Compromise guard**: TOPSIS considers only plans keeping ≥ 80 % of the current profit (same guard as the water and
+  soil picks); without it TOPSIS chose barley on 10 % of the farm.
+- **D52 Uncertainty bands** P10/P50/P90 of profit, output and final ECe from the historical bootstrap (full leaching);
+  they are narrow because year-to-year climate varies little here — management (leaching) is the bigger risk.
+- **D53 Export v2**: one file per (ECw × water) with a de-duplicated plan library, picks, per-profile compromise cards,
+  Pareto front, optimiser search sample, ECe paths for the stress animation, 7×4×4×3 what-if grid → 4.3 MB total.
+- **D54 Sensitivity** re-run on the new model (106 assumptions): 11 change a pick; flips are shown on each card.

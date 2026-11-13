@@ -82,7 +82,8 @@ def climate_daily() -> pd.DataFrame:
 def bank_for(d_t: float = 0.0, rain_scale: float = 1.0, crops: dict[str, Crop] | None = None) -> BankArrays:
     """Season bank for a (possibly warmed / drier) climate."""
     raw = extend_power()
-    clim = add_derived(raw, d_t=d_t, rain_scale=rain_scale) if (d_t or rain_scale != 1.0) else climate_daily()
+    plain = np.ndim(d_t) == 0 and np.ndim(rain_scale) == 0 and not d_t and rain_scale == 1.0
+    clim = climate_daily() if plain else add_derived(raw, d_t=d_t, rain_scale=rain_scale)
     crops = crops or build_crops()
     return BankArrays(build_bank(clim, crops), int(A.get("clim.normal_start")), int(A.get("clim.normal_end")))
 

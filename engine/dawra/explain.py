@@ -100,18 +100,21 @@ def evidence(p: dict, ctx: dict) -> tuple[list[str], list[str]]:
           f"أيام الصيف اللي فوق ٣٥° حوالي {cl['heat_days']:.0f} يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور "
           f"(GWETROOT) في الصيف ≈ {cl['gwet_summer']:.2f} — الأرض ناشفة من غير ري."]
     if rob:
+        cm = " and CMIP6 2050s futures" if rob.get("cmip6") == "included" else ""
+        cm_ar = " ومستقبل الخمسينات من CMIP6" if rob.get("cmip6") == "included" else ""
         en.append(f"Stress test on {rob['n_draws']:,} simulated 3-year futures (45 years of NASA climate, +1/+2 °C, "
-                  f"−10/−20% rain, saltier well): this plan held up in {rob['robustness_pct']:.0f}% of them.")
-        ar.append(f"اختبار تحمّل على {rob['n_draws']:,} سيناريو لـ ٣ سنين (٤٥ سنة مناخ ناسا، +١/+٢ درجة، مطر أقل "
-                  f"١٠/٢٠٪، بير أملح): الخطة نجحت في {rob['robustness_pct']:.0f}٪ منهم.")
+                  f"−10/−20% rain, saltier well{cm}, and 100/70/40 % of the leaching water): this plan held up in "
+                  f"{rob['robustness_pct']:.0f}% of them.")
+        ar.append(f"اختبار تحمّل على {rob['n_draws']:,} سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل "
+                  f"10/20٪، بير أملح{cm_ar}، و100/70/40٪ من مية الغسيل): الخطة نجحت في {rob['robustness_pct']:.0f}٪ منهم.")
     if ctx["eo_status"] == "pending":
         en.append("Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded "
                   "and will be added once Earth Engine access is enabled.")
         ar.append("طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) "
                   "جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.")
     else:
-        en.append(ctx["eo_sentence_en"])
-        ar.append(ctx["eo_sentence_ar"])
+        en.extend(ctx["eo_sentence_en"])
+        ar.extend(ctx["eo_sentence_ar"])
     en.append("Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on "
               "S4 (ECe 8.56 at ECw 7.94).")
     ar.append("الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: ٤٢١٥ كجم/هكتار بملوحة مية ٨٫٣٥)؛ "
@@ -130,8 +133,19 @@ def benefits(p: dict, cur: dict) -> tuple[list[str], list[str]]:
                   f"{t['soil_index']:.0f}/١٠٠.")
         return en, ar
     if t["value_vs_current_pct"] is not None and abs(t["value_vs_current_pct"]) >= 1:
-        en.append(f"Output {_pct(t['value_vs_current_pct'])} vs your current rotation.")
-        ar.append(f"الإنتاج {_pct(t['value_vs_current_pct'])} مقارنة بدورتك الحالية.")
+        if t["value_kind"] == "profit_egp":
+            en.append(f"Net profit {money(t)} in 3 years ({_pct(t['value_vs_current_pct'])} vs your current "
+                      f"{money(c)}); ≈ {_n(t['profit_per_feddan_year'])} EGP per feddan per year.")
+            ar.append(f"صافي الربح {money(t, 'ar')} في 3 سنين ({_pct(t['value_vs_current_pct'])} مقارنة بـ "
+                      f"{money(c, 'ar')} دلوقتي)؛ حوالي {_n(t['profit_per_feddan_year'])} جنيه للفدان في السنة.")
+        else:
+            en.append(f"Output {_pct(t['value_vs_current_pct'])} vs your current rotation.")
+            ar.append(f"الإنتاج {_pct(t['value_vs_current_pct'])} مقارنة بدورتك الحالية.")
+    if t.get("egp_per_m3") and c.get("egp_per_m3") and t["egp_per_m3"] > c["egp_per_m3"] * 1.05:
+        en.append(f"Earns more per drop: {t['egp_per_m3']:.1f} EGP per m³ vs {c['egp_per_m3']:.1f} now; "
+                  f"{t['kg_per_m3']:.2f} kg of product per m³.")
+        ar.append(f"بيكسب أكتر من كل نقطة مية: {t['egp_per_m3']:.1f} جنيه للمتر المكعب مقابل {c['egp_per_m3']:.1f} دلوقتي؛ "
+                  f"و{t['kg_per_m3']:.2f} كجم محصول لكل م³.")
     if t["water_vs_current_pct"] < -1:
         en.append(f"Saves {abs(t['water_vs_current_pct']):.0f}% water ({_n(t['water_m3'])} vs {_n(c['water_m3'])} m³ "
                   "in 3 years).")
@@ -183,8 +197,18 @@ def gaps(p: dict, ctx: dict) -> tuple[list[str], list[str]]:
     if FALLOW in p["plan"]:
         en.append("How fast salt rises in an unirrigated summer fallow is not measured locally (assumed +5% per season).")
         ar.append("سرعة زيادة الملح في البور الصيفي مش متقاسة محليًا (مفترضة +٥٪ كل موسم).")
-    en.append("Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data.")
-    ar.append("تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة.")
+    flips = ctx.get("rank_flips") or []
+    if flips:
+        en.append("This pick is sensitive: a ±20 % change in " + ", ".join(f"`{f}`" for f in flips[:4])
+                  + " can change it (sensitivity analysis).")
+        ar.append("الاختيار ده حساس: تغيير ±20٪ في " + "، ".join(flips[:4]) + " ممكن يغيّره (تحليل الحساسية).")
+    if ctx["eo_status"] == "pending":
+        en.append("Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data.")
+        ar.append("تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة.")
+    else:
+        en.append("The plan uses the station's climate and soil; your own field's NDVI history is on the map — pick "
+                  "your field to compare.")
+        ar.append("الخطة مبنية على مناخ وتربة المحطة؛ تاريخ خضرة حقلك موجود على الخريطة — اختار حقلك وقارن.")
     return en, ar
 
 
@@ -216,6 +240,14 @@ def risks(p: dict, ctx: dict) -> tuple[list[str], list[str]]:
         en.append("Two seasons in a row of the same plant family: watch for pests and diseases.")
         ar.append("موسمين ورا بعض من نفس العيلة النباتية: خلي بالك من الآفات والأمراض.")
     rob = p.get("robustness") or {}
+    bl = {b["leach_pct"]: b for b in rob.get("by_leaching") or []}
+    if 70 in bl and 40 in bl:
+        en.append(f"If you apply only 70 % / 40 % of the leaching water the plan passes {bl[70]['pass_pct']:.0f}% / "
+                  f"{bl[40]['pass_pct']:.0f}% of futures (salt builds up in {bl[70]['salt_buildup_pct']:.0f}% / "
+                  f"{bl[40]['salt_buildup_pct']:.0f}%). The S1 trial applied about 60 % of the FAO-29 amount.")
+        ar.append(f"لو حطيت 70٪ / 40٪ بس من مية الغسيل الخطة بتنجح في {bl[70]['pass_pct']:.0f}٪ / {bl[40]['pass_pct']:.0f}٪ "
+                  f"من الحالات (الملح بيتراكم في {bl[70]['salt_buildup_pct']:.0f}٪ / {bl[40]['salt_buildup_pct']:.0f}٪). "
+                  "تجربة S1 حطت حوالي 60٪ من كمية FAO-29.")
     w = rob.get("worst") or {}
     if w and w.get("cause") not in (None, "none"):
         lab = next((b for b in rob["by_scenario"] if b["key"] == w["key"]), {})

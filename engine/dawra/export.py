@@ -4,10 +4,10 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from . import assumptions as A
 from .config import HA_PER_FEDDAN
 from .crop_params import CROP_AR
 from .optimizer import Evaluated
-from . import assumptions as A
 from .simulate import FALLOW, Engine, Farm, slot_profit, straw_t_per_fdn
 from .water_salt import slot_start
 
@@ -31,12 +31,13 @@ def _md(ts: pd.Timestamp) -> str:
     return ts.strftime("%m-%d")
 
 
-def season_rows(e: Evaluated, eng: Engine) -> list[dict]:
+def season_rows(e: Evaluated, eng: Engine, farm: Farm | None = None) -> list[dict]:
     """Per-slot JSON rows with sowing/harvest dates and the agronomy numbers."""
     rows = []
     for s in e.sim.slots:
         row = {"slot": s.slot, "crop_id": s.crop_id, "crop_en": "Fallow" if s.crop_id == FALLOW else
-               eng.crops[s.crop_id].crop_en, "crop_ar": CROP_AR[s.crop_id], "part": s.part}
+               eng.crops[s.crop_id].crop_en, "crop_ar": CROP_AR[s.crop_id], "part": s.part,
+               "idle_fdn": round((farm.area_fdn if farm else 0) - s.area_fdn, 2)}
         if s.crop_id != FALLOW:
             c = eng.crops[s.crop_id]
             sow = slot_start(c.slot, 2001) + pd.Timedelta(days=c.sow_offset)
@@ -81,16 +82,22 @@ def plan_json(e: Evaluated, kind: str, eng: Engine, farm: Farm, current: Evaluat
     end = e.sim.end
     return {
         "id": kind, "kind": kind, "label_en": lab[0], "label_ar": lab[1], "plan": list(e.plan),
-        "seasons": season_rows(e, eng),
+        "area_frac": list(e.area_frac) if e.area_frac else None,
+        "seasons": season_rows(e, eng, farm),
         "totals": {
             "value": round(e.value, 4), "value_kind": "profit_egp" if priced else "productivity_index",
-            "value_vs_current_pct": round((e.value / current.value - 1) * 100, 1) if current.value else None,
+            "value_vs_current_pct": round((e.value - current.value) / abs(current.value) * 100, 1)
+            if current.value else None,
             "water_m3": round(e.water_m3), "water_vs_current_pct": round((e.water_m3 / current.water_m3 - 1) * 100, 1),
             "water_m3_per_year": round(e.water_m3 / 3), "soil_index": round(e.soil_index, 1),
             "profit_per_feddan_year": round(e.value / farm.area_fdn / 3) if priced else None,
             "ECe_end": _r(end.ece, 2), "SOC_end": _r(end.soc_pct, 3), "N_end": _r(end.n_mg_kg, 1),
             "min_rel_yield": round(e.min_ry, 1), "market_score": round(e.market, 2),
             "cropped_seasons": sum(1 for c in e.plan if c != FALLOW), "pest_flags": end.pest_flags,
+            "product_t": round(e.product_kg / 1000, 2), "kg_per_m3": round(e.kg_per_m3, 2),
+            "m3_per_1000_egp": round(e.m3_per_1000_egp, 1) if (priced and e.m3_per_1000_egp) else None,
+            "egp_per_m3": round(e.value / e.water_m3, 2) if (priced and e.water_m3) else None,
+            "idle_fdn_avg": round(float(np.mean([farm.area_fdn - a for a in e.sim.planted_fdn])), 2),
         },
         "soil_trajectory": trajectory(e), "robustness": None, "explanation": None,
     }

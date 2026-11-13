@@ -21,7 +21,7 @@ def write_report() -> dict:
     cur = ev(O.current_plan(farm.last_crop))
     picks = O.pick_extremes(front, cur)
     weights = load_farmer_profiles()["balanced"].to_dict()
-    comp, _ = O.compromise(front, weights)
+    comp, _ = O.compromise(front, weights, cur)
     priced = prices_available(eng.prices, list(eng.crops))
     chosen = {"current": cur, **picks, "compromise": comp}
     out = {"farm_id": farm.farm_id, "profile": "balanced", "prices_pending": not priced,

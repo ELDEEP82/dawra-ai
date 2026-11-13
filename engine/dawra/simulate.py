@@ -115,6 +115,12 @@ class SimResult:
     soil_index: np.ndarray
     start: SoilState
     trajectory: list[SoilState] = field(default_factory=list)
+    product_kg: np.ndarray | float = 0.0
+
+    @property
+    def planted_fdn(self) -> list[float]:
+        """Planted feddan per slot (0 for fallow)."""
+        return [s.area_fdn for s in self.slots]
 
     @property
     def end(self) -> SoilState:
@@ -220,12 +226,15 @@ class Engine:
 
 
 def simulate(plan: tuple[str, ...], farm: Farm, eng: Engine, years: np.ndarray | None = None,
-             d_ecw: float = 0.0, bank: BankArrays | None = None) -> SimResult:
+             d_ecw: float = 0.0, bank: BankArrays | None = None, area_frac: tuple[float, ...] | None = None,
+             leach: float = 1.0) -> SimResult:
     """Simulate a 6-slot plan.
 
     ``years``: None → typical climate; else int array (n, 6) of season-years per slot.
     ``bank``: climate bank to read (defaults to ``eng.bank``; pass a warmed/drier bank for deltas).
-    Planted area always uses the typical climate (decided before the season).
+    ``area_frac``: chosen share of the farm to irrigate per slot (capped by the well); None → as much as the well
+    allows. Planted area is always decided on the typical climate (before the season).
+    ``leach``: share of the FAO-29 leaching requirement the farmer actually applies (1 = full, 0.4 = 40 %).
     """
     bank = bank or eng.bank
     crops = eng.crops
@@ -253,11 +262,12 @@ def simulate(plan: tuple[str, ...], farm: Farm, eng: Engine, years: np.ndarray |
             yr = years[:, i] if p == 0 else years[:, i - 1]  # perennial part 1 uses its sowing year
             vals = {k: bank.gather(key, yr, k) for k in BankArrays.COLS}
         if p == 0 or cid not in areas:
-            areas[cid] = eng.area_limit(cid, farm, farm.ecw)
+            limit = eng.area_limit(cid, farm, farm.ecw)
+            areas[cid] = limit if area_frac is None else min(limit, max(area_frac[i], 0.0) * farm.area_fdn)
         area = areas[cid]
         f = area / farm.area_fdn
         lr = float(leaching_requirement(ecw, c.ece100))
-        need = gross_irrigation(vals["etc"], vals["peff"], lr, ea)
+        need = gross_irrigation(vals["etc"], vals["peff"], lr * leach, ea)
         applied, eta = supply_limited(need, vals, lr, ea, area, farm.water_m3_day)
         drain = drainage_mm(applied, eta, vals["peff"])
         lf = drain / np.maximum(applied + vals["peff"], 1e-9)
@@ -272,9 +282,11 @@ def simulate(plan: tuple[str, ...], farm: Farm, eng: Engine, years: np.ndarray |
     water = sum(s.water_m3 for s in slots)
     prod = sum((s.area_fdn / farm.area_fdn) * np.nan_to_num(s.rel_yield_pct) / 100.0
                * (crops[s.crop_id].revenue_weight if s.crop_id != FALLOW else 0.0) for s in slots)
+    product = sum(np.nan_to_num(s.yield_kg_ha) * HA_PER_FEDDAN * s.area_fdn for s in slots
+                  if s.crop_id != FALLOW and crops[s.crop_id].revenue_weight > 0)
     return SimResult(plan=tuple(plan), slots=slots, water_m3=water, productivity=prod,
                      profit_egp=_profit(slots, eng), soil_index=soil_health_index(start, state), start=start,
-                     trajectory=traj)
+                     trajectory=traj, product_kg=product)
 
 
 def supply_limited(need_mm, vals: dict[str, np.ndarray], lr: float, ea: float, area: float,

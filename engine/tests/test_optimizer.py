@@ -57,6 +57,19 @@ def test_short_run_returns_feasible_front(setup):
     assert best in front and len(score) == len(front)
 
 
+def test_area_genes_decode_and_cap(setup):
+    eng, farm = setup
+    dom = O.domains(eng, farm)
+    x = np.array([dom["W"].index("barley"), 0, dom["W"].index("barley"), 0, 0, 0, 9, 4, 0, 9, 9, 9])
+    plan, areas = O.decode_full(x, dom, eng.crops)
+    assert areas[1] == 0.0 and areas[0] == 1.0 and areas[2] == 0.1  # fallow → 0
+    ev = O.Evaluator(eng, farm)
+    full = ev(plan, areas)
+    assert full.sim.slots[0].area_fdn <= eng.area_limit("barley", farm, farm.ecw) + 1e-9  # well cap
+    assert full.sim.slots[2].area_fdn == pytest.approx(0.1 * farm.area_fdn)
+    assert full.kg_per_m3 > 0
+
+
 def test_pareto_filter_removes_dominated(setup):
     eng, farm = setup
     ev = O.Evaluator(eng, farm)

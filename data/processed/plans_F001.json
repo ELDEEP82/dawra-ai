@@ -1,7 +1,7 @@
 {
  "farm_id": "F001",
  "profile": "balanced",
- "prices_pending": true,
+ "prices_pending": false,
  "plans": [
   {
    "id": "current",
@@ -16,6 +16,7 @@
     "barley",
     "fallow"
    ],
+   "area_frac": null,
    "seasons": [
     {
      "slot": "W1",
@@ -23,6 +24,7 @@
      "crop_en": "Barley",
      "crop_ar": "شعير",
      "part": 0,
+     "idle_fdn": 2.58,
      "family": "Poaceae",
      "use": "grain/forage",
      "sow": "10-25",
@@ -41,8 +43,10 @@
      "ece_mean": 7.36,
      "salt_rating": "T",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 93578.0,
+     "cost_egp": 48345.0,
+     "pumping_egp": 3459.0,
+     "profit_egp": 41775.0
     },
     {
      "slot": "S1",
@@ -50,6 +54,7 @@
      "crop_en": "Fallow",
      "crop_ar": "بور (راحة)",
      "part": 0,
+     "idle_fdn": 5.0,
      "area_fdn": 0,
      "water_mm": 0,
      "water_m3": 0,
@@ -62,6 +67,7 @@
      "crop_en": "Barley",
      "crop_ar": "شعير",
      "part": 0,
+     "idle_fdn": 2.58,
      "family": "Poaceae",
      "use": "grain/forage",
      "sow": "10-25",
@@ -80,8 +86,10 @@
      "ece_mean": 7.09,
      "salt_rating": "T",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 93578.0,
+     "cost_egp": 48345.0,
+     "pumping_egp": 3459.0,
+     "profit_egp": 41775.0
     },
     {
      "slot": "S2",
@@ -89,6 +97,7 @@
      "crop_en": "Fallow",
      "crop_ar": "بور (راحة)",
      "part": 0,
+     "idle_fdn": 5.0,
      "area_fdn": 0,
      "water_mm": 0,
      "water_m3": 0,
@@ -101,6 +110,7 @@
      "crop_en": "Barley",
      "crop_ar": "شعير",
      "part": 0,
+     "idle_fdn": 2.58,
      "family": "Poaceae",
      "use": "grain/forage",
      "sow": "10-25",
@@ -119,8 +129,10 @@
      "ece_mean": 6.87,
      "salt_rating": "T",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 93578.0,
+     "cost_egp": 48345.0,
+     "pumping_egp": 3459.0,
+     "profit_egp": 41775.0
     },
     {
      "slot": "S3",
@@ -128,6 +140,7 @@
      "crop_en": "Fallow",
      "crop_ar": "بور (راحة)",
      "part": 0,
+     "idle_fdn": 5.0,
      "area_fdn": 0,
      "water_mm": 0,
      "water_m3": 0,
@@ -136,20 +149,26 @@
     }
    ],
    "totals": {
-    "value": 1.4494,
-    "value_kind": "productivity_index",
+    "value": 125324.8808,
+    "value_kind": "profit_egp",
     "value_vs_current_pct": 0.0,
     "water_m3": 15260,
     "water_vs_current_pct": 0.0,
     "water_m3_per_year": 5087,
     "soil_index": 52.2,
+    "profit_per_feddan_year": 8355,
     "ECe_end": 7.58,
     "SOC_end": 0.176,
     "N_end": 22.6,
     "min_rel_yield": 99.9,
     "market_score": 1.0,
     "cropped_seasons": 3,
-    "pest_flags": 0
+    "pest_flags": 0,
+    "product_t": 12.99,
+    "kg_per_m3": 0.85,
+    "m3_per_1000_egp": 121.8,
+    "egp_per_m3": 8.21,
+    "idle_fdn_avg": 3.79
    },
    "soil_trajectory": [
     {
@@ -196,61 +215,922 @@
     }
    ],
    "robustness": {
-    "robustness_pct": 96.0,
-    "n_draws": 1400,
+    "robustness_pct": 32.0,
+    "n_draws": 5400,
     "by_scenario": [
      {
       "key": "historical",
       "label_en": "Past climate 1981–2025",
-      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
-      "pass_pct": 94.5
+      "label_ar": "مناخ الماضي 1981–2025",
+      "pass_pct": 31.7
      },
      {
       "key": "warm1",
       "label_en": "+1 °C warmer",
       "label_ar": "أدفى بدرجة",
-      "pass_pct": 95.5
+      "pass_pct": 32.0
      },
      {
       "key": "warm2",
       "label_en": "+2 °C warmer",
       "label_ar": "أدفى بدرجتين",
-      "pass_pct": 95.5
+      "pass_pct": 31.8
      },
      {
       "key": "dry10",
       "label_en": "10 % less rain",
-      "label_ar": "مطر أقل ١٠٪",
-      "pass_pct": 97.0
+      "label_ar": "مطر أقل 10٪",
+      "pass_pct": 32.5
      },
      {
       "key": "dry20",
       "label_en": "20 % less rain",
-      "label_ar": "مطر أقل ٢٠٪",
-      "pass_pct": 98.5
+      "label_ar": "مطر أقل 20٪",
+      "pass_pct": 33.2
      },
      {
       "key": "ecw1",
       "label_en": "Well +1 dS/m saltier",
       "label_ar": "البير أملح بـ 1 dS/m",
-      "pass_pct": 95.5
+      "pass_pct": 31.8
      },
      {
       "key": "ecw2",
       "label_en": "Well +2 dS/m saltier",
       "label_ar": "البير أملح بـ 2 dS/m",
-      "pass_pct": 95.5
+      "pass_pct": 31.8
+     },
+     {
+      "key": "cmip_ssp245",
+      "label_en": "2050s, SSP2-4.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP2-4.5 (CMIP6)",
+      "pass_pct": 32.0
+     },
+     {
+      "key": "cmip_ssp585",
+      "label_en": "2050s, SSP5-8.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP5-8.5 (CMIP6)",
+      "pass_pct": 31.3
+     }
+    ],
+    "by_leaching": [
+     {
+      "leach_pct": 100,
+      "pass_pct": 95.7,
+      "salt_buildup_pct": 4.3
+     },
+     {
+      "leach_pct": 70,
+      "pass_pct": 0.3,
+      "salt_buildup_pct": 99.7
+     },
+     {
+      "leach_pct": 40,
+      "pass_pct": 0.0,
+      "salt_buildup_pct": 100.0
      }
     ],
     "worst": {
      "key": "historical",
-     "pass_pct": 94.5,
+     "leach_pct": 40,
+     "pass_pct": 0.0,
      "cause": "salt_buildup",
      "slot": null,
      "crop": null,
-     "share_pct": 5.5
+     "share_pct": 100.0
     },
-    "cmip6": "pending"
+    "bands": {
+     "product_t": {
+      "p10": 12.91,
+      "p50": 13.0,
+      "p90": 13.0
+     },
+     "profit_egp": {
+      "p10": 125010,
+      "p50": 125821,
+      "p90": 126881
+     },
+     "ece_end": {
+      "p10": 7.6,
+      "p50": 7.8,
+      "p90": 8.29
+     }
+    },
+    "paths": {
+     "100": {
+      "ece": [
+       [
+        8.56,
+        7.88,
+        8.27,
+        7.6,
+        7.98,
+        7.28,
+        7.65
+       ],
+       [
+        8.56,
+        7.84,
+        8.24,
+        7.5,
+        7.88,
+        7.53,
+        7.91
+       ],
+       [
+        8.56,
+        7.85,
+        8.24,
+        7.62,
+        8.0,
+        7.28,
+        7.65
+       ],
+       [
+        8.56,
+        7.84,
+        8.23,
+        7.58,
+        7.96,
+        7.55,
+        7.92
+       ],
+       [
+        8.56,
+        7.95,
+        8.35,
+        8.01,
+        8.41,
+        7.67,
+        8.05
+       ],
+       [
+        8.56,
+        7.85,
+        8.24,
+        7.84,
+        8.23,
+        8.5,
+        8.92
+       ],
+       [
+        8.56,
+        8.1,
+        8.5,
+        7.77,
+        8.16,
+        8.43,
+        8.85
+       ],
+       [
+        8.56,
+        7.84,
+        8.23,
+        7.5,
+        7.88,
+        7.31,
+        7.68
+       ],
+       [
+        8.56,
+        7.84,
+        8.24,
+        7.56,
+        7.94,
+        7.25,
+        7.62
+       ],
+       [
+        8.56,
+        7.79,
+        8.18,
+        7.5,
+        7.87,
+        7.45,
+        7.83
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.38,
+        7.75,
+        7.36,
+        7.73
+       ],
+       [
+        8.56,
+        7.72,
+        8.1,
+        8.38,
+        8.8,
+        8.26,
+        8.67
+       ],
+       [
+        8.56,
+        7.71,
+        8.1,
+        7.48,
+        7.85,
+        7.22,
+        7.58
+       ],
+       [
+        8.56,
+        7.72,
+        8.1,
+        7.47,
+        7.85,
+        7.31,
+        7.68
+       ],
+       [
+        8.56,
+        7.73,
+        8.11,
+        7.55,
+        7.92,
+        7.25,
+        7.62
+       ],
+       [
+        8.56,
+        7.69,
+        8.07,
+        7.71,
+        8.09,
+        7.62,
+        8.0
+       ],
+       [
+        8.56,
+        7.79,
+        8.18,
+        7.69,
+        8.07,
+        7.54,
+        7.91
+       ],
+       [
+        8.56,
+        7.99,
+        8.39,
+        7.9,
+        8.29,
+        7.61,
+        8.0
+       ],
+       [
+        8.56,
+        8.79,
+        9.23,
+        8.47,
+        8.9,
+        8.1,
+        8.51
+       ],
+       [
+        8.56,
+        7.82,
+        8.21,
+        7.53,
+        7.9,
+        7.48,
+        7.85
+       ],
+       [
+        8.56,
+        7.8,
+        8.2,
+        7.51,
+        7.89,
+        7.2,
+        7.56
+       ],
+       [
+        8.56,
+        7.89,
+        8.29,
+        7.51,
+        7.89,
+        7.63,
+        8.02
+       ],
+       [
+        8.56,
+        7.76,
+        8.14,
+        7.52,
+        7.9,
+        7.51,
+        7.88
+       ],
+       [
+        8.56,
+        7.71,
+        8.1,
+        7.65,
+        8.04,
+        7.44,
+        7.81
+       ],
+       [
+        8.56,
+        7.84,
+        8.24,
+        7.46,
+        7.83,
+        7.24,
+        7.6
+       ],
+       [
+        8.56,
+        8.18,
+        8.59,
+        7.84,
+        8.24,
+        7.6,
+        7.98
+       ],
+       [
+        8.56,
+        7.85,
+        8.25,
+        7.67,
+        8.06,
+        7.41,
+        7.78
+       ],
+       [
+        8.56,
+        7.8,
+        8.2,
+        7.74,
+        8.13,
+        7.68,
+        8.06
+       ],
+       [
+        8.56,
+        7.84,
+        8.23,
+        7.73,
+        8.12,
+        7.54,
+        7.91
+       ],
+       [
+        8.56,
+        7.73,
+        8.11,
+        7.51,
+        7.88,
+        7.64,
+        8.02
+       ],
+       [
+        8.56,
+        7.99,
+        8.39,
+        7.63,
+        8.02,
+        7.41,
+        7.78
+       ],
+       [
+        8.56,
+        7.76,
+        8.14,
+        7.57,
+        7.95,
+        7.32,
+        7.69
+       ],
+       [
+        8.56,
+        7.84,
+        8.24,
+        7.74,
+        8.12,
+        7.36,
+        7.73
+       ],
+       [
+        8.56,
+        8.02,
+        8.42,
+        7.61,
+        7.99,
+        7.32,
+        7.69
+       ],
+       [
+        8.56,
+        8.17,
+        8.58,
+        7.7,
+        8.09,
+        7.4,
+        7.77
+       ],
+       [
+        8.56,
+        7.7,
+        8.09,
+        7.5,
+        7.87,
+        7.22,
+        7.58
+       ],
+       [
+        8.56,
+        7.69,
+        8.07,
+        7.45,
+        7.82,
+        7.29,
+        7.66
+       ],
+       [
+        8.56,
+        7.91,
+        8.31,
+        7.51,
+        7.89,
+        8.18,
+        8.59
+       ],
+       [
+        8.56,
+        7.74,
+        8.12,
+        7.37,
+        7.74,
+        7.13,
+        7.49
+       ],
+       [
+        8.56,
+        7.72,
+        8.1,
+        7.4,
+        7.77,
+        7.15,
+        7.51
+       ]
+      ],
+      "pass": [
+       true,
+       true,
+       true,
+       true,
+       true,
+       false,
+       false,
+       true,
+       true,
+       true,
+       true,
+       false,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       false,
+       true,
+       true
+      ]
+     },
+     "70": {
+      "ece": [
+       [
+        8.56,
+        8.3,
+        8.72,
+        8.45,
+        8.88,
+        8.4,
+        8.82
+       ],
+       [
+        8.56,
+        8.28,
+        8.69,
+        8.29,
+        8.71,
+        8.68,
+        9.12
+       ],
+       [
+        8.56,
+        8.28,
+        8.69,
+        8.39,
+        8.8,
+        8.34,
+        8.76
+       ],
+       [
+        8.56,
+        8.25,
+        8.66,
+        8.35,
+        8.76,
+        8.58,
+        9.01
+       ],
+       [
+        8.56,
+        8.35,
+        8.77,
+        8.72,
+        9.16,
+        8.73,
+        9.17
+       ],
+       [
+        8.56,
+        8.28,
+        8.69,
+        8.62,
+        9.05,
+        9.48,
+        9.95
+       ],
+       [
+        8.56,
+        8.51,
+        8.93,
+        8.57,
+        9.0,
+        9.43,
+        9.9
+       ],
+       [
+        8.56,
+        8.25,
+        8.66,
+        8.27,
+        8.68,
+        8.36,
+        8.78
+       ],
+       [
+        8.56,
+        8.32,
+        8.73,
+        8.37,
+        8.79,
+        8.34,
+        8.76
+       ],
+       [
+        8.56,
+        8.22,
+        8.63,
+        8.3,
+        8.72,
+        8.57,
+        9.0
+       ],
+       [
+        8.56,
+        8.19,
+        8.6,
+        8.18,
+        8.59,
+        8.47,
+        8.89
+       ],
+       [
+        8.56,
+        8.16,
+        8.56,
+        9.03,
+        9.48,
+        9.34,
+        9.81
+       ],
+       [
+        8.56,
+        8.15,
+        8.55,
+        8.32,
+        8.73,
+        8.32,
+        8.74
+       ],
+       [
+        8.56,
+        8.16,
+        8.56,
+        8.27,
+        8.68,
+        8.38,
+        8.8
+       ],
+       [
+        8.56,
+        8.17,
+        8.57,
+        8.31,
+        8.72,
+        8.3,
+        8.71
+       ],
+       [
+        8.56,
+        8.13,
+        8.53,
+        8.49,
+        8.91,
+        8.67,
+        9.11
+       ],
+       [
+        8.56,
+        8.22,
+        8.63,
+        8.43,
+        8.85,
+        8.56,
+        8.99
+       ],
+       [
+        8.56,
+        8.44,
+        8.86,
+        8.68,
+        9.11,
+        8.72,
+        9.15
+       ],
+       [
+        8.56,
+        9.02,
+        9.47,
+        9.11,
+        9.57,
+        9.1,
+        9.55
+       ],
+       [
+        8.56,
+        8.32,
+        8.74,
+        8.36,
+        8.78,
+        8.62,
+        9.05
+       ],
+       [
+        8.56,
+        8.23,
+        8.64,
+        8.31,
+        8.73,
+        8.27,
+        8.68
+       ],
+       [
+        8.56,
+        8.29,
+        8.71,
+        8.28,
+        8.69,
+        8.65,
+        9.08
+       ],
+       [
+        8.56,
+        8.19,
+        8.6,
+        8.31,
+        8.72,
+        8.56,
+        8.99
+       ],
+       [
+        8.56,
+        8.15,
+        8.55,
+        8.41,
+        8.83,
+        8.5,
+        8.92
+       ],
+       [
+        8.56,
+        8.32,
+        8.73,
+        8.27,
+        8.69,
+        8.35,
+        8.77
+       ],
+       [
+        8.56,
+        8.54,
+        8.97,
+        8.66,
+        9.09,
+        8.71,
+        9.14
+       ],
+       [
+        8.56,
+        8.33,
+        8.75,
+        8.48,
+        8.9,
+        8.52,
+        8.95
+       ],
+       [
+        8.56,
+        8.23,
+        8.64,
+        8.5,
+        8.92,
+        8.72,
+        9.15
+       ],
+       [
+        8.56,
+        8.27,
+        8.69,
+        8.55,
+        8.97,
+        8.64,
+        9.08
+       ],
+       [
+        8.56,
+        8.17,
+        8.57,
+        8.33,
+        8.75,
+        8.9,
+        9.35
+       ],
+       [
+        8.56,
+        8.37,
+        8.79,
+        8.39,
+        8.8,
+        8.46,
+        8.89
+       ],
+       [
+        8.56,
+        8.19,
+        8.6,
+        8.33,
+        8.74,
+        8.39,
+        8.81
+       ],
+       [
+        8.56,
+        8.32,
+        8.73,
+        8.58,
+        9.01,
+        8.49,
+        8.91
+       ],
+       [
+        8.56,
+        8.41,
+        8.84,
+        8.37,
+        8.78,
+        8.36,
+        8.78
+       ],
+       [
+        8.56,
+        8.74,
+        9.18,
+        8.62,
+        9.05,
+        8.59,
+        9.02
+       ],
+       [
+        8.56,
+        8.15,
+        8.55,
+        8.33,
+        8.74,
+        8.34,
+        8.75
+       ],
+       [
+        8.56,
+        8.13,
+        8.53,
+        8.25,
+        8.66,
+        8.36,
+        8.78
+       ],
+       [
+        8.56,
+        8.32,
+        8.74,
+        8.28,
+        8.69,
+        9.15,
+        9.6
+       ],
+       [
+        8.56,
+        8.19,
+        8.6,
+        8.17,
+        8.57,
+        8.2,
+        8.61
+       ],
+       [
+        8.56,
+        8.16,
+        8.56,
+        8.19,
+        8.6,
+        8.22,
+        8.63
+       ]
+      ],
+      "pass": [
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false
+      ]
+     }
+    },
+    "cmip6": "included"
    },
    "explanation": {
     "en": {
@@ -261,7 +1141,7 @@
      "evidence": [
       "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
       "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
-      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 96% of them.",
+      "Stress test on 5,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well and CMIP6 2050s futures, and 100/70/40 % of the leaching water): this plan held up in 32% of them.",
       "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
       "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
      ],
@@ -269,13 +1149,14 @@
       "Known system, low risk: 5,087 m³ of water per year, soil score 52/100."
      ],
      "gaps": [
-      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
+      "Prices/costs are estimates (no 2025-26 Egyptian quote found) for: barley — see data/prices_egp.csv.",
       "How fast salt rises in an unirrigated summer fallow is not measured locally (assumed +5% per season).",
       "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
      ],
      "risks": [
       "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
-      "Weakest case: Past climate 1981–2025 — passes 94% of the time; main cause: salt builds up in the soil.",
+      "If you apply only 70 % / 40 % of the leaching water the plan passes 0% / 0% of futures (salt builds up in 100% / 100%). The S1 trial applied about 60 % of the FAO-29 amount.",
+      "Weakest case: Past climate 1981–2025 — passes 0% of the time; main cause: salt builds up in the soil.",
       "Decision support only — confirm with your local agricultural extension officer."
      ]
     },
@@ -287,7 +1168,7 @@
      "evidence": [
       "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
       "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
-      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 96٪ منهم.",
+      "اختبار تحمّل على 5,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح ومستقبل الخمسينات من CMIP6، و100/70/40٪ من مية الغسيل): الخطة نجحت في 32٪ منهم.",
       "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
       "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
      ],
@@ -295,13 +1176,14 @@
       "نظام انت عارفه ومخاطره قليلة: 5,087 م³ مية في السنة، ودرجة التربة 52/100."
      ],
      "gaps": [
-      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
+      "الأسعار أو التكاليف تقديرية (ملقيناش سعر مصري 2025-26) لـ: شعير.",
       "سرعة زيادة الملح في البور الصيفي مش متقاسة محليًا (مفترضة +5٪ كل موسم).",
       "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
      ],
      "risks": [
       "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
-      "أضعف حالة: مناخ الماضي 1981–2025 — بتنجح 94٪ من المرات؛ السبب الأساسي: الملح بيتراكم في التربة.",
+      "لو حطيت 70٪ / 40٪ بس من مية الغسيل الخطة بتنجح في 0٪ / 0٪ من الحالات (الملح بيتراكم في 100٪ / 100٪). تجربة S1 حطت حوالي 60٪ من كمية FAO-29.",
+      "أضعف حالة: مناخ الماضي 1981–2025 — بتنجح 0٪ من المرات؛ السبب الأساسي: الملح بيتراكم في التربة.",
       "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
      ]
     }
@@ -310,195 +1192,227 @@
   {
    "id": "max_profit",
    "kind": "max_profit",
-   "label_en": "Highest output",
-   "label_ar": "الأعلى إنتاجًا",
+   "label_en": "Highest profit",
+   "label_ar": "الأعلى ربحًا",
    "plan": [
-    "barley",
-    "sorghum",
-    "quinoa",
-    "sorghum",
-    "quinoa",
-    "sorghum"
+    "wheat",
+    "cotton",
+    "wheat",
+    "cotton",
+    "wheat",
+    "cotton"
+   ],
+   "area_frac": [
+    0.9,
+    0.3,
+    0.5,
+    0.4,
+    0.5,
+    0.7
    ],
    "seasons": [
     {
      "slot": "W1",
-     "crop_id": "barley",
-     "crop_en": "Barley",
-     "crop_ar": "شعير",
+     "crop_id": "wheat",
+     "crop_en": "Wheat (bread)",
+     "crop_ar": "قمح",
      "part": 0,
+     "idle_fdn": 3.41,
      "family": "Poaceae",
-     "use": "grain/forage",
-     "sow": "10-25",
-     "harvest": "03-24",
-     "area_fdn": 2.42,
-     "water_mm": 501.0,
-     "water_m3": 5087.0,
-     "etc_mm": 364.0,
-     "lr_pct": 26.4,
-     "salt_ry_pct": 100.0,
-     "heat_factor": 0.999,
-     "rel_yield_pct": 99.9,
-     "yield_kg_ha": 4265.0,
-     "yield_t_per_fdn": 1.79,
-     "farm_output_t": 4.33,
-     "ece_mean": 7.36,
-     "salt_rating": "T",
+     "use": "grain",
+     "sow": "11-15",
+     "harvest": "04-14",
+     "area_fdn": 1.59,
+     "water_mm": 680.0,
+     "water_m3": 4529.0,
+     "etc_mm": 405.0,
+     "lr_pct": 38.6,
+     "salt_ry_pct": 97.9,
+     "heat_factor": 0.998,
+     "rel_yield_pct": 97.7,
+     "yield_kg_ha": 4884.0,
+     "yield_t_per_fdn": 2.05,
+     "farm_output_t": 3.25,
+     "ece_mean": 6.3,
+     "salt_rating": "MT",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 100535.0,
+     "cost_egp": 39628.0,
+     "pumping_egp": 3080.0,
+     "profit_egp": 57827.0
     },
     {
      "slot": "S1",
-     "crop_id": "sorghum",
-     "crop_en": "Sorghum (grain)",
-     "crop_ar": "ذرة رفيعة",
+     "crop_id": "cotton",
+     "crop_en": "Cotton",
+     "crop_ar": "قطن",
      "part": 0,
-     "family": "Poaceae",
-     "use": "grain/forage",
-     "sow": "05-15",
-     "harvest": "10-02",
-     "area_fdn": 1.01,
-     "water_mm": 1319.0,
-     "water_m3": 5592.0,
-     "etc_mm": 801.0,
-     "lr_pct": 32.6,
+     "idle_fdn": 4.03,
+     "family": "Malvaceae",
+     "use": "cash",
+     "sow": "05-01",
+     "harvest": "11-12",
+     "area_fdn": 0.97,
+     "water_mm": 1735.0,
+     "water_m3": 7092.0,
+     "etc_mm": 1136.0,
+     "lr_pct": 27.7,
      "salt_ry_pct": 100.0,
-     "heat_factor": 0.999,
-     "rel_yield_pct": 99.9,
-     "yield_kg_ha": 4246.0,
-     "yield_t_per_fdn": 1.78,
-     "farm_output_t": 1.8,
-     "ece_mean": 5.64,
-     "salt_rating": "MT",
+     "heat_factor": 0.991,
+     "rel_yield_pct": 99.1,
+     "yield_kg_ha": 4460.0,
+     "yield_t_per_fdn": 1.87,
+     "farm_output_t": 1.82,
+     "ece_mean": 5.6,
+     "salt_rating": "T",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 109493.0,
+     "cost_egp": 43798.0,
+     "pumping_egp": 4822.0,
+     "profit_egp": 60872.0
     },
     {
      "slot": "W2",
-     "crop_id": "quinoa",
-     "crop_en": "Quinoa",
-     "crop_ar": "كينوا",
+     "crop_id": "wheat",
+     "crop_en": "Wheat (bread)",
+     "crop_ar": "قمح",
      "part": 0,
-     "family": "Amaranthaceae",
-     "use": "grain/cash",
+     "idle_fdn": 3.41,
+     "family": "Poaceae",
+     "use": "grain",
      "sow": "11-15",
-     "harvest": "03-25",
-     "area_fdn": 2.3,
-     "water_mm": 487.0,
-     "water_m3": 4697.0,
-     "etc_mm": 329.0,
-     "lr_pct": 31.3,
+     "harvest": "04-14",
+     "area_fdn": 1.59,
+     "water_mm": 680.0,
+     "water_m3": 4529.0,
+     "etc_mm": 405.0,
+     "lr_pct": 38.6,
      "salt_ry_pct": 100.0,
-     "heat_factor": 0.999,
-     "rel_yield_pct": 99.9,
-     "yield_kg_ha": 2498.0,
-     "yield_t_per_fdn": 1.05,
-     "farm_output_t": 2.41,
-     "ece_mean": 6.2,
-     "salt_rating": "T",
+     "heat_factor": 0.998,
+     "rel_yield_pct": 99.8,
+     "yield_kg_ha": 4992.0,
+     "yield_t_per_fdn": 2.1,
+     "farm_output_t": 3.32,
+     "ece_mean": 5.72,
+     "salt_rating": "MT",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 102743.0,
+     "cost_egp": 39628.0,
+     "pumping_egp": 3080.0,
+     "profit_egp": 60035.0
     },
     {
      "slot": "S2",
-     "crop_id": "sorghum",
-     "crop_en": "Sorghum (grain)",
-     "crop_ar": "ذرة رفيعة",
+     "crop_id": "cotton",
+     "crop_en": "Cotton",
+     "crop_ar": "قطن",
      "part": 0,
-     "family": "Poaceae",
-     "use": "grain/forage",
-     "sow": "05-15",
-     "harvest": "10-02",
-     "area_fdn": 1.01,
-     "water_mm": 1319.0,
-     "water_m3": 5592.0,
-     "etc_mm": 801.0,
-     "lr_pct": 32.6,
+     "idle_fdn": 4.03,
+     "family": "Malvaceae",
+     "use": "cash",
+     "sow": "05-01",
+     "harvest": "11-12",
+     "area_fdn": 0.97,
+     "water_mm": 1735.0,
+     "water_m3": 7092.0,
+     "etc_mm": 1136.0,
+     "lr_pct": 27.7,
      "salt_ry_pct": 100.0,
-     "heat_factor": 0.999,
-     "rel_yield_pct": 99.9,
-     "yield_kg_ha": 4246.0,
-     "yield_t_per_fdn": 1.78,
-     "farm_output_t": 1.8,
-     "ece_mean": 5.2,
-     "salt_rating": "MT",
+     "heat_factor": 0.991,
+     "rel_yield_pct": 99.1,
+     "yield_kg_ha": 4460.0,
+     "yield_t_per_fdn": 1.87,
+     "farm_output_t": 1.82,
+     "ece_mean": 5.31,
+     "salt_rating": "T",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 109493.0,
+     "cost_egp": 43798.0,
+     "pumping_egp": 4822.0,
+     "profit_egp": 60872.0
     },
     {
      "slot": "W3",
-     "crop_id": "quinoa",
-     "crop_en": "Quinoa",
-     "crop_ar": "كينوا",
+     "crop_id": "wheat",
+     "crop_en": "Wheat (bread)",
+     "crop_ar": "قمح",
      "part": 0,
-     "family": "Amaranthaceae",
-     "use": "grain/cash",
+     "idle_fdn": 3.41,
+     "family": "Poaceae",
+     "use": "grain",
      "sow": "11-15",
-     "harvest": "03-25",
-     "area_fdn": 2.3,
-     "water_mm": 487.0,
-     "water_m3": 4697.0,
-     "etc_mm": 329.0,
-     "lr_pct": 31.3,
+     "harvest": "04-14",
+     "area_fdn": 1.59,
+     "water_mm": 680.0,
+     "water_m3": 4529.0,
+     "etc_mm": 405.0,
+     "lr_pct": 38.6,
      "salt_ry_pct": 100.0,
-     "heat_factor": 0.999,
-     "rel_yield_pct": 99.9,
-     "yield_kg_ha": 2498.0,
-     "yield_t_per_fdn": 1.05,
-     "farm_output_t": 2.41,
-     "ece_mean": 5.65,
-     "salt_rating": "T",
+     "heat_factor": 0.998,
+     "rel_yield_pct": 99.8,
+     "yield_kg_ha": 4992.0,
+     "yield_t_per_fdn": 2.1,
+     "farm_output_t": 3.32,
+     "ece_mean": 5.33,
+     "salt_rating": "MT",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 102743.0,
+     "cost_egp": 39628.0,
+     "pumping_egp": 3080.0,
+     "profit_egp": 60035.0
     },
     {
      "slot": "S3",
-     "crop_id": "sorghum",
-     "crop_en": "Sorghum (grain)",
-     "crop_ar": "ذرة رفيعة",
+     "crop_id": "cotton",
+     "crop_en": "Cotton",
+     "crop_ar": "قطن",
      "part": 0,
-     "family": "Poaceae",
-     "use": "grain/forage",
-     "sow": "05-15",
-     "harvest": "10-02",
-     "area_fdn": 1.01,
-     "water_mm": 1319.0,
-     "water_m3": 5592.0,
-     "etc_mm": 801.0,
-     "lr_pct": 32.6,
+     "idle_fdn": 4.03,
+     "family": "Malvaceae",
+     "use": "cash",
+     "sow": "05-01",
+     "harvest": "11-12",
+     "area_fdn": 0.97,
+     "water_mm": 1735.0,
+     "water_m3": 7092.0,
+     "etc_mm": 1136.0,
+     "lr_pct": 27.7,
      "salt_ry_pct": 100.0,
-     "heat_factor": 0.999,
-     "rel_yield_pct": 99.9,
-     "yield_kg_ha": 4246.0,
-     "yield_t_per_fdn": 1.78,
-     "farm_output_t": 1.8,
-     "ece_mean": 4.92,
-     "salt_rating": "MT",
+     "heat_factor": 0.991,
+     "rel_yield_pct": 99.1,
+     "yield_kg_ha": 4460.0,
+     "yield_t_per_fdn": 1.87,
+     "farm_output_t": 1.82,
+     "ece_mean": 5.11,
+     "salt_rating": "T",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 109493.0,
+     "cost_egp": 43798.0,
+     "pumping_egp": 4822.0,
+     "profit_egp": 60872.0
     }
    ],
    "totals": {
-    "value": 2.0067,
-    "value_kind": "productivity_index",
-    "value_vs_current_pct": 38.5,
-    "water_m3": 31256,
-    "water_vs_current_pct": 104.8,
-    "water_m3_per_year": 10419,
-    "soil_index": 60.8,
-    "ECe_end": 5.93,
+    "value": 360515.135,
+    "value_kind": "profit_egp",
+    "value_vs_current_pct": 187.7,
+    "water_m3": 34863,
+    "water_vs_current_pct": 128.5,
+    "water_m3_per_year": 11621,
+    "soil_index": 60.3,
+    "profit_per_feddan_year": 24034,
+    "ECe_end": 6.16,
     "SOC_end": 0.175,
-    "N_end": 21.3,
-    "min_rel_yield": 99.9,
-    "market_score": 0.67,
+    "N_end": 22.4,
+    "min_rel_yield": 97.7,
+    "market_score": 0.0,
     "cropped_seasons": 6,
-    "pest_flags": 0
+    "pest_flags": 0,
+    "product_t": 15.37,
+    "kg_per_m3": 0.44,
+    "m3_per_1000_egp": 96.7,
+    "egp_per_m3": 10.34,
+    "idle_fdn_avg": 3.72
    },
    "soil_trajectory": [
     {
@@ -509,160 +1423,1021 @@
     },
     {
      "t": "W1",
-     "ece": 7.76,
+     "ece": 7.7,
      "soc": 0.179,
-     "n": 24.9
+     "n": 25.4
     },
     {
      "t": "S1",
      "ece": 7.43,
-     "soc": 0.179,
-     "n": 24.4
+     "soc": 0.178,
+     "n": 24.9
     },
     {
      "t": "W2",
-     "ece": 6.68,
+     "ece": 6.82,
      "soc": 0.178,
-     "n": 23.3
+     "n": 24.1
     },
     {
      "t": "S2",
-     "ece": 6.5,
+     "ece": 6.68,
      "soc": 0.177,
-     "n": 22.8
+     "n": 23.6
     },
     {
      "t": "W3",
-     "ece": 6.02,
+     "ece": 6.22,
      "soc": 0.176,
-     "n": 21.8
+     "n": 22.9
     },
     {
      "t": "S3",
-     "ece": 5.93,
+     "ece": 6.16,
      "soc": 0.175,
-     "n": 21.3
+     "n": 22.4
     }
    ],
    "robustness": {
-    "robustness_pct": 100.0,
-    "n_draws": 1400,
+    "robustness_pct": 65.6,
+    "n_draws": 5400,
     "by_scenario": [
      {
       "key": "historical",
       "label_en": "Past climate 1981–2025",
-      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
-      "pass_pct": 100.0
+      "label_ar": "مناخ الماضي 1981–2025",
+      "pass_pct": 66.7
      },
      {
       "key": "warm1",
       "label_en": "+1 °C warmer",
       "label_ar": "أدفى بدرجة",
-      "pass_pct": 100.0
+      "pass_pct": 66.7
      },
      {
       "key": "warm2",
       "label_en": "+2 °C warmer",
       "label_ar": "أدفى بدرجتين",
-      "pass_pct": 100.0
+      "pass_pct": 66.7
      },
      {
       "key": "dry10",
       "label_en": "10 % less rain",
-      "label_ar": "مطر أقل ١٠٪",
-      "pass_pct": 100.0
+      "label_ar": "مطر أقل 10٪",
+      "pass_pct": 66.7
      },
      {
       "key": "dry20",
       "label_en": "20 % less rain",
-      "label_ar": "مطر أقل ٢٠٪",
-      "pass_pct": 100.0
+      "label_ar": "مطر أقل 20٪",
+      "pass_pct": 66.7
      },
      {
       "key": "ecw1",
       "label_en": "Well +1 dS/m saltier",
       "label_ar": "البير أملح بـ 1 dS/m",
-      "pass_pct": 100.0
+      "pass_pct": 66.7
      },
      {
       "key": "ecw2",
       "label_en": "Well +2 dS/m saltier",
       "label_ar": "البير أملح بـ 2 dS/m",
-      "pass_pct": 100.0
+      "pass_pct": 66.7
+     },
+     {
+      "key": "cmip_ssp245",
+      "label_en": "2050s, SSP2-4.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP2-4.5 (CMIP6)",
+      "pass_pct": 66.7
+     },
+     {
+      "key": "cmip_ssp585",
+      "label_en": "2050s, SSP5-8.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP5-8.5 (CMIP6)",
+      "pass_pct": 56.7
+     }
+    ],
+    "by_leaching": [
+     {
+      "leach_pct": 100,
+      "pass_pct": 98.3,
+      "salt_buildup_pct": 0.0
+     },
+     {
+      "leach_pct": 70,
+      "pass_pct": 98.3,
+      "salt_buildup_pct": 0.0
+     },
+     {
+      "leach_pct": 40,
+      "pass_pct": 0.0,
+      "salt_buildup_pct": 100.0
      }
     ],
     "worst": {
      "key": "historical",
-     "pass_pct": 100.0,
-     "cause": "none",
+     "leach_pct": 40,
+     "pass_pct": 0.0,
+     "cause": "salt_buildup",
      "slot": null,
      "crop": null,
-     "share_pct": 0.0
+     "share_pct": 100.0
     },
-    "cmip6": "pending"
+    "bands": {
+     "product_t": {
+      "p10": 15.17,
+      "p50": 15.34,
+      "p90": 15.43
+     },
+     "profit_egp": {
+      "p10": 352540,
+      "p50": 359982,
+      "p90": 363993
+     },
+     "ece_end": {
+      "p10": 6.19,
+      "p50": 6.28,
+      "p90": 6.41
+     }
+    },
+    "paths": {
+     "100": {
+      "ece": [
+       [
+        8.56,
+        7.81,
+        7.6,
+        6.92,
+        6.77,
+        6.27,
+        6.21
+       ],
+       [
+        8.56,
+        7.78,
+        7.5,
+        6.84,
+        6.7,
+        6.25,
+        6.23
+       ],
+       [
+        8.56,
+        7.86,
+        7.58,
+        7.0,
+        6.83,
+        6.37,
+        6.29
+       ],
+       [
+        8.56,
+        7.73,
+        7.46,
+        6.88,
+        6.74,
+        6.4,
+        6.34
+       ],
+       [
+        8.56,
+        7.84,
+        7.58,
+        7.13,
+        6.96,
+        6.41,
+        6.32
+       ],
+       [
+        8.56,
+        7.86,
+        7.58,
+        7.04,
+        6.88,
+        6.7,
+        6.58
+       ],
+       [
+        8.56,
+        7.83,
+        7.56,
+        6.96,
+        6.87,
+        6.69,
+        6.57
+       ],
+       [
+        8.56,
+        7.73,
+        7.46,
+        6.85,
+        6.74,
+        6.31,
+        6.25
+       ],
+       [
+        8.56,
+        7.83,
+        7.54,
+        6.93,
+        6.78,
+        6.33,
+        6.29
+       ],
+       [
+        8.56,
+        7.71,
+        7.47,
+        6.8,
+        6.66,
+        6.28,
+        6.21
+       ],
+       [
+        8.56,
+        7.68,
+        7.41,
+        6.78,
+        6.64,
+        6.26,
+        6.2
+       ],
+       [
+        8.56,
+        7.74,
+        7.5,
+        7.23,
+        7.03,
+        6.52,
+        6.45
+       ],
+       [
+        8.56,
+        7.67,
+        7.42,
+        6.78,
+        6.64,
+        6.2,
+        6.19
+       ],
+       [
+        8.56,
+        7.74,
+        7.5,
+        6.92,
+        6.83,
+        6.4,
+        6.32
+       ],
+       [
+        8.56,
+        7.69,
+        7.43,
+        6.88,
+        6.75,
+        6.27,
+        6.22
+       ],
+       [
+        8.56,
+        7.7,
+        7.44,
+        6.92,
+        6.78,
+        6.39,
+        6.31
+       ],
+       [
+        8.56,
+        7.71,
+        7.47,
+        6.94,
+        6.78,
+        6.38,
+        6.3
+       ],
+       [
+        8.56,
+        7.79,
+        7.51,
+        6.95,
+        6.8,
+        6.36,
+        6.35
+       ],
+       [
+        8.56,
+        8.12,
+        7.8,
+        7.22,
+        7.05,
+        6.65,
+        6.54
+       ],
+       [
+        8.56,
+        7.67,
+        7.41,
+        6.8,
+        6.69,
+        6.3,
+        6.23
+       ],
+       [
+        8.56,
+        7.74,
+        7.47,
+        6.81,
+        6.66,
+        6.21,
+        6.18
+       ],
+       [
+        8.56,
+        7.8,
+        7.52,
+        6.92,
+        6.8,
+        6.5,
+        6.41
+       ],
+       [
+        8.56,
+        7.77,
+        7.51,
+        6.89,
+        6.74,
+        6.33,
+        6.27
+       ],
+       [
+        8.56,
+        7.67,
+        7.42,
+        6.95,
+        6.81,
+        6.34,
+        6.26
+       ],
+       [
+        8.56,
+        7.83,
+        7.54,
+        6.9,
+        6.78,
+        6.26,
+        6.2
+       ],
+       [
+        8.56,
+        7.94,
+        7.66,
+        6.97,
+        6.8,
+        6.45,
+        6.37
+       ],
+       [
+        8.56,
+        7.68,
+        7.44,
+        6.91,
+        6.75,
+        6.3,
+        6.23
+       ],
+       [
+        8.56,
+        7.74,
+        7.47,
+        6.92,
+        6.77,
+        6.43,
+        6.36
+       ],
+       [
+        8.56,
+        7.72,
+        7.45,
+        6.91,
+        6.75,
+        6.37,
+        6.36
+       ],
+       [
+        8.56,
+        7.69,
+        7.43,
+        6.93,
+        6.77,
+        6.45,
+        6.36
+       ],
+       [
+        8.56,
+        7.83,
+        7.54,
+        6.9,
+        6.75,
+        6.32,
+        6.31
+       ],
+       [
+        8.56,
+        7.77,
+        7.51,
+        6.96,
+        6.8,
+        6.33,
+        6.26
+       ],
+       [
+        8.56,
+        7.83,
+        7.54,
+        6.98,
+        6.81,
+        6.33,
+        6.26
+       ],
+       [
+        8.56,
+        7.87,
+        7.6,
+        6.92,
+        6.77,
+        6.31,
+        6.28
+       ],
+       [
+        8.56,
+        7.89,
+        7.59,
+        6.94,
+        6.78,
+        6.35,
+        6.29
+       ],
+       [
+        8.56,
+        7.73,
+        7.46,
+        6.82,
+        6.7,
+        6.21,
+        6.15
+       ],
+       [
+        8.56,
+        7.7,
+        7.44,
+        6.8,
+        6.68,
+        6.28,
+        6.22
+       ],
+       [
+        8.56,
+        7.8,
+        7.52,
+        6.88,
+        6.76,
+        6.6,
+        6.49
+       ],
+       [
+        8.56,
+        7.65,
+        7.39,
+        6.79,
+        6.68,
+        6.2,
+        6.15
+       ],
+       [
+        8.56,
+        7.74,
+        7.5,
+        6.83,
+        6.69,
+        6.21,
+        6.15
+       ]
+      ],
+      "pass": [
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true
+      ]
+     },
+     "70": {
+      "ece": [
+       [
+        8.56,
+        8.23,
+        8.22,
+        7.82,
+        7.73,
+        7.38,
+        7.37
+       ],
+       [
+        8.56,
+        8.18,
+        8.05,
+        7.65,
+        7.59,
+        7.33,
+        7.36
+       ],
+       [
+        8.56,
+        8.31,
+        8.18,
+        7.86,
+        7.78,
+        7.49,
+        7.46
+       ],
+       [
+        8.56,
+        8.13,
+        8.01,
+        7.69,
+        7.64,
+        7.48,
+        7.47
+       ],
+       [
+        8.56,
+        8.23,
+        8.14,
+        7.96,
+        7.89,
+        7.5,
+        7.45
+       ],
+       [
+        8.56,
+        8.31,
+        8.18,
+        7.9,
+        7.83,
+        7.84,
+        7.76
+       ],
+       [
+        8.56,
+        8.23,
+        8.12,
+        7.8,
+        7.85,
+        7.85,
+        7.77
+       ],
+       [
+        8.56,
+        8.13,
+        8.01,
+        7.65,
+        7.66,
+        7.4,
+        7.38
+       ],
+       [
+        8.56,
+        8.31,
+        8.16,
+        7.81,
+        7.73,
+        7.47,
+        7.49
+       ],
+       [
+        8.56,
+        8.11,
+        8.04,
+        7.62,
+        7.56,
+        7.37,
+        7.34
+       ],
+       [
+        8.56,
+        8.07,
+        7.96,
+        7.59,
+        7.53,
+        7.34,
+        7.32
+       ],
+       [
+        8.56,
+        8.17,
+        8.1,
+        8.08,
+        7.97,
+        7.65,
+        7.64
+       ],
+       [
+        8.56,
+        8.07,
+        7.97,
+        7.61,
+        7.55,
+        7.27,
+        7.32
+       ],
+       [
+        8.56,
+        8.17,
+        8.1,
+        7.79,
+        7.83,
+        7.56,
+        7.52
+       ],
+       [
+        8.56,
+        8.09,
+        7.99,
+        7.69,
+        7.66,
+        7.34,
+        7.34
+       ],
+       [
+        8.56,
+        8.12,
+        8.0,
+        7.75,
+        7.7,
+        7.48,
+        7.44
+       ],
+       [
+        8.56,
+        8.11,
+        8.04,
+        7.77,
+        7.7,
+        7.47,
+        7.43
+       ],
+       [
+        8.56,
+        8.21,
+        8.08,
+        7.78,
+        7.72,
+        7.47,
+        7.55
+       ],
+       [
+        8.56,
+        8.49,
+        8.33,
+        8.03,
+        7.97,
+        7.8,
+        7.73
+       ],
+       [
+        8.56,
+        8.09,
+        7.98,
+        7.62,
+        7.61,
+        7.41,
+        7.38
+       ],
+       [
+        8.56,
+        8.15,
+        8.03,
+        7.61,
+        7.55,
+        7.27,
+        7.31
+       ],
+       [
+        8.56,
+        8.2,
+        8.07,
+        7.75,
+        7.74,
+        7.61,
+        7.58
+       ],
+       [
+        8.56,
+        8.16,
+        8.07,
+        7.71,
+        7.64,
+        7.41,
+        7.4
+       ],
+       [
+        8.56,
+        8.07,
+        7.97,
+        7.76,
+        7.72,
+        7.42,
+        7.39
+       ],
+       [
+        8.56,
+        8.31,
+        8.16,
+        7.78,
+        7.76,
+        7.39,
+        7.36
+       ],
+       [
+        8.56,
+        8.33,
+        8.21,
+        7.8,
+        7.72,
+        7.59,
+        7.55
+       ],
+       [
+        8.56,
+        8.08,
+        8.02,
+        7.74,
+        7.67,
+        7.4,
+        7.37
+       ],
+       [
+        8.56,
+        8.15,
+        8.03,
+        7.74,
+        7.68,
+        7.51,
+        7.51
+       ],
+       [
+        8.56,
+        8.12,
+        8.0,
+        7.74,
+        7.67,
+        7.47,
+        7.55
+       ],
+       [
+        8.56,
+        8.09,
+        7.99,
+        7.82,
+        7.74,
+        7.71,
+        7.64
+       ],
+       [
+        8.56,
+        8.22,
+        8.09,
+        7.71,
+        7.64,
+        7.4,
+        7.49
+       ],
+       [
+        8.56,
+        8.16,
+        8.07,
+        7.78,
+        7.7,
+        7.43,
+        7.4
+       ],
+       [
+        8.56,
+        8.31,
+        8.16,
+        7.87,
+        7.78,
+        7.47,
+        7.44
+       ],
+       [
+        8.56,
+        8.27,
+        8.17,
+        7.74,
+        7.69,
+        7.38,
+        7.42
+       ],
+       [
+        8.56,
+        8.42,
+        8.26,
+        7.87,
+        7.78,
+        7.51,
+        7.49
+       ],
+       [
+        8.56,
+        8.15,
+        8.03,
+        7.64,
+        7.63,
+        7.28,
+        7.27
+       ],
+       [
+        8.56,
+        8.12,
+        8.0,
+        7.61,
+        7.6,
+        7.36,
+        7.34
+       ],
+       [
+        8.56,
+        8.2,
+        8.07,
+        7.71,
+        7.69,
+        7.71,
+        7.65
+       ],
+       [
+        8.56,
+        8.05,
+        7.94,
+        7.6,
+        7.6,
+        7.27,
+        7.26
+       ],
+       [
+        8.56,
+        8.17,
+        8.1,
+        7.67,
+        7.61,
+        7.28,
+        7.27
+       ]
+      ],
+      "pass": [
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true
+      ]
+     }
+    },
+    "cmip6": "included"
    },
    "explanation": {
     "en": {
      "why": [
-      "Highest output index of all 120 best-trade-off plans: 2.01 vs 1.45 now (+38%).",
-      "Sequence: barley → sorghum → quinoa → sorghum → quinoa → sorghum. Every crop keeps ≥ 100% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
+      "Highest net profit of all 120 best-trade-off plans: 360,515 EGP vs 125,325 EGP now (+188%).",
+      "Sequence: wheat → cotton → wheat → cotton → wheat → cotton. Every crop keeps ≥ 98% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
      ],
      "evidence": [
       "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
       "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
-      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 100% of them.",
+      "Stress test on 5,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well and CMIP6 2050s futures, and 100/70/40 % of the leaching water): this plan held up in 66% of them.",
       "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
       "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
      ],
      "benefits": [
-      "Output +38% vs your current rotation.",
-      "Leaves less salt in the root zone: ECe 5.9 vs 7.6 dS/m after 3 years.",
-      "Soil score 61/100 vs 52.",
+      "Net profit 360,515 EGP in 3 years (+188% vs your current 125,325 EGP); ≈ 24,034 EGP per feddan per year.",
+      "Earns more per drop: 10.3 EGP per m³ vs 8.2 now; 0.44 kg of product per m³.",
+      "Leaves less salt in the root zone: ECe 6.2 vs 7.6 dS/m after 3 years.",
+      "Soil score 60/100 vs 52.",
       "Covers the soil in 6 of 6 seasons (now 3) — less bare, hot summer fallow."
      ],
      "gaps": [
-      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
-      "Parameters partly assumed (see data/assumptions.csv) for: quinoa (Kc from assumptions.csv; root depth from assumptions.csv; salt thresholds from rating fallback).",
-      "Attainable yield is an assumption (no local trial) for: quinoa.",
+      "Prices/costs are estimates (no 2025-26 Egyptian quote found) for: cotton — see data/prices_egp.csv.",
       "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
      ],
      "risks": [
       "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
-      "Sorghum (grain) (S1, S2, S3) needs 33% extra water for leaching; without it the yield could fall to about 8% (FAO-29 at LF 15%).",
-      "Quinoa (W2, W3) needs 31% extra water for leaching; without it the yield could fall to about 72% (FAO-29 at LF 15%).",
-      "Two seasons in a row of the same plant family: watch for pests and diseases.",
+      "Wheat (bread) (W1, W2, W3) needs 39% extra water for leaching; without it the yield could fall to about 53% (FAO-29 at LF 15%).",
+      "Check seed, know-how and buyers before planting crops without a Ras Sudr track record: cotton.",
+      "If you apply only 70 % / 40 % of the leaching water the plan passes 98% / 0% of futures (salt builds up in 0% / 100%). The S1 trial applied about 60 % of the FAO-29 amount.",
+      "Weakest case: Past climate 1981–2025 — passes 0% of the time; main cause: salt builds up in the soil.",
       "Decision support only — confirm with your local agricultural extension officer."
      ]
     },
     "ar": {
      "why": [
-      "أعلى مؤشر الإنتاج بين 120 خطة متوازنة: 2.01 مقابل 1.45 دلوقتي (+38%).",
-      "الترتيب: شعير ← ذرة رفيعة ← كينوا ← ذرة رفيعة ← كينوا ← ذرة رفيعة. كل محصول بيحافظ على 100٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
+      "أعلى صافي الربح بين 120 خطة متوازنة: 360,515 جنيه مقابل 125,325 جنيه دلوقتي (+188%).",
+      "الترتيب: قمح ← قطن ← قمح ← قطن ← قمح ← قطن. كل محصول بيحافظ على 98٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
      ],
      "evidence": [
       "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
       "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
-      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 100٪ منهم.",
+      "اختبار تحمّل على 5,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح ومستقبل الخمسينات من CMIP6، و100/70/40٪ من مية الغسيل): الخطة نجحت في 66٪ منهم.",
       "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
       "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
      ],
      "benefits": [
-      "الإنتاج +38% مقارنة بدورتك الحالية.",
-      "بيسيب ملح أقل في منطقة الجذور: ECe 5.9 مقابل 7.6 dS/m بعد 3 سنين.",
-      "درجة التربة 61/100 مقابل 52.",
+      "صافي الربح 360,515 جنيه في 3 سنين (+188% مقارنة بـ 125,325 جنيه دلوقتي)؛ حوالي 24,034 جنيه للفدان في السنة.",
+      "بيكسب أكتر من كل نقطة مية: 10.3 جنيه للمتر المكعب مقابل 8.2 دلوقتي؛ و0.44 كجم محصول لكل م³.",
+      "بيسيب ملح أقل في منطقة الجذور: ECe 6.2 مقابل 7.6 dS/m بعد 3 سنين.",
+      "درجة التربة 60/100 مقابل 52.",
       "الأرض مزروعة 6 مواسم من 6 (دلوقتي 3) — بور صيفي أقل."
      ],
      "gaps": [
-      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
-      "بعض المعاملات مفترضة (شوف data/assumptions.csv) لـ: كينوا.",
-      "الإنتاج الممكن مفترض (مفيش تجربة محلية) لـ: كينوا.",
+      "الأسعار أو التكاليف تقديرية (ملقيناش سعر مصري 2025-26) لـ: قطن.",
       "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
      ],
      "risks": [
       "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
-      "ذرة رفيعة (S1, S2, S3) محتاج 33٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 8٪ (FAO-29 عند LF 15٪).",
-      "كينوا (W2, W3) محتاج 31٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 72٪ (FAO-29 عند LF 15٪).",
-      "موسمين ورا بعض من نفس العيلة النباتية: خلي بالك من الآفات والأمراض.",
+      "قمح (W1, W2, W3) محتاج 39٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 53٪ (FAO-29 عند LF 15٪).",
+      "اتأكد من التقاوي والخبرة والمشتري قبل ما تزرع محاصيل ملهاش تجربة في رأس سدر: قطن.",
+      "لو حطيت 70٪ / 40٪ بس من مية الغسيل الخطة بتنجح في 98٪ / 0٪ من الحالات (الملح بيتراكم في 0٪ / 100٪). تجربة S1 حطت حوالي 60٪ من كمية FAO-29.",
+      "أضعف حالة: مناخ الماضي 1981–2025 — بتنجح 0٪ من المرات؛ السبب الأساسي: الملح بيتراكم في التربة.",
       "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
      ]
     }
@@ -674,40 +2449,51 @@
    "label_en": "Water saver",
    "label_ar": "الموفّرة للمياه",
    "plan": [
-    "squash",
+    "wheat",
     "fallow",
-    "squash",
+    "wheat",
     "fallow",
-    "barley_forage",
+    "wheat",
     "fallow"
+   ],
+   "area_frac": [
+    0.2,
+    0.0,
+    0.3,
+    0.0,
+    0.1,
+    0.0
    ],
    "seasons": [
     {
      "slot": "W1",
-     "crop_id": "squash",
-     "crop_en": "Squash / zucchini",
-     "crop_ar": "كوسة",
+     "crop_id": "wheat",
+     "crop_en": "Wheat (bread)",
+     "crop_ar": "قمح",
      "part": 0,
-     "family": "Cucurbitaceae",
-     "use": "vegetable",
-     "sow": "12-01",
-     "harvest": "03-11",
-     "area_fdn": 1.88,
-     "water_mm": 435.0,
-     "water_m3": 3427.0,
-     "etc_mm": 216.0,
-     "lr_pct": 50.0,
-     "salt_ry_pct": 90.2,
-     "heat_factor": 1.0,
-     "rel_yield_pct": 90.2,
-     "yield_kg_ha": 18034.0,
-     "yield_t_per_fdn": 7.57,
-     "farm_output_t": 14.22,
-     "ece_mean": 5.74,
+     "idle_fdn": 4.0,
+     "family": "Poaceae",
+     "use": "grain",
+     "sow": "11-15",
+     "harvest": "04-14",
+     "area_fdn": 1.0,
+     "water_mm": 680.0,
+     "water_m3": 2857.0,
+     "etc_mm": 405.0,
+     "lr_pct": 38.6,
+     "salt_ry_pct": 97.9,
+     "heat_factor": 0.998,
+     "rel_yield_pct": 97.7,
+     "yield_kg_ha": 4884.0,
+     "yield_t_per_fdn": 2.05,
+     "farm_output_t": 2.05,
+     "ece_mean": 6.3,
      "salt_rating": "MT",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 63424.0,
+     "cost_egp": 25000.0,
+     "pumping_egp": 1943.0,
+     "profit_egp": 36481.0
     },
     {
      "slot": "S1",
@@ -715,6 +2501,7 @@
      "crop_en": "Fallow",
      "crop_ar": "بور (راحة)",
      "part": 0,
+     "idle_fdn": 5.0,
      "area_fdn": 0,
      "water_mm": 0,
      "water_m3": 0,
@@ -723,30 +2510,33 @@
     },
     {
      "slot": "W2",
-     "crop_id": "squash",
-     "crop_en": "Squash / zucchini",
-     "crop_ar": "كوسة",
+     "crop_id": "wheat",
+     "crop_en": "Wheat (bread)",
+     "crop_ar": "قمح",
      "part": 0,
-     "family": "Cucurbitaceae",
-     "use": "vegetable",
-     "sow": "12-01",
-     "harvest": "03-11",
-     "area_fdn": 1.88,
-     "water_mm": 435.0,
-     "water_m3": 3427.0,
-     "etc_mm": 216.0,
-     "lr_pct": 50.0,
-     "salt_ry_pct": 94.5,
-     "heat_factor": 1.0,
-     "rel_yield_pct": 94.5,
-     "yield_kg_ha": 18896.0,
-     "yield_t_per_fdn": 7.94,
-     "farm_output_t": 14.9,
-     "ece_mean": 5.29,
+     "idle_fdn": 3.5,
+     "family": "Poaceae",
+     "use": "grain",
+     "sow": "11-15",
+     "harvest": "04-14",
+     "area_fdn": 1.5,
+     "water_mm": 680.0,
+     "water_m3": 4286.0,
+     "etc_mm": 405.0,
+     "lr_pct": 38.6,
+     "salt_ry_pct": 97.8,
+     "heat_factor": 0.998,
+     "rel_yield_pct": 97.6,
+     "yield_kg_ha": 4880.0,
+     "yield_t_per_fdn": 2.05,
+     "farm_output_t": 3.07,
+     "ece_mean": 6.31,
      "salt_rating": "MT",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 95048.0,
+     "cost_egp": 37500.0,
+     "pumping_egp": 2914.0,
+     "profit_egp": 54633.0
     },
     {
      "slot": "S2",
@@ -754,6 +2544,7 @@
      "crop_en": "Fallow",
      "crop_ar": "بور (راحة)",
      "part": 0,
+     "idle_fdn": 5.0,
      "area_fdn": 0,
      "water_mm": 0,
      "water_m3": 0,
@@ -762,30 +2553,33 @@
     },
     {
      "slot": "W3",
-     "crop_id": "barley_forage",
-     "crop_en": "Barley (forage)",
-     "crop_ar": "شعير علف",
+     "crop_id": "wheat",
+     "crop_en": "Wheat (bread)",
+     "crop_ar": "قمح",
      "part": 0,
+     "idle_fdn": 4.5,
      "family": "Poaceae",
-     "use": "forage",
-     "sow": "11-01",
-     "harvest": "03-01",
-     "area_fdn": 2.33,
-     "water_mm": 437.0,
-     "water_m3": 4284.0,
-     "etc_mm": 267.0,
+     "use": "grain",
+     "sow": "11-15",
+     "harvest": "04-14",
+     "area_fdn": 0.5,
+     "water_mm": 680.0,
+     "water_m3": 1429.0,
+     "etc_mm": 405.0,
      "lr_pct": 38.6,
-     "salt_ry_pct": 100.0,
-     "heat_factor": 1.0,
-     "rel_yield_pct": 100.0,
-     "yield_kg_ha": 16923.0,
-     "yield_t_per_fdn": 7.11,
-     "farm_output_t": 16.58,
-     "ece_mean": 5.77,
+     "salt_ry_pct": 99.2,
+     "heat_factor": 0.998,
+     "rel_yield_pct": 99.1,
+     "yield_kg_ha": 4954.0,
+     "yield_t_per_fdn": 2.08,
+     "farm_output_t": 1.04,
+     "ece_mean": 6.11,
      "salt_rating": "MT",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 32165.0,
+     "cost_egp": 12500.0,
+     "pumping_egp": 971.0,
+     "profit_egp": 18693.0
     },
     {
      "slot": "S3",
@@ -793,6 +2587,7 @@
      "crop_en": "Fallow",
      "crop_ar": "بور (راحة)",
      "part": 0,
+     "idle_fdn": 5.0,
      "area_fdn": 0,
      "water_mm": 0,
      "water_m3": 0,
@@ -801,20 +2596,26 @@
     }
    ],
    "totals": {
-    "value": 1.16,
-    "value_kind": "productivity_index",
-    "value_vs_current_pct": -20.0,
-    "water_m3": 11138,
-    "water_vs_current_pct": -27.0,
-    "water_m3_per_year": 3713,
-    "soil_index": 58.8,
-    "ECe_end": 6.46,
-    "SOC_end": 0.173,
-    "N_end": 23.1,
-    "min_rel_yield": 90.2,
-    "market_score": 0.33,
+    "value": 109807.9023,
+    "value_kind": "profit_egp",
+    "value_vs_current_pct": -12.4,
+    "water_m3": 8572,
+    "water_vs_current_pct": -43.8,
+    "water_m3_per_year": 2857,
+    "soil_index": 47.6,
+    "profit_per_feddan_year": 7321,
+    "ECe_end": 8.63,
+    "SOC_end": 0.175,
+    "N_end": 24.7,
+    "min_rel_yield": 97.6,
+    "market_score": 0.0,
     "cropped_seasons": 3,
-    "pest_flags": 0
+    "pest_flags": 0,
+    "product_t": 6.17,
+    "kg_per_m3": 0.72,
+    "m3_per_1000_egp": 78.1,
+    "egp_per_m3": 12.81,
+    "idle_fdn_avg": 4.5
    },
    "soil_trajectory": [
     {
@@ -825,160 +2626,1017 @@
     },
     {
      "t": "W1",
-     "ece": 7.19,
-     "soc": 0.178,
-     "n": 25.2
+     "ece": 8.18,
+     "soc": 0.179,
+     "n": 25.7
     },
     {
      "t": "S1",
-     "ece": 7.55,
+     "ece": 8.58,
      "soc": 0.178,
-     "n": 25.2
+     "n": 25.7
     },
     {
      "t": "W2",
-     "ece": 6.47,
-     "soc": 0.176,
-     "n": 24.3
+     "ece": 7.79,
+     "soc": 0.178,
+     "n": 24.9
     },
     {
      "t": "S2",
-     "ece": 6.8,
-     "soc": 0.175,
-     "n": 24.3
+     "ece": 8.18,
+     "soc": 0.177,
+     "n": 24.9
     },
     {
      "t": "W3",
-     "ece": 6.15,
-     "soc": 0.174,
-     "n": 23.1
+     "ece": 8.21,
+     "soc": 0.176,
+     "n": 24.7
     },
     {
      "t": "S3",
-     "ece": 6.46,
-     "soc": 0.173,
-     "n": 23.1
+     "ece": 8.63,
+     "soc": 0.175,
+     "n": 24.7
     }
    ],
    "robustness": {
-    "robustness_pct": 100.0,
-    "n_draws": 1400,
+    "robustness_pct": 45.2,
+    "n_draws": 5400,
     "by_scenario": [
      {
       "key": "historical",
       "label_en": "Past climate 1981–2025",
-      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
-      "pass_pct": 100.0
+      "label_ar": "مناخ الماضي 1981–2025",
+      "pass_pct": 46.7
      },
      {
       "key": "warm1",
       "label_en": "+1 °C warmer",
       "label_ar": "أدفى بدرجة",
-      "pass_pct": 100.0
+      "pass_pct": 47.7
      },
      {
       "key": "warm2",
       "label_en": "+2 °C warmer",
       "label_ar": "أدفى بدرجتين",
-      "pass_pct": 100.0
+      "pass_pct": 45.3
      },
      {
       "key": "dry10",
       "label_en": "10 % less rain",
-      "label_ar": "مطر أقل ١٠٪",
-      "pass_pct": 100.0
+      "label_ar": "مطر أقل 10٪",
+      "pass_pct": 49.0
      },
      {
       "key": "dry20",
       "label_en": "20 % less rain",
-      "label_ar": "مطر أقل ٢٠٪",
-      "pass_pct": 100.0
+      "label_ar": "مطر أقل 20٪",
+      "pass_pct": 51.5
      },
      {
       "key": "ecw1",
       "label_en": "Well +1 dS/m saltier",
       "label_ar": "البير أملح بـ 1 dS/m",
-      "pass_pct": 100.0
+      "pass_pct": 42.0
      },
      {
       "key": "ecw2",
       "label_en": "Well +2 dS/m saltier",
       "label_ar": "البير أملح بـ 2 dS/m",
-      "pass_pct": 100.0
+      "pass_pct": 33.3
+     },
+     {
+      "key": "cmip_ssp245",
+      "label_en": "2050s, SSP2-4.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP2-4.5 (CMIP6)",
+      "pass_pct": 46.7
+     },
+     {
+      "key": "cmip_ssp585",
+      "label_en": "2050s, SSP5-8.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP5-8.5 (CMIP6)",
+      "pass_pct": 44.3
+     }
+    ],
+    "by_leaching": [
+     {
+      "leach_pct": 100,
+      "pass_pct": 100.0,
+      "salt_buildup_pct": 0.0
+     },
+     {
+      "leach_pct": 70,
+      "pass_pct": 35.5,
+      "salt_buildup_pct": 64.5
+     },
+     {
+      "leach_pct": 40,
+      "pass_pct": 0.0,
+      "salt_buildup_pct": 100.0
      }
     ],
     "worst": {
      "key": "historical",
-     "pass_pct": 100.0,
-     "cause": "none",
+     "leach_pct": 40,
+     "pass_pct": 0.0,
+     "cause": "salt_buildup",
      "slot": null,
      "crop": null,
-     "share_pct": 0.0
+     "share_pct": 100.0
     },
-    "cmip6": "pending"
+    "bands": {
+     "product_t": {
+      "p10": 9.61,
+      "p50": 9.82,
+      "p90": 9.91
+     },
+     "profit_egp": {
+      "p10": 169419,
+      "p50": 176019,
+      "p90": 178204
+     },
+     "ece_end": {
+      "p10": 7.37,
+      "p50": 7.52,
+      "p90": 7.73
+     }
+    },
+    "paths": {
+     "100": {
+      "ece": [
+       [
+        8.56,
+        7.81,
+        8.2,
+        7.39,
+        7.76,
+        7.05,
+        7.4
+       ],
+       [
+        8.56,
+        7.78,
+        8.17,
+        7.37,
+        7.74,
+        7.07,
+        7.42
+       ],
+       [
+        8.56,
+        7.86,
+        8.25,
+        7.53,
+        7.91,
+        7.22,
+        7.58
+       ],
+       [
+        8.56,
+        7.73,
+        8.12,
+        7.41,
+        7.78,
+        7.24,
+        7.6
+       ],
+       [
+        8.56,
+        7.84,
+        8.23,
+        7.67,
+        8.05,
+        7.26,
+        7.62
+       ],
+       [
+        8.56,
+        7.86,
+        8.25,
+        7.58,
+        7.96,
+        7.62,
+        8.0
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.48,
+        7.86,
+        7.53,
+        7.91
+       ],
+       [
+        8.56,
+        7.73,
+        8.12,
+        7.37,
+        7.74,
+        7.11,
+        7.46
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.47,
+        7.85,
+        7.18,
+        7.54
+       ],
+       [
+        8.56,
+        7.71,
+        8.09,
+        7.29,
+        7.65,
+        7.07,
+        7.42
+       ],
+       [
+        8.56,
+        7.68,
+        8.06,
+        7.28,
+        7.65,
+        7.06,
+        7.42
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.76,
+        8.15,
+        7.39,
+        7.76
+       ],
+       [
+        8.56,
+        7.67,
+        8.06,
+        7.28,
+        7.64,
+        6.99,
+        7.34
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.41,
+        7.78,
+        7.16,
+        7.52
+       ],
+       [
+        8.56,
+        7.69,
+        8.07,
+        7.4,
+        7.77,
+        7.07,
+        7.42
+       ],
+       [
+        8.56,
+        7.7,
+        8.09,
+        7.45,
+        7.82,
+        7.23,
+        7.59
+       ],
+       [
+        8.56,
+        7.71,
+        8.09,
+        7.45,
+        7.82,
+        7.21,
+        7.57
+       ],
+       [
+        8.56,
+        7.79,
+        8.18,
+        7.48,
+        7.86,
+        7.2,
+        7.56
+       ],
+       [
+        8.56,
+        8.12,
+        8.53,
+        7.81,
+        8.2,
+        7.57,
+        7.95
+       ],
+       [
+        8.56,
+        7.67,
+        8.05,
+        7.31,
+        7.67,
+        7.08,
+        7.44
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.32,
+        7.69,
+        7.02,
+        7.37
+       ],
+       [
+        8.56,
+        7.8,
+        8.19,
+        7.45,
+        7.83,
+        7.34,
+        7.7
+       ],
+       [
+        8.56,
+        7.77,
+        8.15,
+        7.4,
+        7.77,
+        7.16,
+        7.52
+       ],
+       [
+        8.56,
+        7.67,
+        8.06,
+        7.47,
+        7.84,
+        7.15,
+        7.51
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.44,
+        7.81,
+        7.07,
+        7.42
+       ],
+       [
+        8.56,
+        7.94,
+        8.34,
+        7.5,
+        7.87,
+        7.31,
+        7.67
+       ],
+       [
+        8.56,
+        7.68,
+        8.06,
+        7.4,
+        7.77,
+        7.1,
+        7.45
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.44,
+        7.82,
+        7.27,
+        7.64
+       ],
+       [
+        8.56,
+        7.72,
+        8.11,
+        7.43,
+        7.8,
+        7.2,
+        7.56
+       ],
+       [
+        8.56,
+        7.69,
+        8.07,
+        7.44,
+        7.81,
+        7.29,
+        7.66
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.43,
+        7.8,
+        7.15,
+        7.51
+       ],
+       [
+        8.56,
+        7.77,
+        8.15,
+        7.48,
+        7.85,
+        7.16,
+        7.52
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.52,
+        7.9,
+        7.18,
+        7.54
+       ],
+       [
+        8.56,
+        7.87,
+        8.27,
+        7.45,
+        7.82,
+        7.13,
+        7.49
+       ],
+       [
+        8.56,
+        7.89,
+        8.28,
+        7.49,
+        7.86,
+        7.21,
+        7.57
+       ],
+       [
+        8.56,
+        7.73,
+        8.12,
+        7.33,
+        7.7,
+        6.98,
+        7.33
+       ],
+       [
+        8.56,
+        7.7,
+        8.09,
+        7.31,
+        7.68,
+        7.07,
+        7.43
+       ],
+       [
+        8.56,
+        7.8,
+        8.19,
+        7.41,
+        7.78,
+        7.47,
+        7.84
+       ],
+       [
+        8.56,
+        7.65,
+        8.04,
+        7.29,
+        7.66,
+        6.97,
+        7.32
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.32,
+        7.68,
+        6.99,
+        7.34
+       ]
+      ],
+      "pass": [
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true
+      ]
+     },
+     "70": {
+      "ece": [
+       [
+        8.56,
+        8.23,
+        8.64,
+        8.16,
+        8.57,
+        8.08,
+        8.49
+       ],
+       [
+        8.56,
+        8.18,
+        8.59,
+        8.1,
+        8.5,
+        8.1,
+        8.51
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.32,
+        8.73,
+        8.3,
+        8.71
+       ],
+       [
+        8.56,
+        8.13,
+        8.54,
+        8.14,
+        8.55,
+        8.26,
+        8.67
+       ],
+       [
+        8.56,
+        8.23,
+        8.64,
+        8.4,
+        8.82,
+        8.27,
+        8.68
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.37,
+        8.78,
+        8.69,
+        9.13
+       ],
+       [
+        8.56,
+        8.23,
+        8.64,
+        8.25,
+        8.66,
+        8.58,
+        9.01
+       ],
+       [
+        8.56,
+        8.13,
+        8.54,
+        8.1,
+        8.5,
+        8.11,
+        8.52
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.29,
+        8.7,
+        8.29,
+        8.7
+       ],
+       [
+        8.56,
+        8.11,
+        8.51,
+        8.01,
+        8.41,
+        8.09,
+        8.49
+       ],
+       [
+        8.56,
+        8.07,
+        8.48,
+        8.02,
+        8.42,
+        8.09,
+        8.5
+       ],
+       [
+        8.56,
+        8.17,
+        8.58,
+        8.51,
+        8.93,
+        8.46,
+        8.88
+       ],
+       [
+        8.56,
+        8.07,
+        8.47,
+        8.02,
+        8.43,
+        8.0,
+        8.4
+       ],
+       [
+        8.56,
+        8.17,
+        8.58,
+        8.19,
+        8.6,
+        8.21,
+        8.62
+       ],
+       [
+        8.56,
+        8.09,
+        8.5,
+        8.13,
+        8.53,
+        8.07,
+        8.47
+       ],
+       [
+        8.56,
+        8.12,
+        8.53,
+        8.2,
+        8.61,
+        8.26,
+        8.67
+       ],
+       [
+        8.56,
+        8.11,
+        8.51,
+        8.17,
+        8.58,
+        8.22,
+        8.63
+       ],
+       [
+        8.56,
+        8.21,
+        8.62,
+        8.24,
+        8.65,
+        8.26,
+        8.67
+       ],
+       [
+        8.56,
+        8.49,
+        8.92,
+        8.54,
+        8.96,
+        8.66,
+        9.09
+       ],
+       [
+        8.56,
+        8.09,
+        8.5,
+        8.06,
+        8.46,
+        8.13,
+        8.53
+       ],
+       [
+        8.56,
+        8.15,
+        8.55,
+        8.05,
+        8.45,
+        8.03,
+        8.43
+       ],
+       [
+        8.56,
+        8.2,
+        8.61,
+        8.21,
+        8.62,
+        8.38,
+        8.8
+       ],
+       [
+        8.56,
+        8.16,
+        8.57,
+        8.13,
+        8.54,
+        8.17,
+        8.58
+       ],
+       [
+        8.56,
+        8.07,
+        8.47,
+        8.2,
+        8.61,
+        8.16,
+        8.57
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.26,
+        8.67,
+        8.14,
+        8.55
+       ],
+       [
+        8.56,
+        8.33,
+        8.74,
+        8.25,
+        8.66,
+        8.39,
+        8.81
+       ],
+       [
+        8.56,
+        8.08,
+        8.48,
+        8.13,
+        8.54,
+        8.13,
+        8.53
+       ],
+       [
+        8.56,
+        8.15,
+        8.55,
+        8.18,
+        8.59,
+        8.3,
+        8.71
+       ],
+       [
+        8.56,
+        8.12,
+        8.53,
+        8.18,
+        8.59,
+        8.26,
+        8.67
+       ],
+       [
+        8.56,
+        8.09,
+        8.5,
+        8.25,
+        8.67,
+        8.51,
+        8.94
+       ],
+       [
+        8.56,
+        8.22,
+        8.63,
+        8.16,
+        8.57,
+        8.19,
+        8.59
+       ],
+       [
+        8.56,
+        8.16,
+        8.57,
+        8.21,
+        8.62,
+        8.19,
+        8.6
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.35,
+        8.77,
+        8.3,
+        8.71
+       ],
+       [
+        8.56,
+        8.27,
+        8.68,
+        8.17,
+        8.58,
+        8.14,
+        8.54
+       ],
+       [
+        8.56,
+        8.42,
+        8.84,
+        8.36,
+        8.78,
+        8.35,
+        8.77
+       ],
+       [
+        8.56,
+        8.15,
+        8.56,
+        8.08,
+        8.48,
+        7.99,
+        8.38
+       ],
+       [
+        8.56,
+        8.12,
+        8.53,
+        8.05,
+        8.45,
+        8.09,
+        8.49
+       ],
+       [
+        8.56,
+        8.2,
+        8.61,
+        8.16,
+        8.57,
+        8.5,
+        8.92
+       ],
+       [
+        8.56,
+        8.05,
+        8.45,
+        8.03,
+        8.43,
+        7.96,
+        8.36
+       ],
+       [
+        8.56,
+        8.17,
+        8.58,
+        8.06,
+        8.47,
+        8.0,
+        8.4
+       ]
+      ],
+      "pass": [
+       true,
+       true,
+       false,
+       false,
+       false,
+       false,
+       false,
+       true,
+       false,
+       true,
+       true,
+       false,
+       true,
+       false,
+       true,
+       false,
+       false,
+       false,
+       false,
+       true,
+       true,
+       false,
+       false,
+       false,
+       true,
+       false,
+       true,
+       false,
+       false,
+       false,
+       false,
+       false,
+       false,
+       true,
+       false,
+       true,
+       true,
+       false,
+       true,
+       true
+      ]
+     }
+    },
+    "cmip6": "included"
    },
    "explanation": {
     "en": {
      "why": [
-      "Uses the least water among plans that keep at least 80% of today's output index: 11,138 m³ vs 15,260 m³ in 3 years (-27%).",
-      "Sequence: squash → fallow → squash → fallow → barley forage → fallow. Every crop keeps ≥ 90% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
+      "Uses the least water among plans that keep at least 80% of today's net profit: 8,572 m³ vs 15,260 m³ in 3 years (-44%).",
+      "Sequence: wheat → fallow → wheat → fallow → wheat → fallow. Every crop keeps ≥ 98% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
      ],
      "evidence": [
       "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
       "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
-      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 100% of them.",
+      "Stress test on 5,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well and CMIP6 2050s futures, and 100/70/40 % of the leaching water): this plan held up in 45% of them.",
       "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
       "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
      ],
      "benefits": [
-      "Output -20% vs your current rotation.",
-      "Saves 27% water (11,138 vs 15,260 m³ in 3 years).",
-      "Leaves less salt in the root zone: ECe 6.5 vs 7.6 dS/m after 3 years.",
-      "Soil score 59/100 vs 52."
+      "Net profit 109,808 EGP in 3 years (-12% vs your current 125,325 EGP); ≈ 7,321 EGP per feddan per year.",
+      "Earns more per drop: 12.8 EGP per m³ vs 8.2 now; 0.72 kg of product per m³.",
+      "Saves 44% water (8,572 vs 15,260 m³ in 3 years).",
+      "Builds soil nitrogen (legumes): 25 vs 23 mg/kg."
      ],
      "gaps": [
-      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
-      "Attainable yield is an assumption (no local trial) for: squash.",
       "How fast salt rises in an unirrigated summer fallow is not measured locally (assumed +5% per season).",
       "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
      ],
      "risks": [
       "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
-      "Squash / zucchini (W1, W2) needs 50% extra water for leaching; without it the yield could fall to about 26% (FAO-29 at LF 15%).",
-      "Barley (forage) (W3) needs 39% extra water for leaching; without it the yield could fall to about 53% (FAO-29 at LF 15%).",
-      "Check seed, know-how and buyers before planting crops without a Ras Sudr track record: squash.",
+      "Wheat (bread) (W1, W2, W3) needs 39% extra water for leaching; without it the yield could fall to about 53% (FAO-29 at LF 15%).",
+      "If you apply only 70 % / 40 % of the leaching water the plan passes 36% / 0% of futures (salt builds up in 64% / 100%). The S1 trial applied about 60 % of the FAO-29 amount.",
+      "Weakest case: Past climate 1981–2025 — passes 0% of the time; main cause: salt builds up in the soil.",
       "Decision support only — confirm with your local agricultural extension officer."
      ]
     },
     "ar": {
      "why": [
-      "أقل استهلاك مية بين الخطط اللي بتحافظ على 80٪ على الأقل من مؤشر الإنتاج الحالي: 11,138 م³ مقابل 15,260 م³ في 3 سنين (-27%).",
-      "الترتيب: كوسة ← بور (راحة) ← كوسة ← بور (راحة) ← شعير علف ← بور (راحة). كل محصول بيحافظ على 90٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
+      "أقل استهلاك مية بين الخطط اللي بتحافظ على 80٪ على الأقل من صافي الربح الحالي: 8,572 م³ مقابل 15,260 م³ في 3 سنين (-44%).",
+      "الترتيب: قمح ← بور (راحة) ← قمح ← بور (راحة) ← قمح ← بور (راحة). كل محصول بيحافظ على 98٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
      ],
      "evidence": [
       "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
       "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
-      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 100٪ منهم.",
+      "اختبار تحمّل على 5,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح ومستقبل الخمسينات من CMIP6، و100/70/40٪ من مية الغسيل): الخطة نجحت في 45٪ منهم.",
       "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
       "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
      ],
      "benefits": [
-      "الإنتاج -20% مقارنة بدورتك الحالية.",
-      "بيوفر 27٪ مية (11,138 مقابل 15,260 م³ في 3 سنين).",
-      "بيسيب ملح أقل في منطقة الجذور: ECe 6.5 مقابل 7.6 dS/m بعد 3 سنين.",
-      "درجة التربة 59/100 مقابل 52."
+      "صافي الربح 109,808 جنيه في 3 سنين (-12% مقارنة بـ 125,325 جنيه دلوقتي)؛ حوالي 7,321 جنيه للفدان في السنة.",
+      "بيكسب أكتر من كل نقطة مية: 12.8 جنيه للمتر المكعب مقابل 8.2 دلوقتي؛ و0.72 كجم محصول لكل م³.",
+      "بيوفر 44٪ مية (8,572 مقابل 15,260 م³ في 3 سنين).",
+      "بيزوّد نيتروجين التربة (البقوليات): 25 مقابل 23 مجم/كجم."
      ],
      "gaps": [
-      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
-      "الإنتاج الممكن مفترض (مفيش تجربة محلية) لـ: كوسة.",
       "سرعة زيادة الملح في البور الصيفي مش متقاسة محليًا (مفترضة +5٪ كل موسم).",
       "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
      ],
      "risks": [
       "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
-      "كوسة (W1, W2) محتاج 50٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 26٪ (FAO-29 عند LF 15٪).",
-      "شعير علف (W3) محتاج 39٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 53٪ (FAO-29 عند LF 15٪).",
-      "اتأكد من التقاوي والخبرة والمشتري قبل ما تزرع محاصيل ملهاش تجربة في رأس سدر: كوسة.",
+      "قمح (W1, W2, W3) محتاج 39٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 53٪ (FAO-29 عند LF 15٪).",
+      "لو حطيت 70٪ / 40٪ بس من مية الغسيل الخطة بتنجح في 36٪ / 0٪ من الحالات (الملح بيتراكم في 64٪ / 100٪). تجربة S1 حطت حوالي 60٪ من كمية FAO-29.",
+      "أضعف حالة: مناخ الماضي 1981–2025 — بتنجح 0٪ من المرات؛ السبب الأساسي: الملح بيتراكم في التربة.",
       "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
      ]
     }
@@ -991,11 +3649,19 @@
    "label_ar": "المحسّنة للتربة",
    "plan": [
     "faba_bean",
-    "sorghum",
-    "faba_bean",
-    "sorghum",
-    "faba_bean",
-    "cowpea"
+    "cotton",
+    "squash",
+    "sesbania",
+    "squash",
+    "sesbania"
+   ],
+   "area_frac": [
+    0.9,
+    0.2,
+    0.5,
+    0.8,
+    0.5,
+    0.7
    ],
    "seasons": [
     {
@@ -1004,6 +3670,7 @@
      "crop_en": "Faba bean",
      "crop_ar": "فول بلدي",
      "part": 0,
+     "idle_fdn": 3.52,
      "family": "Fabaceae",
      "use": "grain",
      "sow": "10-25",
@@ -1022,160 +3689,183 @@
      "ece_mean": 4.39,
      "salt_rating": "MS",
      "n_fixing": true,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 41852.0,
+     "cost_egp": 29586.0,
+     "pumping_egp": 3789.0,
+     "profit_egp": 8478.0
     },
     {
      "slot": "S1",
-     "crop_id": "sorghum",
-     "crop_en": "Sorghum (grain)",
-     "crop_ar": "ذرة رفيعة",
+     "crop_id": "cotton",
+     "crop_en": "Cotton",
+     "crop_ar": "قطن",
      "part": 0,
-     "family": "Poaceae",
-     "use": "grain/forage",
-     "sow": "05-15",
-     "harvest": "10-02",
-     "area_fdn": 1.01,
-     "water_mm": 1319.0,
-     "water_m3": 5592.0,
-     "etc_mm": 801.0,
-     "lr_pct": 32.6,
+     "idle_fdn": 4.03,
+     "family": "Malvaceae",
+     "use": "cash",
+     "sow": "05-01",
+     "harvest": "11-12",
+     "area_fdn": 0.97,
+     "water_mm": 1735.0,
+     "water_m3": 7092.0,
+     "etc_mm": 1136.0,
+     "lr_pct": 27.7,
      "salt_ry_pct": 100.0,
-     "heat_factor": 0.999,
-     "rel_yield_pct": 99.9,
-     "yield_kg_ha": 4246.0,
-     "yield_t_per_fdn": 1.78,
-     "farm_output_t": 1.8,
-     "ece_mean": 5.46,
-     "salt_rating": "MT",
+     "heat_factor": 0.991,
+     "rel_yield_pct": 99.1,
+     "yield_kg_ha": 4460.0,
+     "yield_t_per_fdn": 1.87,
+     "farm_output_t": 1.82,
+     "ece_mean": 5.48,
+     "salt_rating": "T",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 109493.0,
+     "cost_egp": 43798.0,
+     "pumping_egp": 4822.0,
+     "profit_egp": 60872.0
     },
     {
      "slot": "W2",
-     "crop_id": "faba_bean",
-     "crop_en": "Faba bean",
-     "crop_ar": "فول بلدي",
+     "crop_id": "squash",
+     "crop_en": "Squash / zucchini",
+     "crop_ar": "كوسة",
      "part": 0,
-     "family": "Fabaceae",
-     "use": "grain",
-     "sow": "10-25",
-     "harvest": "04-03",
-     "area_fdn": 1.48,
-     "water_mm": 897.0,
-     "water_m3": 5572.0,
-     "etc_mm": 436.0,
+     "idle_fdn": 3.12,
+     "family": "Cucurbitaceae",
+     "use": "vegetable",
+     "sow": "12-01",
+     "harvest": "03-11",
+     "area_fdn": 1.88,
+     "water_mm": 435.0,
+     "water_m3": 3427.0,
+     "etc_mm": 216.0,
      "lr_pct": 50.0,
-     "salt_ry_pct": 75.5,
-     "heat_factor": 0.998,
-     "rel_yield_pct": 75.4,
-     "yield_kg_ha": 1884.0,
-     "yield_t_per_fdn": 0.79,
-     "farm_output_t": 1.17,
-     "ece_mean": 4.1,
-     "salt_rating": "MS",
-     "n_fixing": true,
-     "revenue_egp": null,
-     "cost_egp": null
+     "salt_ry_pct": 96.3,
+     "heat_factor": 1.0,
+     "rel_yield_pct": 96.3,
+     "yield_kg_ha": 19260.0,
+     "yield_t_per_fdn": 8.09,
+     "farm_output_t": 15.19,
+     "ece_mean": 5.09,
+     "salt_rating": "MT",
+     "n_fixing": false,
+     "revenue_egp": 151896.0,
+     "cost_egp": 112664.0,
+     "pumping_egp": 2330.0,
+     "profit_egp": 36902.0
     },
     {
      "slot": "S2",
-     "crop_id": "sorghum",
-     "crop_en": "Sorghum (grain)",
-     "crop_ar": "ذرة رفيعة",
+     "crop_id": "sesbania",
+     "crop_en": "Sesbania",
+     "crop_ar": "سيسبانيا",
      "part": 0,
-     "family": "Poaceae",
-     "use": "grain/forage",
+     "idle_fdn": 4.27,
+     "family": "Fabaceae",
+     "use": "green manure/forage",
      "sow": "05-15",
-     "harvest": "10-02",
-     "area_fdn": 1.01,
-     "water_mm": 1319.0,
-     "water_m3": 5592.0,
-     "etc_mm": 801.0,
-     "lr_pct": 32.6,
-     "salt_ry_pct": 100.0,
-     "heat_factor": 0.999,
-     "rel_yield_pct": 99.9,
-     "yield_kg_ha": 4246.0,
-     "yield_t_per_fdn": 1.78,
-     "farm_output_t": 1.8,
-     "ece_mean": 5.01,
-     "salt_rating": "MT",
-     "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "harvest": "08-23",
+     "area_fdn": 0.73,
+     "water_mm": 1413.0,
+     "water_m3": 4325.0,
+     "etc_mm": 636.0,
+     "lr_pct": 50.0,
+     "salt_ry_pct": 83.1,
+     "heat_factor": 0.945,
+     "rel_yield_pct": 78.5,
+     "yield_kg_ha": 4712.0,
+     "yield_t_per_fdn": 1.98,
+     "farm_output_t": 1.44,
+     "ece_mean": 3.89,
+     "salt_rating": "MS",
+     "n_fixing": true,
+     "revenue_egp": 0.0,
+     "cost_egp": 5829.0,
+     "pumping_egp": 2941.0,
+     "profit_egp": -8770.0
     },
     {
      "slot": "W3",
-     "crop_id": "faba_bean",
-     "crop_en": "Faba bean",
-     "crop_ar": "فول بلدي",
+     "crop_id": "squash",
+     "crop_en": "Squash / zucchini",
+     "crop_ar": "كوسة",
      "part": 0,
-     "family": "Fabaceae",
-     "use": "grain",
-     "sow": "10-25",
-     "harvest": "04-03",
-     "area_fdn": 1.48,
-     "water_mm": 897.0,
-     "water_m3": 5572.0,
-     "etc_mm": 436.0,
+     "idle_fdn": 3.12,
+     "family": "Cucurbitaceae",
+     "use": "vegetable",
+     "sow": "12-01",
+     "harvest": "03-11",
+     "area_fdn": 1.88,
+     "water_mm": 435.0,
+     "water_m3": 3427.0,
+     "etc_mm": 216.0,
      "lr_pct": 50.0,
-     "salt_ry_pct": 77.2,
-     "heat_factor": 0.998,
-     "rel_yield_pct": 77.1,
-     "yield_kg_ha": 1927.0,
-     "yield_t_per_fdn": 0.81,
-     "farm_output_t": 1.2,
-     "ece_mean": 3.91,
-     "salt_rating": "MS",
-     "n_fixing": true,
-     "revenue_egp": null,
-     "cost_egp": null
+     "salt_ry_pct": 100.0,
+     "heat_factor": 1.0,
+     "rel_yield_pct": 100.0,
+     "yield_kg_ha": 20000.0,
+     "yield_t_per_fdn": 8.4,
+     "farm_output_t": 15.77,
+     "ece_mean": 4.59,
+     "salt_rating": "MT",
+     "n_fixing": false,
+     "revenue_egp": 157729.0,
+     "cost_egp": 112664.0,
+     "pumping_egp": 2330.0,
+     "profit_egp": 42735.0
     },
     {
      "slot": "S3",
-     "crop_id": "cowpea",
-     "crop_en": "Cowpea",
-     "crop_ar": "لوبيا",
+     "crop_id": "sesbania",
+     "crop_en": "Sesbania",
+     "crop_ar": "سيسبانيا",
      "part": 0,
+     "idle_fdn": 4.27,
      "family": "Fabaceae",
-     "use": "grain/forage",
+     "use": "green manure/forage",
      "sow": "05-15",
-     "harvest": "09-02",
-     "area_fdn": 0.74,
-     "water_mm": 1448.0,
-     "water_m3": 4511.0,
-     "etc_mm": 652.0,
+     "harvest": "08-23",
+     "area_fdn": 0.73,
+     "water_mm": 1413.0,
+     "water_m3": 4325.0,
+     "etc_mm": 636.0,
      "lr_pct": 50.0,
-     "salt_ry_pct": 100.0,
-     "heat_factor": 0.948,
-     "rel_yield_pct": 94.8,
-     "yield_kg_ha": 1897.0,
-     "yield_t_per_fdn": 0.8,
-     "farm_output_t": 0.59,
-     "ece_mean": 3.66,
-     "salt_rating": "MT",
+     "salt_ry_pct": 84.5,
+     "heat_factor": 0.945,
+     "rel_yield_pct": 79.9,
+     "yield_kg_ha": 4793.0,
+     "yield_t_per_fdn": 2.01,
+     "farm_output_t": 1.47,
+     "ece_mean": 3.73,
+     "salt_rating": "MS",
      "n_fixing": true,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 0.0,
+     "cost_egp": 5829.0,
+     "pumping_egp": 2941.0,
+     "profit_egp": -8770.0
     }
    ],
    "totals": {
-    "value": 1.2101,
-    "value_kind": "productivity_index",
-    "value_vs_current_pct": -16.5,
-    "water_m3": 32409,
-    "water_vs_current_pct": 112.4,
-    "water_m3_per_year": 10803,
-    "soil_index": 71.8,
-    "ECe_end": 5.43,
+    "value": 131447.5028,
+    "value_kind": "profit_egp",
+    "value_vs_current_pct": 4.9,
+    "water_m3": 28168,
+    "water_vs_current_pct": 84.6,
+    "water_m3_per_year": 9389,
+    "soil_index": 70.5,
+    "profit_per_feddan_year": 8763,
+    "ECe_end": 5.31,
     "SOC_end": 0.174,
-    "N_end": 32.2,
+    "N_end": 29.6,
     "min_rel_yield": 72.6,
-    "market_score": 0.5,
+    "market_score": 0.33,
     "cropped_seasons": 6,
-    "pest_flags": 0
+    "pest_flags": 0,
+    "product_t": 33.91,
+    "kg_per_m3": 1.2,
+    "m3_per_1000_egp": 214.3,
+    "egp_per_m3": 4.67,
+    "idle_fdn_avg": 3.72
    },
    "soil_trajectory": [
     {
@@ -1192,156 +3882,1023 @@
     },
     {
      "t": "S1",
-     "ece": 7.07,
+     "ece": 7.13,
      "soc": 0.178,
-     "n": 27.5
+     "n": 27.6
     },
     {
      "t": "W2",
-     "ece": 6.23,
-     "soc": 0.177,
-     "n": 29.5
+     "ece": 6.17,
+     "soc": 0.176,
+     "n": 26.5
     },
     {
      "t": "S2",
-     "ece": 6.11,
+     "ece": 6.02,
      "soc": 0.176,
-     "n": 28.9
+     "n": 28.6
     },
     {
      "t": "W3",
-     "ece": 5.53,
-     "soc": 0.175,
-     "n": 31.0
+     "ece": 5.38,
+     "soc": 0.174,
+     "n": 27.5
     },
     {
      "t": "S3",
-     "ece": 5.43,
+     "ece": 5.31,
      "soc": 0.174,
-     "n": 32.2
+     "n": 29.6
     }
    ],
    "robustness": {
-    "robustness_pct": 100.0,
-    "n_draws": 1400,
+    "robustness_pct": 56.4,
+    "n_draws": 5400,
     "by_scenario": [
      {
       "key": "historical",
       "label_en": "Past climate 1981–2025",
-      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
-      "pass_pct": 100.0
+      "label_ar": "مناخ الماضي 1981–2025",
+      "pass_pct": 65.2
      },
      {
       "key": "warm1",
       "label_en": "+1 °C warmer",
       "label_ar": "أدفى بدرجة",
-      "pass_pct": 100.0
+      "pass_pct": 62.7
      },
      {
       "key": "warm2",
       "label_en": "+2 °C warmer",
       "label_ar": "أدفى بدرجتين",
-      "pass_pct": 100.0
+      "pass_pct": 48.3
      },
      {
       "key": "dry10",
       "label_en": "10 % less rain",
-      "label_ar": "مطر أقل ١٠٪",
-      "pass_pct": 100.0
+      "label_ar": "مطر أقل 10٪",
+      "pass_pct": 65.2
      },
      {
       "key": "dry20",
       "label_en": "20 % less rain",
-      "label_ar": "مطر أقل ٢٠٪",
-      "pass_pct": 100.0
+      "label_ar": "مطر أقل 20٪",
+      "pass_pct": 65.2
      },
      {
       "key": "ecw1",
       "label_en": "Well +1 dS/m saltier",
       "label_ar": "البير أملح بـ 1 dS/m",
-      "pass_pct": 100.0
+      "pass_pct": 65.2
      },
      {
       "key": "ecw2",
       "label_en": "Well +2 dS/m saltier",
       "label_ar": "البير أملح بـ 2 dS/m",
-      "pass_pct": 100.0
+      "pass_pct": 57.3
+     },
+     {
+      "key": "cmip_ssp245",
+      "label_en": "2050s, SSP2-4.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP2-4.5 (CMIP6)",
+      "pass_pct": 48.3
+     },
+     {
+      "key": "cmip_ssp585",
+      "label_en": "2050s, SSP5-8.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP5-8.5 (CMIP6)",
+      "pass_pct": 29.8
+     }
+    ],
+    "by_leaching": [
+     {
+      "leach_pct": 100,
+      "pass_pct": 95.8,
+      "salt_buildup_pct": 0.0
+     },
+     {
+      "leach_pct": 70,
+      "pass_pct": 73.2,
+      "salt_buildup_pct": 0.0
+     },
+     {
+      "leach_pct": 40,
+      "pass_pct": 0.0,
+      "salt_buildup_pct": 36.4
      }
     ],
     "worst": {
      "key": "historical",
-     "pass_pct": 100.0,
-     "cause": "none",
-     "slot": null,
-     "crop": null,
-     "share_pct": 0.0
+     "leach_pct": 40,
+     "pass_pct": 0.0,
+     "cause": "low_yield",
+     "slot": 0,
+     "crop": "faba_bean",
+     "share_pct": 100.0
     },
-    "cmip6": "pending"
+    "bands": {
+     "product_t": {
+      "p10": 32.93,
+      "p50": 33.68,
+      "p90": 33.98
+     },
+     "profit_egp": {
+      "p10": 120282,
+      "p50": 128588,
+      "p90": 132653
+     },
+     "ece_end": {
+      "p10": 5.29,
+      "p50": 5.39,
+      "p90": 5.56
+     }
+    },
+    "paths": {
+     "100": {
+      "ece": [
+       [
+        8.56,
+        7.4,
+        7.25,
+        6.19,
+        6.04,
+        5.37,
+        5.3
+       ],
+       [
+        8.56,
+        7.37,
+        7.15,
+        6.16,
+        6.02,
+        5.41,
+        5.34
+       ],
+       [
+        8.56,
+        7.42,
+        7.2,
+        6.3,
+        6.14,
+        5.45,
+        5.37
+       ],
+       [
+        8.56,
+        7.35,
+        7.13,
+        6.23,
+        6.08,
+        5.54,
+        5.45
+       ],
+       [
+        8.56,
+        7.38,
+        7.18,
+        6.64,
+        6.44,
+        5.64,
+        5.54
+       ],
+       [
+        8.56,
+        7.42,
+        7.2,
+        6.36,
+        6.19,
+        5.8,
+        5.69
+       ],
+       [
+        8.56,
+        7.39,
+        7.18,
+        6.24,
+        6.09,
+        5.72,
+        5.62
+       ],
+       [
+        8.56,
+        7.35,
+        7.13,
+        6.18,
+        6.03,
+        5.44,
+        5.36
+       ],
+       [
+        8.56,
+        7.36,
+        7.14,
+        6.26,
+        6.1,
+        5.44,
+        5.37
+       ],
+       [
+        8.56,
+        7.34,
+        7.15,
+        6.14,
+        5.99,
+        5.55,
+        5.47
+       ],
+       [
+        8.56,
+        7.33,
+        7.11,
+        6.14,
+        5.99,
+        5.55,
+        5.47
+       ],
+       [
+        8.56,
+        7.33,
+        7.15,
+        6.54,
+        6.36,
+        5.65,
+        5.55
+       ],
+       [
+        8.56,
+        7.32,
+        7.12,
+        6.09,
+        5.96,
+        5.34,
+        5.28
+       ],
+       [
+        8.56,
+        7.33,
+        7.15,
+        6.21,
+        6.06,
+        5.48,
+        5.4
+       ],
+       [
+        8.56,
+        7.33,
+        7.13,
+        6.32,
+        6.16,
+        5.46,
+        5.39
+       ],
+       [
+        8.56,
+        7.32,
+        7.11,
+        6.29,
+        6.13,
+        5.61,
+        5.52
+       ],
+       [
+        8.56,
+        7.34,
+        7.15,
+        6.38,
+        6.21,
+        5.69,
+        5.6
+       ],
+       [
+        8.56,
+        7.42,
+        7.19,
+        6.39,
+        6.22,
+        5.54,
+        5.46
+       ],
+       [
+        8.56,
+        7.74,
+        7.46,
+        6.52,
+        6.33,
+        5.68,
+        5.58
+       ],
+       [
+        8.56,
+        7.33,
+        7.11,
+        6.2,
+        6.05,
+        5.59,
+        5.5
+       ],
+       [
+        8.56,
+        7.37,
+        7.15,
+        6.14,
+        5.99,
+        5.34,
+        5.27
+       ],
+       [
+        8.56,
+        7.36,
+        7.14,
+        6.19,
+        6.04,
+        5.74,
+        5.63
+       ],
+       [
+        8.56,
+        7.36,
+        7.16,
+        6.2,
+        6.05,
+        5.54,
+        5.46
+       ],
+       [
+        8.56,
+        7.32,
+        7.12,
+        6.31,
+        6.14,
+        5.47,
+        5.39
+       ],
+       [
+        8.56,
+        7.36,
+        7.14,
+        6.15,
+        6.01,
+        5.33,
+        5.27
+       ],
+       [
+        8.56,
+        7.45,
+        7.23,
+        6.17,
+        6.03,
+        5.46,
+        5.38
+       ],
+       [
+        8.56,
+        7.35,
+        7.16,
+        6.4,
+        6.23,
+        5.57,
+        5.48
+       ],
+       [
+        8.56,
+        7.37,
+        7.15,
+        6.36,
+        6.19,
+        5.62,
+        5.53
+       ],
+       [
+        8.56,
+        7.34,
+        7.13,
+        6.4,
+        6.23,
+        5.66,
+        5.56
+       ],
+       [
+        8.56,
+        7.33,
+        7.13,
+        6.2,
+        6.05,
+        5.45,
+        5.37
+       ],
+       [
+        8.56,
+        7.38,
+        7.16,
+        6.24,
+        6.09,
+        5.45,
+        5.38
+       ],
+       [
+        8.56,
+        7.36,
+        7.16,
+        6.36,
+        6.19,
+        5.54,
+        5.45
+       ],
+       [
+        8.56,
+        7.36,
+        7.14,
+        6.41,
+        6.24,
+        5.51,
+        5.43
+       ],
+       [
+        8.56,
+        7.4,
+        7.19,
+        6.19,
+        6.04,
+        5.4,
+        5.33
+       ],
+       [
+        8.56,
+        7.38,
+        7.15,
+        6.16,
+        6.01,
+        5.38,
+        5.31
+       ],
+       [
+        8.56,
+        7.35,
+        7.13,
+        6.19,
+        6.04,
+        5.35,
+        5.29
+       ],
+       [
+        8.56,
+        7.32,
+        7.11,
+        6.13,
+        5.99,
+        5.42,
+        5.35
+       ],
+       [
+        8.56,
+        7.37,
+        7.15,
+        6.16,
+        6.01,
+        5.66,
+        5.56
+       ],
+       [
+        8.56,
+        7.32,
+        7.11,
+        6.13,
+        5.98,
+        5.33,
+        5.28
+       ],
+       [
+        8.56,
+        7.33,
+        7.15,
+        6.14,
+        5.99,
+        5.34,
+        5.28
+       ]
+      ],
+      "pass": [
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true
+      ]
+     },
+     "70": {
+      "ece": [
+       [
+        8.56,
+        7.78,
+        7.82,
+        7.08,
+        6.97,
+        6.47,
+        6.4
+       ],
+       [
+        8.56,
+        7.68,
+        7.61,
+        6.96,
+        6.88,
+        6.49,
+        6.43
+       ],
+       [
+        8.56,
+        7.81,
+        7.74,
+        7.19,
+        7.07,
+        6.57,
+        6.5
+       ],
+       [
+        8.56,
+        7.64,
+        7.58,
+        7.05,
+        6.93,
+        6.61,
+        6.54
+       ],
+       [
+        8.56,
+        7.7,
+        7.68,
+        7.5,
+        7.34,
+        6.73,
+        6.65
+       ],
+       [
+        8.56,
+        7.81,
+        7.74,
+        7.27,
+        7.14,
+        6.97,
+        6.87
+       ],
+       [
+        8.56,
+        7.73,
+        7.68,
+        7.09,
+        6.99,
+        6.85,
+        6.76
+       ],
+       [
+        8.56,
+        7.64,
+        7.58,
+        6.99,
+        6.88,
+        6.49,
+        6.43
+       ],
+       [
+        8.56,
+        7.68,
+        7.62,
+        7.12,
+        7.0,
+        6.52,
+        6.46
+       ],
+       [
+        8.56,
+        7.62,
+        7.62,
+        6.94,
+        6.84,
+        6.66,
+        6.59
+       ],
+       [
+        8.56,
+        7.59,
+        7.54,
+        6.93,
+        6.83,
+        6.66,
+        6.59
+       ],
+       [
+        8.56,
+        7.6,
+        7.6,
+        7.37,
+        7.23,
+        6.77,
+        6.68
+       ],
+       [
+        8.56,
+        7.59,
+        7.55,
+        6.88,
+        6.79,
+        6.36,
+        6.31
+       ],
+       [
+        8.56,
+        7.6,
+        7.6,
+        7.03,
+        6.93,
+        6.55,
+        6.48
+       ],
+       [
+        8.56,
+        7.61,
+        7.57,
+        7.13,
+        7.01,
+        6.51,
+        6.44
+       ],
+       [
+        8.56,
+        7.58,
+        7.53,
+        7.1,
+        6.98,
+        6.69,
+        6.61
+       ],
+       [
+        8.56,
+        7.62,
+        7.62,
+        7.21,
+        7.08,
+        6.8,
+        6.73
+       ],
+       [
+        8.56,
+        7.81,
+        7.73,
+        7.29,
+        7.15,
+        6.67,
+        6.61
+       ],
+       [
+        8.56,
+        8.26,
+        8.12,
+        7.52,
+        7.36,
+        6.94,
+        6.84
+       ],
+       [
+        8.56,
+        7.6,
+        7.54,
+        6.99,
+        6.88,
+        6.7,
+        6.63
+       ],
+       [
+        8.56,
+        7.72,
+        7.65,
+        6.96,
+        6.86,
+        6.37,
+        6.32
+       ],
+       [
+        8.56,
+        7.67,
+        7.61,
+        7.0,
+        6.89,
+        6.83,
+        6.73
+       ],
+       [
+        8.56,
+        7.66,
+        7.62,
+        7.02,
+        6.91,
+        6.62,
+        6.54
+       ],
+       [
+        8.56,
+        7.59,
+        7.55,
+        7.11,
+        6.99,
+        6.52,
+        6.46
+       ],
+       [
+        8.56,
+        7.68,
+        7.62,
+        6.97,
+        6.86,
+        6.35,
+        6.3
+       ],
+       [
+        8.56,
+        7.83,
+        7.77,
+        7.05,
+        6.94,
+        6.6,
+        6.53
+       ],
+       [
+        8.56,
+        7.64,
+        7.63,
+        7.25,
+        7.14,
+        6.71,
+        6.63
+       ],
+       [
+        8.56,
+        7.72,
+        7.65,
+        7.23,
+        7.09,
+        6.74,
+        6.66
+       ],
+       [
+        8.56,
+        7.62,
+        7.57,
+        7.27,
+        7.15,
+        6.82,
+        6.75
+       ],
+       [
+        8.56,
+        7.61,
+        7.57,
+        7.03,
+        6.92,
+        6.59,
+        6.51
+       ],
+       [
+        8.56,
+        7.72,
+        7.65,
+        7.08,
+        6.97,
+        6.53,
+        6.48
+       ],
+       [
+        8.56,
+        7.66,
+        7.62,
+        7.19,
+        7.07,
+        6.66,
+        6.58
+       ],
+       [
+        8.56,
+        7.68,
+        7.62,
+        7.31,
+        7.18,
+        6.63,
+        6.55
+       ],
+       [
+        8.56,
+        7.73,
+        7.7,
+        7.03,
+        6.92,
+        6.46,
+        6.41
+       ],
+       [
+        8.56,
+        7.72,
+        7.65,
+        6.99,
+        6.88,
+        6.43,
+        6.37
+       ],
+       [
+        8.56,
+        7.65,
+        7.59,
+        7.02,
+        6.91,
+        6.39,
+        6.34
+       ],
+       [
+        8.56,
+        7.58,
+        7.53,
+        6.91,
+        6.8,
+        6.45,
+        6.39
+       ],
+       [
+        8.56,
+        7.68,
+        7.62,
+        6.97,
+        6.86,
+        6.73,
+        6.65
+       ],
+       [
+        8.56,
+        7.58,
+        7.53,
+        6.9,
+        6.8,
+        6.33,
+        6.3
+       ],
+       [
+        8.56,
+        7.6,
+        7.6,
+        6.93,
+        6.83,
+        6.35,
+        6.32
+       ]
+      ],
+      "pass": [
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       false,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true
+      ]
+     }
+    },
+    "cmip6": "included"
    },
    "explanation": {
     "en": {
      "why": [
-      "Best soil-health score among plans that keep at least 80% of today's output index: 72/100 vs 52 now (50 = no change).",
-      "Sequence: faba bean → sorghum → faba bean → sorghum → faba bean → cowpea. Every crop keeps ≥ 73% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
+      "Best soil-health score among plans that keep at least 80% of today's net profit: 70/100 vs 52 now (50 = no change).",
+      "Sequence: faba bean → cotton → squash → sesbania → squash → sesbania. Every crop keeps ≥ 73% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
      ],
      "evidence": [
       "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
       "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
-      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 100% of them.",
+      "Stress test on 5,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well and CMIP6 2050s futures, and 100/70/40 % of the leaching water): this plan held up in 56% of them.",
       "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
       "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
      ],
      "benefits": [
-      "Output -16% vs your current rotation.",
-      "Leaves less salt in the root zone: ECe 5.4 vs 7.6 dS/m after 3 years.",
-      "Builds soil nitrogen (legumes): 32 vs 23 mg/kg.",
-      "Soil score 72/100 vs 52.",
+      "Net profit 131,448 EGP in 3 years (+5% vs your current 125,325 EGP); ≈ 8,763 EGP per feddan per year.",
+      "Leaves less salt in the root zone: ECe 5.3 vs 7.6 dS/m after 3 years.",
+      "Builds soil nitrogen (legumes): 30 vs 23 mg/kg.",
+      "Soil score 70/100 vs 52.",
       "Covers the soil in 6 of 6 seasons (now 3) — less bare, hot summer fallow."
      ],
      "gaps": [
-      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
+      "Prices/costs are estimates (no 2025-26 Egyptian quote found) for: cotton, faba bean, sesbania, squash — see data/prices_egp.csv.",
+      "Parameters partly assumed (see data/assumptions.csv) for: sesbania (Kc from assumptions.csv; root depth from assumptions.csv; salt thresholds from rating fallback).",
+      "Attainable yield is an assumption (no local trial) for: sesbania, squash.",
       "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
      ],
      "risks": [
       "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
-      "Faba bean (W1, W2, W3) needs 50% extra water for leaching; without it the yield could fall to about 0% (FAO-29 at LF 15%).",
-      "Sorghum (grain) (S1, S2) needs 33% extra water for leaching; without it the yield could fall to about 8% (FAO-29 at LF 15%).",
-      "Cowpea (S3) needs 50% extra water for leaching; without it the yield could fall to about 9% (FAO-29 at LF 15%).",
-      "Check seed, know-how and buyers before planting crops without a Ras Sudr track record: cowpea, faba bean.",
-      "Two seasons in a row of the same plant family: watch for pests and diseases.",
+      "Faba bean (W1) needs 50% extra water for leaching; without it the yield could fall to about 0% (FAO-29 at LF 15%).",
+      "Squash / zucchini (W2, W3) needs 50% extra water for leaching; without it the yield could fall to about 26% (FAO-29 at LF 15%).",
+      "Sesbania (S2, S3) needs 50% extra water for leaching; without it the yield could fall to about 6% (FAO-29 at LF 15%).",
+      "Check seed, know-how and buyers before planting crops without a Ras Sudr track record: cotton, faba bean, sesbania, squash.",
+      "If you apply only 70 % / 40 % of the leaching water the plan passes 73% / 0% of futures (salt builds up in 0% / 36%). The S1 trial applied about 60 % of the FAO-29 amount.",
+      "Weakest case: Past climate 1981–2025 — passes 0% of the time; main cause: low yield.",
       "Decision support only — confirm with your local agricultural extension officer."
      ]
     },
     "ar": {
      "why": [
-      "أحسن درجة لصحة التربة بين الخطط اللي بتحافظ على 80٪ على الأقل من مؤشر الإنتاج الحالي: 72/100 مقابل 52 دلوقتي (50 = من غير تغيير).",
-      "الترتيب: فول بلدي ← ذرة رفيعة ← فول بلدي ← ذرة رفيعة ← فول بلدي ← لوبيا. كل محصول بيحافظ على 73٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
+      "أحسن درجة لصحة التربة بين الخطط اللي بتحافظ على 80٪ على الأقل من صافي الربح الحالي: 70/100 مقابل 52 دلوقتي (50 = من غير تغيير).",
+      "الترتيب: فول بلدي ← قطن ← كوسة ← سيسبانيا ← كوسة ← سيسبانيا. كل محصول بيحافظ على 73٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
      ],
      "evidence": [
       "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
       "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
-      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 100٪ منهم.",
+      "اختبار تحمّل على 5,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح ومستقبل الخمسينات من CMIP6، و100/70/40٪ من مية الغسيل): الخطة نجحت في 56٪ منهم.",
       "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
       "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
      ],
      "benefits": [
-      "الإنتاج -16% مقارنة بدورتك الحالية.",
-      "بيسيب ملح أقل في منطقة الجذور: ECe 5.4 مقابل 7.6 dS/m بعد 3 سنين.",
-      "بيزوّد نيتروجين التربة (البقوليات): 32 مقابل 23 مجم/كجم.",
-      "درجة التربة 72/100 مقابل 52.",
+      "صافي الربح 131,448 جنيه في 3 سنين (+5% مقارنة بـ 125,325 جنيه دلوقتي)؛ حوالي 8,763 جنيه للفدان في السنة.",
+      "بيسيب ملح أقل في منطقة الجذور: ECe 5.3 مقابل 7.6 dS/m بعد 3 سنين.",
+      "بيزوّد نيتروجين التربة (البقوليات): 30 مقابل 23 مجم/كجم.",
+      "درجة التربة 70/100 مقابل 52.",
       "الأرض مزروعة 6 مواسم من 6 (دلوقتي 3) — بور صيفي أقل."
      ],
      "gaps": [
-      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
+      "الأسعار أو التكاليف تقديرية (ملقيناش سعر مصري 2025-26) لـ: قطن، فول بلدي، سيسبانيا، كوسة.",
+      "بعض المعاملات مفترضة (شوف data/assumptions.csv) لـ: سيسبانيا.",
+      "الإنتاج الممكن مفترض (مفيش تجربة محلية) لـ: سيسبانيا، كوسة.",
       "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
      ],
      "risks": [
       "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
-      "فول بلدي (W1, W2, W3) محتاج 50٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 0٪ (FAO-29 عند LF 15٪).",
-      "ذرة رفيعة (S1, S2) محتاج 33٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 8٪ (FAO-29 عند LF 15٪).",
-      "لوبيا (S3) محتاج 50٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 9٪ (FAO-29 عند LF 15٪).",
-      "اتأكد من التقاوي والخبرة والمشتري قبل ما تزرع محاصيل ملهاش تجربة في رأس سدر: لوبيا، فول بلدي.",
-      "موسمين ورا بعض من نفس العيلة النباتية: خلي بالك من الآفات والأمراض.",
+      "فول بلدي (W1) محتاج 50٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 0٪ (FAO-29 عند LF 15٪).",
+      "كوسة (W2, W3) محتاج 50٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 26٪ (FAO-29 عند LF 15٪).",
+      "سيسبانيا (S2, S3) محتاج 50٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 6٪ (FAO-29 عند LF 15٪).",
+      "اتأكد من التقاوي والخبرة والمشتري قبل ما تزرع محاصيل ملهاش تجربة في رأس سدر: قطن، فول بلدي، سيسبانيا، كوسة.",
+      "لو حطيت 70٪ / 40٪ بس من مية الغسيل الخطة بتنجح في 73٪ / 0٪ من الحالات (الملح بيتراكم في 0٪ / 36٪). تجربة S1 حطت حوالي 60٪ من كمية FAO-29.",
+      "أضعف حالة: مناخ الماضي 1981–2025 — بتنجح 0٪ من المرات؛ السبب الأساسي: إنتاج قليل.",
       "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
      ]
     }
@@ -1353,40 +4910,51 @@
    "label_en": "Best balance for you",
    "label_ar": "الأنسب ليك (متوازنة)",
    "plan": [
-    "barley",
+    "wheat",
     "fallow",
-    "barley_forage",
+    "wheat",
     "fallow",
-    "barley_forage",
+    "triticale",
     "fallow"
+   ],
+   "area_frac": [
+    0.9,
+    0.0,
+    0.5,
+    0.0,
+    0.5,
+    0.0
    ],
    "seasons": [
     {
      "slot": "W1",
-     "crop_id": "barley",
-     "crop_en": "Barley",
-     "crop_ar": "شعير",
+     "crop_id": "wheat",
+     "crop_en": "Wheat (bread)",
+     "crop_ar": "قمح",
      "part": 0,
+     "idle_fdn": 3.41,
      "family": "Poaceae",
-     "use": "grain/forage",
-     "sow": "10-25",
-     "harvest": "03-24",
-     "area_fdn": 2.42,
-     "water_mm": 501.0,
-     "water_m3": 5087.0,
-     "etc_mm": 364.0,
-     "lr_pct": 26.4,
-     "salt_ry_pct": 100.0,
-     "heat_factor": 0.999,
-     "rel_yield_pct": 99.9,
-     "yield_kg_ha": 4265.0,
-     "yield_t_per_fdn": 1.79,
-     "farm_output_t": 4.33,
-     "ece_mean": 7.36,
-     "salt_rating": "T",
+     "use": "grain",
+     "sow": "11-15",
+     "harvest": "04-14",
+     "area_fdn": 1.59,
+     "water_mm": 680.0,
+     "water_m3": 4529.0,
+     "etc_mm": 405.0,
+     "lr_pct": 38.6,
+     "salt_ry_pct": 97.9,
+     "heat_factor": 0.998,
+     "rel_yield_pct": 97.7,
+     "yield_kg_ha": 4884.0,
+     "yield_t_per_fdn": 2.05,
+     "farm_output_t": 3.25,
+     "ece_mean": 6.3,
+     "salt_rating": "MT",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 100535.0,
+     "cost_egp": 39628.0,
+     "pumping_egp": 3080.0,
+     "profit_egp": 57827.0
     },
     {
      "slot": "S1",
@@ -1394,6 +4962,7 @@
      "crop_en": "Fallow",
      "crop_ar": "بور (راحة)",
      "part": 0,
+     "idle_fdn": 5.0,
      "area_fdn": 0,
      "water_mm": 0,
      "water_m3": 0,
@@ -1402,30 +4971,33 @@
     },
     {
      "slot": "W2",
-     "crop_id": "barley_forage",
-     "crop_en": "Barley (forage)",
-     "crop_ar": "شعير علف",
+     "crop_id": "wheat",
+     "crop_en": "Wheat (bread)",
+     "crop_ar": "قمح",
      "part": 0,
+     "idle_fdn": 3.41,
      "family": "Poaceae",
-     "use": "forage",
-     "sow": "11-01",
-     "harvest": "03-01",
-     "area_fdn": 2.33,
-     "water_mm": 437.0,
-     "water_m3": 4284.0,
-     "etc_mm": 267.0,
+     "use": "grain",
+     "sow": "11-15",
+     "harvest": "04-14",
+     "area_fdn": 1.59,
+     "water_mm": 680.0,
+     "water_m3": 4529.0,
+     "etc_mm": 405.0,
      "lr_pct": 38.6,
-     "salt_ry_pct": 95.5,
-     "heat_factor": 1.0,
-     "rel_yield_pct": 95.5,
-     "yield_kg_ha": 16157.0,
-     "yield_t_per_fdn": 6.79,
-     "farm_output_t": 15.83,
-     "ece_mean": 6.63,
+     "salt_ry_pct": 99.6,
+     "heat_factor": 0.998,
+     "rel_yield_pct": 99.4,
+     "yield_kg_ha": 4971.0,
+     "yield_t_per_fdn": 2.09,
+     "farm_output_t": 3.31,
+     "ece_mean": 6.06,
      "salt_rating": "MT",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 102322.0,
+     "cost_egp": 39628.0,
+     "pumping_egp": 3080.0,
+     "profit_egp": 59614.0
     },
     {
      "slot": "S2",
@@ -1433,6 +5005,7 @@
      "crop_en": "Fallow",
      "crop_ar": "بور (راحة)",
      "part": 0,
+     "idle_fdn": 5.0,
      "area_fdn": 0,
      "water_mm": 0,
      "water_m3": 0,
@@ -1441,30 +5014,33 @@
     },
     {
      "slot": "W3",
-     "crop_id": "barley_forage",
-     "crop_en": "Barley (forage)",
-     "crop_ar": "شعير علف",
+     "crop_id": "triticale",
+     "crop_en": "Triticale",
+     "crop_ar": "تريتيكال",
      "part": 0,
+     "idle_fdn": 3.56,
      "family": "Poaceae",
-     "use": "forage",
-     "sow": "11-01",
-     "harvest": "03-01",
-     "area_fdn": 2.33,
-     "water_mm": 437.0,
-     "water_m3": 4284.0,
-     "etc_mm": 267.0,
-     "lr_pct": 38.6,
-     "salt_ry_pct": 98.4,
-     "heat_factor": 1.0,
-     "rel_yield_pct": 98.4,
-     "yield_kg_ha": 16656.0,
-     "yield_t_per_fdn": 7.0,
-     "farm_output_t": 16.32,
-     "ece_mean": 6.22,
+     "use": "forage/grain",
+     "sow": "11-15",
+     "harvest": "04-14",
+     "area_fdn": 1.44,
+     "water_mm": 749.0,
+     "water_m3": 4529.0,
+     "etc_mm": 405.0,
+     "lr_pct": 44.2,
+     "salt_ry_pct": 99.8,
+     "heat_factor": 0.998,
+     "rel_yield_pct": 99.7,
+     "yield_kg_ha": 4983.0,
+     "yield_t_per_fdn": 2.09,
+     "farm_output_t": 3.01,
+     "ece_mean": 5.47,
      "salt_rating": "MT",
      "n_fixing": false,
-     "revenue_egp": null,
-     "cost_egp": null
+     "revenue_egp": 80031.0,
+     "cost_egp": 36008.0,
+     "pumping_egp": 3080.0,
+     "profit_egp": 40943.0
     },
     {
      "slot": "S3",
@@ -1472,6 +5048,7 @@
      "crop_en": "Fallow",
      "crop_ar": "بور (راحة)",
      "part": 0,
+     "idle_fdn": 5.0,
      "area_fdn": 0,
      "water_mm": 0,
      "water_m3": 0,
@@ -1480,20 +5057,26 @@
     }
    ],
    "totals": {
-    "value": 1.3877,
-    "value_kind": "productivity_index",
-    "value_vs_current_pct": -4.3,
-    "water_m3": 13655,
-    "water_vs_current_pct": -10.5,
-    "water_m3_per_year": 4552,
-    "soil_index": 55.4,
-    "ECe_end": 7.01,
-    "SOC_end": 0.174,
-    "N_end": 22.7,
-    "min_rel_yield": 95.5,
-    "market_score": 1.0,
+    "value": 158384.8588,
+    "value_kind": "profit_egp",
+    "value_vs_current_pct": 26.4,
+    "water_m3": 13588,
+    "water_vs_current_pct": -11.0,
+    "water_m3_per_year": 4529,
+    "soil_index": 54.6,
+    "profit_per_feddan_year": 10559,
+    "ECe_end": 7.33,
+    "SOC_end": 0.175,
+    "N_end": 23.9,
+    "min_rel_yield": 97.7,
+    "market_score": 0.33,
     "cropped_seasons": 3,
-    "pest_flags": 0
+    "pest_flags": 0,
+    "product_t": 9.58,
+    "kg_per_m3": 0.7,
+    "m3_per_1000_egp": 85.8,
+    "egp_per_m3": 11.66,
+    "idle_fdn_avg": 4.23
    },
    "soil_trajectory": [
     {
@@ -1504,154 +5087,1029 @@
     },
     {
      "t": "W1",
-     "ece": 7.76,
+     "ece": 7.7,
      "soc": 0.179,
-     "n": 24.9
+     "n": 25.4
     },
     {
      "t": "S1",
-     "ece": 8.15,
-     "soc": 0.179,
-     "n": 24.9
+     "ece": 8.09,
+     "soc": 0.178,
+     "n": 25.4
     },
     {
      "t": "W2",
-     "ece": 7.15,
-     "soc": 0.177,
-     "n": 23.8
+     "ece": 7.33,
+     "soc": 0.178,
+     "n": 24.6
     },
     {
      "t": "S2",
-     "ece": 7.51,
-     "soc": 0.176,
-     "n": 23.8
+     "ece": 7.69,
+     "soc": 0.177,
+     "n": 24.6
     },
     {
      "t": "W3",
-     "ece": 6.67,
-     "soc": 0.175,
-     "n": 22.7
+     "ece": 6.98,
+     "soc": 0.176,
+     "n": 23.9
     },
     {
      "t": "S3",
-     "ece": 7.01,
-     "soc": 0.174,
-     "n": 22.7
+     "ece": 7.33,
+     "soc": 0.175,
+     "n": 23.9
     }
    ],
    "robustness": {
-    "robustness_pct": 100.0,
-    "n_draws": 1400,
+    "robustness_pct": 49.4,
+    "n_draws": 5400,
     "by_scenario": [
      {
       "key": "historical",
       "label_en": "Past climate 1981–2025",
-      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
-      "pass_pct": 100.0
+      "label_ar": "مناخ الماضي 1981–2025",
+      "pass_pct": 52.3
      },
      {
       "key": "warm1",
       "label_en": "+1 °C warmer",
       "label_ar": "أدفى بدرجة",
-      "pass_pct": 100.0
+      "pass_pct": 51.7
      },
      {
       "key": "warm2",
       "label_en": "+2 °C warmer",
       "label_ar": "أدفى بدرجتين",
-      "pass_pct": 100.0
+      "pass_pct": 50.3
      },
      {
       "key": "dry10",
       "label_en": "10 % less rain",
-      "label_ar": "مطر أقل ١٠٪",
-      "pass_pct": 100.0
+      "label_ar": "مطر أقل 10٪",
+      "pass_pct": 54.8
      },
      {
       "key": "dry20",
       "label_en": "20 % less rain",
-      "label_ar": "مطر أقل ٢٠٪",
-      "pass_pct": 100.0
+      "label_ar": "مطر أقل 20٪",
+      "pass_pct": 57.2
      },
      {
       "key": "ecw1",
       "label_en": "Well +1 dS/m saltier",
       "label_ar": "البير أملح بـ 1 dS/m",
-      "pass_pct": 100.0
+      "pass_pct": 44.5
      },
      {
       "key": "ecw2",
       "label_en": "Well +2 dS/m saltier",
       "label_ar": "البير أملح بـ 2 dS/m",
-      "pass_pct": 100.0
+      "pass_pct": 33.7
+     },
+     {
+      "key": "cmip_ssp245",
+      "label_en": "2050s, SSP2-4.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP2-4.5 (CMIP6)",
+      "pass_pct": 51.5
+     },
+     {
+      "key": "cmip_ssp585",
+      "label_en": "2050s, SSP5-8.5 (CMIP6)",
+      "label_ar": "الخمسينات، SSP5-8.5 (CMIP6)",
+      "pass_pct": 48.7
+     }
+    ],
+    "by_leaching": [
+     {
+      "leach_pct": 100,
+      "pass_pct": 100.0,
+      "salt_buildup_pct": 0.0
+     },
+     {
+      "leach_pct": 70,
+      "pass_pct": 48.2,
+      "salt_buildup_pct": 51.8
+     },
+     {
+      "leach_pct": 40,
+      "pass_pct": 0.0,
+      "salt_buildup_pct": 100.0
      }
     ],
     "worst": {
      "key": "historical",
-     "pass_pct": 100.0,
-     "cause": "none",
+     "leach_pct": 40,
+     "pass_pct": 0.0,
+     "cause": "salt_buildup",
      "slot": null,
      "crop": null,
-     "share_pct": 0.0
+     "share_pct": 100.0
     },
-    "cmip6": "pending"
+    "bands": {
+     "product_t": {
+      "p10": 9.29,
+      "p50": 9.48,
+      "p90": 9.59
+     },
+     "profit_egp": {
+      "p10": 150556,
+      "p50": 156065,
+      "p90": 158612
+     },
+     "ece_end": {
+      "p10": 7.32,
+      "p50": 7.46,
+      "p90": 7.65
+     }
+    },
+    "paths": {
+     "100": {
+      "ece": [
+       [
+        8.56,
+        7.81,
+        8.2,
+        7.39,
+        7.76,
+        7.01,
+        7.36
+       ],
+       [
+        8.56,
+        7.78,
+        8.17,
+        7.37,
+        7.74,
+        7.02,
+        7.37
+       ],
+       [
+        8.56,
+        7.86,
+        8.25,
+        7.53,
+        7.91,
+        7.17,
+        7.52
+       ],
+       [
+        8.56,
+        7.73,
+        8.12,
+        7.41,
+        7.78,
+        7.18,
+        7.54
+       ],
+       [
+        8.56,
+        7.84,
+        8.23,
+        7.67,
+        8.05,
+        7.23,
+        7.59
+       ],
+       [
+        8.56,
+        7.86,
+        8.25,
+        7.58,
+        7.96,
+        7.53,
+        7.91
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.48,
+        7.86,
+        7.45,
+        7.82
+       ],
+       [
+        8.56,
+        7.73,
+        8.12,
+        7.37,
+        7.74,
+        7.06,
+        7.41
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.47,
+        7.85,
+        7.12,
+        7.48
+       ],
+       [
+        8.56,
+        7.71,
+        8.09,
+        7.29,
+        7.65,
+        7.01,
+        7.36
+       ],
+       [
+        8.56,
+        7.68,
+        8.06,
+        7.28,
+        7.65,
+        7.0,
+        7.35
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.76,
+        8.15,
+        7.35,
+        7.71
+       ],
+       [
+        8.56,
+        7.67,
+        8.06,
+        7.28,
+        7.64,
+        6.95,
+        7.3
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.41,
+        7.78,
+        7.11,
+        7.46
+       ],
+       [
+        8.56,
+        7.69,
+        8.07,
+        7.4,
+        7.77,
+        7.03,
+        7.38
+       ],
+       [
+        8.56,
+        7.7,
+        8.09,
+        7.45,
+        7.82,
+        7.17,
+        7.53
+       ],
+       [
+        8.56,
+        7.71,
+        8.09,
+        7.45,
+        7.82,
+        7.15,
+        7.51
+       ],
+       [
+        8.56,
+        7.79,
+        8.18,
+        7.48,
+        7.86,
+        7.14,
+        7.5
+       ],
+       [
+        8.56,
+        8.12,
+        8.53,
+        7.81,
+        8.2,
+        7.5,
+        7.87
+       ],
+       [
+        8.56,
+        7.67,
+        8.05,
+        7.31,
+        7.67,
+        7.02,
+        7.38
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.32,
+        7.69,
+        6.97,
+        7.32
+       ],
+       [
+        8.56,
+        7.8,
+        8.19,
+        7.45,
+        7.83,
+        7.27,
+        7.63
+       ],
+       [
+        8.56,
+        7.77,
+        8.15,
+        7.4,
+        7.77,
+        7.1,
+        7.46
+       ],
+       [
+        8.56,
+        7.67,
+        8.06,
+        7.47,
+        7.84,
+        7.11,
+        7.46
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.44,
+        7.81,
+        7.03,
+        7.39
+       ],
+       [
+        8.56,
+        7.94,
+        8.34,
+        7.5,
+        7.87,
+        7.23,
+        7.59
+       ],
+       [
+        8.56,
+        7.68,
+        8.06,
+        7.4,
+        7.77,
+        7.05,
+        7.4
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.44,
+        7.82,
+        7.21,
+        7.57
+       ],
+       [
+        8.56,
+        7.72,
+        8.11,
+        7.43,
+        7.8,
+        7.14,
+        7.5
+       ],
+       [
+        8.56,
+        7.69,
+        8.07,
+        7.44,
+        7.81,
+        7.19,
+        7.55
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.43,
+        7.8,
+        7.1,
+        7.45
+       ],
+       [
+        8.56,
+        7.77,
+        8.15,
+        7.48,
+        7.85,
+        7.11,
+        7.47
+       ],
+       [
+        8.56,
+        7.83,
+        8.22,
+        7.52,
+        7.9,
+        7.14,
+        7.49
+       ],
+       [
+        8.56,
+        7.87,
+        8.27,
+        7.45,
+        7.82,
+        7.09,
+        7.44
+       ],
+       [
+        8.56,
+        7.89,
+        8.28,
+        7.49,
+        7.86,
+        7.16,
+        7.52
+       ],
+       [
+        8.56,
+        7.73,
+        8.12,
+        7.33,
+        7.7,
+        6.94,
+        7.29
+       ],
+       [
+        8.56,
+        7.7,
+        8.09,
+        7.31,
+        7.68,
+        7.02,
+        7.37
+       ],
+       [
+        8.56,
+        7.8,
+        8.19,
+        7.41,
+        7.78,
+        7.38,
+        7.75
+       ],
+       [
+        8.56,
+        7.65,
+        8.04,
+        7.29,
+        7.66,
+        6.93,
+        7.28
+       ],
+       [
+        8.56,
+        7.74,
+        8.13,
+        7.32,
+        7.68,
+        6.95,
+        7.3
+       ]
+      ],
+      "pass": [
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true,
+       true
+      ]
+     },
+     "70": {
+      "ece": [
+       [
+        8.56,
+        8.23,
+        8.64,
+        8.16,
+        8.57,
+        8.04,
+        8.44
+       ],
+       [
+        8.56,
+        8.18,
+        8.59,
+        8.1,
+        8.5,
+        8.04,
+        8.44
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.32,
+        8.73,
+        8.24,
+        8.65
+       ],
+       [
+        8.56,
+        8.13,
+        8.54,
+        8.14,
+        8.55,
+        8.2,
+        8.61
+       ],
+       [
+        8.56,
+        8.23,
+        8.64,
+        8.4,
+        8.82,
+        8.23,
+        8.64
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.37,
+        8.78,
+        8.63,
+        9.06
+       ],
+       [
+        8.56,
+        8.23,
+        8.64,
+        8.25,
+        8.66,
+        8.51,
+        8.94
+       ],
+       [
+        8.56,
+        8.13,
+        8.54,
+        8.1,
+        8.5,
+        8.06,
+        8.46
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.29,
+        8.7,
+        8.22,
+        8.63
+       ],
+       [
+        8.56,
+        8.11,
+        8.51,
+        8.01,
+        8.41,
+        8.02,
+        8.42
+       ],
+       [
+        8.56,
+        8.07,
+        8.48,
+        8.02,
+        8.42,
+        8.03,
+        8.43
+       ],
+       [
+        8.56,
+        8.17,
+        8.58,
+        8.51,
+        8.93,
+        8.4,
+        8.82
+       ],
+       [
+        8.56,
+        8.07,
+        8.47,
+        8.02,
+        8.43,
+        7.96,
+        8.35
+       ],
+       [
+        8.56,
+        8.17,
+        8.58,
+        8.19,
+        8.6,
+        8.16,
+        8.57
+       ],
+       [
+        8.56,
+        8.09,
+        8.5,
+        8.13,
+        8.53,
+        8.02,
+        8.42
+       ],
+       [
+        8.56,
+        8.12,
+        8.53,
+        8.2,
+        8.61,
+        8.21,
+        8.62
+       ],
+       [
+        8.56,
+        8.11,
+        8.51,
+        8.17,
+        8.58,
+        8.16,
+        8.57
+       ],
+       [
+        8.56,
+        8.21,
+        8.62,
+        8.24,
+        8.65,
+        8.19,
+        8.6
+       ],
+       [
+        8.56,
+        8.49,
+        8.92,
+        8.54,
+        8.96,
+        8.57,
+        9.0
+       ],
+       [
+        8.56,
+        8.09,
+        8.5,
+        8.06,
+        8.46,
+        8.06,
+        8.47
+       ],
+       [
+        8.56,
+        8.15,
+        8.55,
+        8.05,
+        8.45,
+        7.97,
+        8.37
+       ],
+       [
+        8.56,
+        8.2,
+        8.61,
+        8.21,
+        8.62,
+        8.32,
+        8.73
+       ],
+       [
+        8.56,
+        8.16,
+        8.57,
+        8.13,
+        8.54,
+        8.11,
+        8.52
+       ],
+       [
+        8.56,
+        8.07,
+        8.47,
+        8.2,
+        8.61,
+        8.11,
+        8.52
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.26,
+        8.67,
+        8.1,
+        8.5
+       ],
+       [
+        8.56,
+        8.33,
+        8.74,
+        8.25,
+        8.66,
+        8.31,
+        8.73
+       ],
+       [
+        8.56,
+        8.08,
+        8.48,
+        8.13,
+        8.54,
+        8.07,
+        8.47
+       ],
+       [
+        8.56,
+        8.15,
+        8.55,
+        8.18,
+        8.59,
+        8.24,
+        8.65
+       ],
+       [
+        8.56,
+        8.12,
+        8.53,
+        8.18,
+        8.59,
+        8.19,
+        8.6
+       ],
+       [
+        8.56,
+        8.09,
+        8.5,
+        8.25,
+        8.67,
+        8.39,
+        8.81
+       ],
+       [
+        8.56,
+        8.22,
+        8.63,
+        8.16,
+        8.57,
+        8.12,
+        8.53
+       ],
+       [
+        8.56,
+        8.16,
+        8.57,
+        8.21,
+        8.62,
+        8.13,
+        8.54
+       ],
+       [
+        8.56,
+        8.31,
+        8.72,
+        8.35,
+        8.77,
+        8.24,
+        8.65
+       ],
+       [
+        8.56,
+        8.27,
+        8.68,
+        8.17,
+        8.58,
+        8.09,
+        8.49
+       ],
+       [
+        8.56,
+        8.42,
+        8.84,
+        8.36,
+        8.78,
+        8.3,
+        8.71
+       ],
+       [
+        8.56,
+        8.15,
+        8.56,
+        8.08,
+        8.48,
+        7.94,
+        8.34
+       ],
+       [
+        8.56,
+        8.12,
+        8.53,
+        8.05,
+        8.45,
+        8.04,
+        8.44
+       ],
+       [
+        8.56,
+        8.2,
+        8.61,
+        8.16,
+        8.57,
+        8.43,
+        8.85
+       ],
+       [
+        8.56,
+        8.05,
+        8.45,
+        8.03,
+        8.43,
+        7.92,
+        8.31
+       ],
+       [
+        8.56,
+        8.17,
+        8.58,
+        8.06,
+        8.47,
+        7.95,
+        8.35
+       ]
+      ],
+      "pass": [
+       true,
+       true,
+       false,
+       false,
+       false,
+       false,
+       false,
+       true,
+       false,
+       true,
+       true,
+       false,
+       true,
+       false,
+       true,
+       false,
+       false,
+       false,
+       false,
+       true,
+       true,
+       false,
+       true,
+       true,
+       true,
+       false,
+       true,
+       false,
+       false,
+       false,
+       true,
+       true,
+       false,
+       true,
+       false,
+       true,
+       true,
+       false,
+       true,
+       true
+      ]
+     }
+    },
+    "cmip6": "included"
    },
    "explanation": {
     "en": {
      "why": [
       "Best overall score (TOPSIS) for your priorities 'balanced': profit 25%, water saving 25%, salt tolerance 20%.",
-      "Sequence: barley → fallow → barley forage → fallow → barley forage → fallow. Every crop keeps ≥ 96% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
+      "Sequence: wheat → fallow → wheat → fallow → triticale → fallow. Every crop keeps ≥ 98% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
      ],
      "evidence": [
       "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
       "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
-      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 100% of them.",
+      "Stress test on 5,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well and CMIP6 2050s futures, and 100/70/40 % of the leaching water): this plan held up in 49% of them.",
       "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
       "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
      ],
      "benefits": [
-      "Output -4% vs your current rotation.",
-      "Saves 10% water (13,655 vs 15,260 m³ in 3 years).",
-      "Leaves less salt in the root zone: ECe 7.0 vs 7.6 dS/m after 3 years.",
+      "Net profit 158,385 EGP in 3 years (+26% vs your current 125,325 EGP); ≈ 10,559 EGP per feddan per year.",
+      "Earns more per drop: 11.7 EGP per m³ vs 8.2 now; 0.70 kg of product per m³.",
+      "Saves 11% water (13,588 vs 15,260 m³ in 3 years).",
+      "Leaves less salt in the root zone: ECe 7.3 vs 7.6 dS/m after 3 years.",
+      "Builds soil nitrogen (legumes): 24 vs 23 mg/kg.",
       "Soil score 55/100 vs 52."
      ],
      "gaps": [
-      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
+      "Prices/costs are estimates (no 2025-26 Egyptian quote found) for: triticale — see data/prices_egp.csv.",
+      "Parameters partly assumed (see data/assumptions.csv) for: triticale (salt thresholds from rating fallback).",
+      "Attainable yield is an assumption (no local trial) for: triticale.",
       "How fast salt rises in an unirrigated summer fallow is not measured locally (assumed +5% per season).",
       "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
      ],
      "risks": [
       "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
-      "Barley (forage) (W2, W3) needs 39% extra water for leaching; without it the yield could fall to about 53% (FAO-29 at LF 15%).",
+      "Wheat (bread) (W1, W2) needs 39% extra water for leaching; without it the yield could fall to about 53% (FAO-29 at LF 15%).",
+      "Triticale (W3) needs 44% extra water for leaching; without it the yield could fall to about 42% (FAO-29 at LF 15%).",
+      "If you apply only 70 % / 40 % of the leaching water the plan passes 48% / 0% of futures (salt builds up in 52% / 100%). The S1 trial applied about 60 % of the FAO-29 amount.",
+      "Weakest case: Past climate 1981–2025 — passes 0% of the time; main cause: salt builds up in the soil.",
       "Decision support only — confirm with your local agricultural extension officer."
      ]
     },
     "ar": {
      "why": [
       "أعلى درجة إجمالية (TOPSIS) حسب أولوياتك 'متوازن': الربح 25٪، توفير المية 25٪، تحمل الملوحة 20٪.",
-      "الترتيب: شعير ← بور (راحة) ← شعير علف ← بور (راحة) ← شعير علف ← بور (راحة). كل محصول بيحافظ على 96٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
+      "الترتيب: قمح ← بور (راحة) ← قمح ← بور (راحة) ← تريتيكال ← بور (راحة). كل محصول بيحافظ على 98٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
      ],
      "evidence": [
       "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
       "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
-      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 100٪ منهم.",
+      "اختبار تحمّل على 5,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح ومستقبل الخمسينات من CMIP6، و100/70/40٪ من مية الغسيل): الخطة نجحت في 49٪ منهم.",
       "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
       "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
      ],
      "benefits": [
-      "الإنتاج -4% مقارنة بدورتك الحالية.",
-      "بيوفر 10٪ مية (13,655 مقابل 15,260 م³ في 3 سنين).",
-      "بيسيب ملح أقل في منطقة الجذور: ECe 7.0 مقابل 7.6 dS/m بعد 3 سنين.",
+      "صافي الربح 158,385 جنيه في 3 سنين (+26% مقارنة بـ 125,325 جنيه دلوقتي)؛ حوالي 10,559 جنيه للفدان في السنة.",
+      "بيكسب أكتر من كل نقطة مية: 11.7 جنيه للمتر المكعب مقابل 8.2 دلوقتي؛ و0.70 كجم محصول لكل م³.",
+      "بيوفر 11٪ مية (13,588 مقابل 15,260 م³ في 3 سنين).",
+      "بيسيب ملح أقل في منطقة الجذور: ECe 7.3 مقابل 7.6 dS/m بعد 3 سنين.",
+      "بيزوّد نيتروجين التربة (البقوليات): 24 مقابل 23 مجم/كجم.",
       "درجة التربة 55/100 مقابل 52."
      ],
      "gaps": [
-      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
+      "الأسعار أو التكاليف تقديرية (ملقيناش سعر مصري 2025-26) لـ: تريتيكال.",
+      "بعض المعاملات مفترضة (شوف data/assumptions.csv) لـ: تريتيكال.",
+      "الإنتاج الممكن مفترض (مفيش تجربة محلية) لـ: تريتيكال.",
       "سرعة زيادة الملح في البور الصيفي مش متقاسة محليًا (مفترضة +5٪ كل موسم).",
       "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
      ],
      "risks": [
       "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
-      "شعير علف (W2, W3) محتاج 39٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 53٪ (FAO-29 عند LF 15٪).",
+      "قمح (W1, W2) محتاج 39٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 53٪ (FAO-29 عند LF 15٪).",
+      "تريتيكال (W3) محتاج 44٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 42٪ (FAO-29 عند LF 15٪).",
+      "لو حطيت 70٪ / 40٪ بس من مية الغسيل الخطة بتنجح في 48٪ / 0٪ من الحالات (الملح بيتراكم في 52٪ / 100٪). تجربة S1 حطت حوالي 60٪ من كمية FAO-29.",
+      "أضعف حالة: مناخ الماضي 1981–2025 — بتنجح 0٪ من المرات؛ السبب الأساسي: الملح بيتراكم في التربة.",
       "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
      ]
     }
