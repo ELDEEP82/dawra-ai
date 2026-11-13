@@ -222,3 +222,9 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   used (400/600). Cache headers: `/data/*` 1 h + stale-while-revalidate 1 day; `/textures/*` 1 year immutable.
 - **D69 Map stacking**: Leaflet controls use z-index 1000; the map container is now `isolation: isolate` so they can no
   longer paint over the sticky header or the mobile bottom tab bar (found by the screenshot run).
+- **D70 Self-hosted fonts**: the Vercel build for 340efc7 failed inside `next/font/google` (Google Fonts returned an
+  unexpected response during the build). IBM Plex Sans (latin) and IBM Plex Sans Arabic (arabic), weights 400/600,
+  are now committed as woff2 under `web/app/fonts/` (from @fontsource 5.3.0, SIL OFL 1.1 — `OFL.txt`) and loaded with
+  `next/font/local` (same `--font-plex` / `--font-plex-ar` variables, `display: swap`, preloaded). No build step
+  touches the network any more; verified by `npm ci && npm run build` from a clean copy with all HTTP(S) routed to a
+  dead proxy (Next's font fetcher honours HTTPS_PROXY).
