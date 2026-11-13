@@ -195,8 +195,117 @@
      "n": 22.6
     }
    ],
-   "robustness": null,
-   "explanation": null
+   "robustness": {
+    "robustness_pct": 96.0,
+    "n_draws": 1400,
+    "by_scenario": [
+     {
+      "key": "historical",
+      "label_en": "Past climate 1981–2025",
+      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
+      "pass_pct": 94.5
+     },
+     {
+      "key": "warm1",
+      "label_en": "+1 °C warmer",
+      "label_ar": "أدفى بدرجة",
+      "pass_pct": 95.5
+     },
+     {
+      "key": "warm2",
+      "label_en": "+2 °C warmer",
+      "label_ar": "أدفى بدرجتين",
+      "pass_pct": 95.5
+     },
+     {
+      "key": "dry10",
+      "label_en": "10 % less rain",
+      "label_ar": "مطر أقل ١٠٪",
+      "pass_pct": 97.0
+     },
+     {
+      "key": "dry20",
+      "label_en": "20 % less rain",
+      "label_ar": "مطر أقل ٢٠٪",
+      "pass_pct": 98.5
+     },
+     {
+      "key": "ecw1",
+      "label_en": "Well +1 dS/m saltier",
+      "label_ar": "البير أملح بـ 1 dS/m",
+      "pass_pct": 95.5
+     },
+     {
+      "key": "ecw2",
+      "label_en": "Well +2 dS/m saltier",
+      "label_ar": "البير أملح بـ 2 dS/m",
+      "pass_pct": 95.5
+     }
+    ],
+    "worst": {
+     "key": "historical",
+     "pass_pct": 94.5,
+     "cause": "salt_buildup",
+     "slot": null,
+     "crop": null,
+     "share_pct": 5.5
+    },
+    "cmip6": "pending"
+   },
+   "explanation": {
+    "en": {
+     "why": [
+      "This is what you grow today (winter crop, summer fallow). Every other plan is compared with it.",
+      "Sequence: barley → fallow → barley → fallow → barley → fallow. Every crop keeps ≥ 100% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
+     ],
+     "evidence": [
+      "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
+      "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
+      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 96% of them.",
+      "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
+      "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
+     ],
+     "benefits": [
+      "Known system, low risk: 5,087 m³ of water per year, soil score 52/100."
+     ],
+     "gaps": [
+      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
+      "How fast salt rises in an unirrigated summer fallow is not measured locally (assumed +5% per season).",
+      "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
+     ],
+     "risks": [
+      "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
+      "Weakest case: Past climate 1981–2025 — passes 94% of the time; main cause: salt builds up in the soil.",
+      "Decision support only — confirm with your local agricultural extension officer."
+     ]
+    },
+    "ar": {
+     "why": [
+      "دي الدورة اللي بتزرعها النهارده (محصول شتوي وبور في الصيف). كل الخطط التانية بتتقارن بيها.",
+      "الترتيب: شعير ← بور (راحة) ← شعير ← بور (راحة) ← شعير ← بور (راحة). كل محصول بيحافظ على 100٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
+     ],
+     "evidence": [
+      "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
+      "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
+      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 96٪ منهم.",
+      "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
+      "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
+     ],
+     "benefits": [
+      "نظام انت عارفه ومخاطره قليلة: 5,087 م³ مية في السنة، ودرجة التربة 52/100."
+     ],
+     "gaps": [
+      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
+      "سرعة زيادة الملح في البور الصيفي مش متقاسة محليًا (مفترضة +5٪ كل موسم).",
+      "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
+     ],
+     "risks": [
+      "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
+      "أضعف حالة: مناخ الماضي 1981–2025 — بتنجح 94٪ من المرات؛ السبب الأساسي: الملح بيتراكم في التربة.",
+      "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
+     ]
+    }
+   }
   },
   {
    "id": "max_profit",
@@ -435,8 +544,129 @@
      "n": 21.3
     }
    ],
-   "robustness": null,
-   "explanation": null
+   "robustness": {
+    "robustness_pct": 100.0,
+    "n_draws": 1400,
+    "by_scenario": [
+     {
+      "key": "historical",
+      "label_en": "Past climate 1981–2025",
+      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "warm1",
+      "label_en": "+1 °C warmer",
+      "label_ar": "أدفى بدرجة",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "warm2",
+      "label_en": "+2 °C warmer",
+      "label_ar": "أدفى بدرجتين",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "dry10",
+      "label_en": "10 % less rain",
+      "label_ar": "مطر أقل ١٠٪",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "dry20",
+      "label_en": "20 % less rain",
+      "label_ar": "مطر أقل ٢٠٪",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "ecw1",
+      "label_en": "Well +1 dS/m saltier",
+      "label_ar": "البير أملح بـ 1 dS/m",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "ecw2",
+      "label_en": "Well +2 dS/m saltier",
+      "label_ar": "البير أملح بـ 2 dS/m",
+      "pass_pct": 100.0
+     }
+    ],
+    "worst": {
+     "key": "historical",
+     "pass_pct": 100.0,
+     "cause": "none",
+     "slot": null,
+     "crop": null,
+     "share_pct": 0.0
+    },
+    "cmip6": "pending"
+   },
+   "explanation": {
+    "en": {
+     "why": [
+      "Highest output index of all 120 best-trade-off plans: 2.01 vs 1.45 now (+38%).",
+      "Sequence: barley → sorghum → quinoa → sorghum → quinoa → sorghum. Every crop keeps ≥ 100% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
+     ],
+     "evidence": [
+      "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
+      "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
+      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 100% of them.",
+      "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
+      "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
+     ],
+     "benefits": [
+      "Output +38% vs your current rotation.",
+      "Leaves less salt in the root zone: ECe 5.9 vs 7.6 dS/m after 3 years.",
+      "Soil score 61/100 vs 52.",
+      "Covers the soil in 6 of 6 seasons (now 3) — less bare, hot summer fallow."
+     ],
+     "gaps": [
+      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
+      "Parameters partly assumed (see data/assumptions.csv) for: quinoa (Kc from assumptions.csv; root depth from assumptions.csv; salt thresholds from rating fallback).",
+      "Attainable yield is an assumption (no local trial) for: quinoa.",
+      "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
+     ],
+     "risks": [
+      "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
+      "Sorghum (grain) (S1, S2, S3) needs 33% extra water for leaching; without it the yield could fall to about 8% (FAO-29 at LF 15%).",
+      "Quinoa (W2, W3) needs 31% extra water for leaching; without it the yield could fall to about 72% (FAO-29 at LF 15%).",
+      "Two seasons in a row of the same plant family: watch for pests and diseases.",
+      "Decision support only — confirm with your local agricultural extension officer."
+     ]
+    },
+    "ar": {
+     "why": [
+      "أعلى مؤشر الإنتاج بين 120 خطة متوازنة: 2.01 مقابل 1.45 دلوقتي (+38%).",
+      "الترتيب: شعير ← ذرة رفيعة ← كينوا ← ذرة رفيعة ← كينوا ← ذرة رفيعة. كل محصول بيحافظ على 100٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
+     ],
+     "evidence": [
+      "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
+      "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
+      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 100٪ منهم.",
+      "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
+      "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
+     ],
+     "benefits": [
+      "الإنتاج +38% مقارنة بدورتك الحالية.",
+      "بيسيب ملح أقل في منطقة الجذور: ECe 5.9 مقابل 7.6 dS/m بعد 3 سنين.",
+      "درجة التربة 61/100 مقابل 52.",
+      "الأرض مزروعة 6 مواسم من 6 (دلوقتي 3) — بور صيفي أقل."
+     ],
+     "gaps": [
+      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
+      "بعض المعاملات مفترضة (شوف data/assumptions.csv) لـ: كينوا.",
+      "الإنتاج الممكن مفترض (مفيش تجربة محلية) لـ: كينوا.",
+      "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
+     ],
+     "risks": [
+      "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
+      "ذرة رفيعة (S1, S2, S3) محتاج 33٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 8٪ (FAO-29 عند LF 15٪).",
+      "كينوا (W2, W3) محتاج 31٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 72٪ (FAO-29 عند LF 15٪).",
+      "موسمين ورا بعض من نفس العيلة النباتية: خلي بالك من الآفات والأمراض.",
+      "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
+     ]
+    }
+   }
   },
   {
    "id": "min_water",
@@ -630,8 +860,129 @@
      "n": 23.1
     }
    ],
-   "robustness": null,
-   "explanation": null
+   "robustness": {
+    "robustness_pct": 100.0,
+    "n_draws": 1400,
+    "by_scenario": [
+     {
+      "key": "historical",
+      "label_en": "Past climate 1981–2025",
+      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "warm1",
+      "label_en": "+1 °C warmer",
+      "label_ar": "أدفى بدرجة",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "warm2",
+      "label_en": "+2 °C warmer",
+      "label_ar": "أدفى بدرجتين",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "dry10",
+      "label_en": "10 % less rain",
+      "label_ar": "مطر أقل ١٠٪",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "dry20",
+      "label_en": "20 % less rain",
+      "label_ar": "مطر أقل ٢٠٪",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "ecw1",
+      "label_en": "Well +1 dS/m saltier",
+      "label_ar": "البير أملح بـ 1 dS/m",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "ecw2",
+      "label_en": "Well +2 dS/m saltier",
+      "label_ar": "البير أملح بـ 2 dS/m",
+      "pass_pct": 100.0
+     }
+    ],
+    "worst": {
+     "key": "historical",
+     "pass_pct": 100.0,
+     "cause": "none",
+     "slot": null,
+     "crop": null,
+     "share_pct": 0.0
+    },
+    "cmip6": "pending"
+   },
+   "explanation": {
+    "en": {
+     "why": [
+      "Uses the least water among plans that keep at least 80% of today's output index: 11,138 m³ vs 15,260 m³ in 3 years (-27%).",
+      "Sequence: squash → fallow → squash → fallow → barley forage → fallow. Every crop keeps ≥ 90% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
+     ],
+     "evidence": [
+      "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
+      "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
+      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 100% of them.",
+      "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
+      "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
+     ],
+     "benefits": [
+      "Output -20% vs your current rotation.",
+      "Saves 27% water (11,138 vs 15,260 m³ in 3 years).",
+      "Leaves less salt in the root zone: ECe 6.5 vs 7.6 dS/m after 3 years.",
+      "Soil score 59/100 vs 52."
+     ],
+     "gaps": [
+      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
+      "Attainable yield is an assumption (no local trial) for: squash.",
+      "How fast salt rises in an unirrigated summer fallow is not measured locally (assumed +5% per season).",
+      "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
+     ],
+     "risks": [
+      "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
+      "Squash / zucchini (W1, W2) needs 50% extra water for leaching; without it the yield could fall to about 26% (FAO-29 at LF 15%).",
+      "Barley (forage) (W3) needs 39% extra water for leaching; without it the yield could fall to about 53% (FAO-29 at LF 15%).",
+      "Check seed, know-how and buyers before planting crops without a Ras Sudr track record: squash.",
+      "Decision support only — confirm with your local agricultural extension officer."
+     ]
+    },
+    "ar": {
+     "why": [
+      "أقل استهلاك مية بين الخطط اللي بتحافظ على 80٪ على الأقل من مؤشر الإنتاج الحالي: 11,138 م³ مقابل 15,260 م³ في 3 سنين (-27%).",
+      "الترتيب: كوسة ← بور (راحة) ← كوسة ← بور (راحة) ← شعير علف ← بور (راحة). كل محصول بيحافظ على 90٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
+     ],
+     "evidence": [
+      "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
+      "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
+      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 100٪ منهم.",
+      "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
+      "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
+     ],
+     "benefits": [
+      "الإنتاج -20% مقارنة بدورتك الحالية.",
+      "بيوفر 27٪ مية (11,138 مقابل 15,260 م³ في 3 سنين).",
+      "بيسيب ملح أقل في منطقة الجذور: ECe 6.5 مقابل 7.6 dS/m بعد 3 سنين.",
+      "درجة التربة 59/100 مقابل 52."
+     ],
+     "gaps": [
+      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
+      "الإنتاج الممكن مفترض (مفيش تجربة محلية) لـ: كوسة.",
+      "سرعة زيادة الملح في البور الصيفي مش متقاسة محليًا (مفترضة +5٪ كل موسم).",
+      "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
+     ],
+     "risks": [
+      "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
+      "كوسة (W1, W2) محتاج 50٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 26٪ (FAO-29 عند LF 15٪).",
+      "شعير علف (W3) محتاج 39٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 53٪ (FAO-29 عند LF 15٪).",
+      "اتأكد من التقاوي والخبرة والمشتري قبل ما تزرع محاصيل ملهاش تجربة في رأس سدر: كوسة.",
+      "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
+     ]
+    }
+   }
   },
   {
    "id": "best_soil",
@@ -870,8 +1221,131 @@
      "n": 32.2
     }
    ],
-   "robustness": null,
-   "explanation": null
+   "robustness": {
+    "robustness_pct": 100.0,
+    "n_draws": 1400,
+    "by_scenario": [
+     {
+      "key": "historical",
+      "label_en": "Past climate 1981–2025",
+      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "warm1",
+      "label_en": "+1 °C warmer",
+      "label_ar": "أدفى بدرجة",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "warm2",
+      "label_en": "+2 °C warmer",
+      "label_ar": "أدفى بدرجتين",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "dry10",
+      "label_en": "10 % less rain",
+      "label_ar": "مطر أقل ١٠٪",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "dry20",
+      "label_en": "20 % less rain",
+      "label_ar": "مطر أقل ٢٠٪",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "ecw1",
+      "label_en": "Well +1 dS/m saltier",
+      "label_ar": "البير أملح بـ 1 dS/m",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "ecw2",
+      "label_en": "Well +2 dS/m saltier",
+      "label_ar": "البير أملح بـ 2 dS/m",
+      "pass_pct": 100.0
+     }
+    ],
+    "worst": {
+     "key": "historical",
+     "pass_pct": 100.0,
+     "cause": "none",
+     "slot": null,
+     "crop": null,
+     "share_pct": 0.0
+    },
+    "cmip6": "pending"
+   },
+   "explanation": {
+    "en": {
+     "why": [
+      "Best soil-health score among plans that keep at least 80% of today's output index: 72/100 vs 52 now (50 = no change).",
+      "Sequence: faba bean → sorghum → faba bean → sorghum → faba bean → cowpea. Every crop keeps ≥ 73% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
+     ],
+     "evidence": [
+      "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
+      "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
+      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 100% of them.",
+      "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
+      "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
+     ],
+     "benefits": [
+      "Output -16% vs your current rotation.",
+      "Leaves less salt in the root zone: ECe 5.4 vs 7.6 dS/m after 3 years.",
+      "Builds soil nitrogen (legumes): 32 vs 23 mg/kg.",
+      "Soil score 72/100 vs 52.",
+      "Covers the soil in 6 of 6 seasons (now 3) — less bare, hot summer fallow."
+     ],
+     "gaps": [
+      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
+      "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
+     ],
+     "risks": [
+      "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
+      "Faba bean (W1, W2, W3) needs 50% extra water for leaching; without it the yield could fall to about 0% (FAO-29 at LF 15%).",
+      "Sorghum (grain) (S1, S2) needs 33% extra water for leaching; without it the yield could fall to about 8% (FAO-29 at LF 15%).",
+      "Cowpea (S3) needs 50% extra water for leaching; without it the yield could fall to about 9% (FAO-29 at LF 15%).",
+      "Check seed, know-how and buyers before planting crops without a Ras Sudr track record: cowpea, faba bean.",
+      "Two seasons in a row of the same plant family: watch for pests and diseases.",
+      "Decision support only — confirm with your local agricultural extension officer."
+     ]
+    },
+    "ar": {
+     "why": [
+      "أحسن درجة لصحة التربة بين الخطط اللي بتحافظ على 80٪ على الأقل من مؤشر الإنتاج الحالي: 72/100 مقابل 52 دلوقتي (50 = من غير تغيير).",
+      "الترتيب: فول بلدي ← ذرة رفيعة ← فول بلدي ← ذرة رفيعة ← فول بلدي ← لوبيا. كل محصول بيحافظ على 73٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
+     ],
+     "evidence": [
+      "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
+      "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
+      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 100٪ منهم.",
+      "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
+      "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
+     ],
+     "benefits": [
+      "الإنتاج -16% مقارنة بدورتك الحالية.",
+      "بيسيب ملح أقل في منطقة الجذور: ECe 5.4 مقابل 7.6 dS/m بعد 3 سنين.",
+      "بيزوّد نيتروجين التربة (البقوليات): 32 مقابل 23 مجم/كجم.",
+      "درجة التربة 72/100 مقابل 52.",
+      "الأرض مزروعة 6 مواسم من 6 (دلوقتي 3) — بور صيفي أقل."
+     ],
+     "gaps": [
+      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
+      "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
+     ],
+     "risks": [
+      "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
+      "فول بلدي (W1, W2, W3) محتاج 50٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 0٪ (FAO-29 عند LF 15٪).",
+      "ذرة رفيعة (S1, S2) محتاج 33٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 8٪ (FAO-29 عند LF 15٪).",
+      "لوبيا (S3) محتاج 50٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 9٪ (FAO-29 عند LF 15٪).",
+      "اتأكد من التقاوي والخبرة والمشتري قبل ما تزرع محاصيل ملهاش تجربة في رأس سدر: لوبيا، فول بلدي.",
+      "موسمين ورا بعض من نفس العيلة النباتية: خلي بالك من الآفات والأمراض.",
+      "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
+     ]
+    }
+   }
   },
   {
    "id": "compromise",
@@ -1065,8 +1539,123 @@
      "n": 22.7
     }
    ],
-   "robustness": null,
-   "explanation": null
+   "robustness": {
+    "robustness_pct": 100.0,
+    "n_draws": 1400,
+    "by_scenario": [
+     {
+      "key": "historical",
+      "label_en": "Past climate 1981–2025",
+      "label_ar": "مناخ الماضي ١٩٨١–٢٠٢٥",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "warm1",
+      "label_en": "+1 °C warmer",
+      "label_ar": "أدفى بدرجة",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "warm2",
+      "label_en": "+2 °C warmer",
+      "label_ar": "أدفى بدرجتين",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "dry10",
+      "label_en": "10 % less rain",
+      "label_ar": "مطر أقل ١٠٪",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "dry20",
+      "label_en": "20 % less rain",
+      "label_ar": "مطر أقل ٢٠٪",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "ecw1",
+      "label_en": "Well +1 dS/m saltier",
+      "label_ar": "البير أملح بـ 1 dS/m",
+      "pass_pct": 100.0
+     },
+     {
+      "key": "ecw2",
+      "label_en": "Well +2 dS/m saltier",
+      "label_ar": "البير أملح بـ 2 dS/m",
+      "pass_pct": 100.0
+     }
+    ],
+    "worst": {
+     "key": "historical",
+     "pass_pct": 100.0,
+     "cause": "none",
+     "slot": null,
+     "crop": null,
+     "share_pct": 0.0
+    },
+    "cmip6": "pending"
+   },
+   "explanation": {
+    "en": {
+     "why": [
+      "Best overall score (TOPSIS) for your priorities 'balanced': profit 25%, water saving 25%, salt tolerance 20%.",
+      "Sequence: barley → fallow → barley forage → fallow → barley forage → fallow. Every crop keeps ≥ 96% of its potential yield at your well's 8.35 dS/m when the leaching water is applied."
+     ],
+     "evidence": [
+      "NASA POWER 1981–2025 (CERES radiation; MERRA-2 temperature, humidity, wind, rain) at the DRC Ras Sudr pixel: FAO-56 reference ET 1,912 mm/yr vs only 47 mm/yr of rain.",
+      "Summer days above 35 °C: 28 per year on average (POWER T2M_MAX); MERRA-2 root-zone wetness (GWETROOT) in summer ≈ 0.29 — the soil is dry without irrigation.",
+      "Stress test on 1,400 simulated 3-year futures (45 years of NASA climate, +1/+2 °C, −10/−20% rain, saltier well): this plan held up in 100% of them.",
+      "Satellite layers (Sentinel-2/Landsat NDVI, SMAP, GPM IMERG, MODIS, SRTM, GRACE, CMIP6) are coded and will be added once Earth Engine access is enabled.",
+      "Yields calibrated on the DRC Ras Sudr barley trial (S1: 4,215 kg/ha at ECw 8.35); soil salinity on S4 (ECe 8.56 at ECw 7.94)."
+     ],
+     "benefits": [
+      "Output -4% vs your current rotation.",
+      "Saves 10% water (13,655 vs 15,260 m³ in 3 years).",
+      "Leaves less salt in the root zone: ECe 7.0 vs 7.6 dS/m after 3 years.",
+      "Soil score 55/100 vs 52."
+     ],
+     "gaps": [
+      "Crop prices and costs are not in the data yet (data/prices_egp.csv is blank): plans are ranked by an output index, not money.",
+      "How fast salt rises in an unirrigated summer fallow is not measured locally (assumed +5% per season).",
+      "Satellite field history (NDVI) for your exact field is pending; the plan uses station-level data."
+     ],
+     "risks": [
+      "Measure THIS well's salinity (ECw) every season — Ras Sudr wells range from 3 to 38 dS/m and the 'highly saline' share of the aquifer rose from 52% (1996) to 83% (2022).",
+      "Barley (forage) (W2, W3) needs 39% extra water for leaching; without it the yield could fall to about 53% (FAO-29 at LF 15%).",
+      "Decision support only — confirm with your local agricultural extension officer."
+     ]
+    },
+    "ar": {
+     "why": [
+      "أعلى درجة إجمالية (TOPSIS) حسب أولوياتك 'متوازن': الربح 25٪، توفير المية 25٪، تحمل الملوحة 20٪.",
+      "الترتيب: شعير ← بور (راحة) ← شعير علف ← بور (راحة) ← شعير علف ← بور (راحة). كل محصول بيحافظ على 96٪ على الأقل من إنتاجه الممكن مع ملوحة البير 8.35 dS/m لو اتعملت مية الغسيل."
+     ],
+     "evidence": [
+      "بيانات ناسا POWER من 1981 لـ 2025 (إشعاع CERES؛ حرارة ورطوبة ورياح ومطر MERRA-2) عند محطة رأس سدر: البخر-نتح المرجعي FAO-56 حوالي 1,912 مم/سنة والمطر 47 مم/سنة بس.",
+      "أيام الصيف اللي فوق 35° حوالي 28 يوم في السنة (POWER T2M_MAX)؛ رطوبة منطقة الجذور (GWETROOT) في الصيف ≈ 0.29 — الأرض ناشفة من غير ري.",
+      "اختبار تحمّل على 1,400 سيناريو لـ 3 سنين (45 سنة مناخ ناسا، +1/+2 درجة، مطر أقل 10/20٪، بير أملح): الخطة نجحت في 100٪ منهم.",
+      "طبقات الأقمار الصناعية (NDVI من Sentinel-2/Landsat، SMAP، IMERG، MODIS، SRTM، GRACE، CMIP6) جاهزة في الكود وهتتضاف أول ما يتفعل Earth Engine.",
+      "الإنتاجية متظبطة على تجربة الشعير في محطة رأس سدر (S1: 4215 كجم/هكتار بملوحة مية 8.35)؛ وملوحة التربة على S4 (ECe 8.56 مع مية 7.94)."
+     ],
+     "benefits": [
+      "الإنتاج -4% مقارنة بدورتك الحالية.",
+      "بيوفر 10٪ مية (13,655 مقابل 15,260 م³ في 3 سنين).",
+      "بيسيب ملح أقل في منطقة الجذور: ECe 7.0 مقابل 7.6 dS/m بعد 3 سنين.",
+      "درجة التربة 55/100 مقابل 52."
+     ],
+     "gaps": [
+      "أسعار المحاصيل والتكاليف لسه مش موجودة (data/prices_egp.csv فاضي): الخطط مترتبة بمؤشر إنتاج مش بفلوس.",
+      "سرعة زيادة الملح في البور الصيفي مش متقاسة محليًا (مفترضة +5٪ كل موسم).",
+      "تاريخ الحقل بالأقمار الصناعية (NDVI) لأرضك بالظبط لسه؛ الخطة مبنية على بيانات المحطة."
+     ],
+     "risks": [
+      "قيس ملوحة البير بتاعك (ECw) كل موسم — آبار رأس سدر من 3 لـ 38 dS/m، ونسبة المية 'عالية الملوحة' زادت من 52٪ (1996) لـ 83٪ (2022).",
+      "شعير علف (W2, W3) محتاج 39٪ مية زيادة لغسيل الملح؛ من غيرها الإنتاج ممكن ينزل لحوالي 53٪ (FAO-29 عند LF 15٪).",
+      "ده دعم للقرار بس — راجع المرشد الزراعي في منطقتك قبل التنفيذ."
+     ]
+    }
+   }
   }
  ]
 }

@@ -257,16 +257,17 @@ def simulate(plan: tuple[str, ...], farm: Farm, eng: Engine, years: np.ndarray |
         area = areas[cid]
         f = area / farm.area_fdn
         lr = float(leaching_requirement(ecw, c.ece100))
-        gross = gross_irrigation(vals["etc"], vals["peff"], lr, ea)
-        drain = drainage_mm(gross, vals["etc"], vals["peff"])
-        lf = drain / np.maximum(gross + vals["peff"], 1e-9)
-        hf = heat_factor(vals["hot_mid"])
+        need = gross_irrigation(vals["etc"], vals["peff"], lr, ea)
+        applied, eta = supply_limited(need, vals, lr, ea, area, farm.water_m3_day)
+        drain = drainage_mm(applied, eta, vals["peff"])
+        lf = drain / np.maximum(applied + vals["peff"], 1e-9)
+        hf = heat_factor(vals["hot_mid"]) * water_factor(eta, vals["etc"])
         _, ece_mean = mix_ece(state.ece, ece_steady(ecw, lf, eng.k_cal), drain, c.root_m, farm.theta_fc)
         sry = salt_rel_yield(c, ece_mean)
         ry = sry * hf
         state, _ = step(state, c, ecw, lf, drain, ry / 100.0, farm.theta_fc, eng.k_cal, f)
         traj.append(state)
-        slots.append(SlotResult(SLOTS[i], cid, p, area, gross, mm_to_m3_per_feddan(gross) * area, lr, sry, hf, ry,
+        slots.append(SlotResult(SLOTS[i], cid, p, area, applied, mm_to_m3_per_feddan(applied) * area, lr, sry, hf, ry,
                                 c.ymax * ry / 100.0, ece_mean, vals["etc"]))
     water = sum(s.water_m3 for s in slots)
     prod = sum((s.area_fdn / farm.area_fdn) * np.nan_to_num(s.rel_yield_pct) / 100.0
@@ -274,6 +275,28 @@ def simulate(plan: tuple[str, ...], farm: Farm, eng: Engine, years: np.ndarray |
     return SimResult(plan=tuple(plan), slots=slots, water_m3=water, productivity=prod,
                      profit_egp=_profit(slots, eng), soil_index=soil_health_index(start, state), start=start,
                      trajectory=traj)
+
+
+def supply_limited(need_mm, vals: dict[str, np.ndarray], lr: float, ea: float, area: float,
+                   q_m3_day: float) -> tuple[np.ndarray, np.ndarray]:
+    """Apply the well's m³/day cap during the peak period; return (applied mm, actual ET mm).
+
+    The planted area was sized on the typical peak. In a hotter year, or with saltier water
+    (larger LR), the peak gross demand exceeds the well; during the peak period (share
+    ``st.peak_share`` of seasonal water) only the ratio r = Q / (area · peak demand) is
+    delivered. The shortfall first removes leaching water, then crop water (ETa < ETc).
+    """
+    peak_need = mm_to_m3_per_feddan(vals["peak_net"] / (ea * (1.0 - lr))) * max(area, 1e-9)
+    r = np.minimum(1.0, q_m3_day / np.maximum(peak_need, 1e-9))
+    applied = need_mm * (1.0 - A.get("st.peak_share") * (1.0 - r))
+    eta = np.minimum(vals["etc"], applied * ea + vals["peff"])
+    return applied, eta
+
+
+def water_factor(eta, etc):
+    """FAO-33 yield response to water: 1 − Ky·(1 − ETa/ETc)."""
+    ratio = np.where(np.asarray(etc) > 0, np.asarray(eta) / np.maximum(etc, 1e-9), 1.0)
+    return np.clip(1.0 - A.get("yield.ky") * (1.0 - ratio), 0.0, 1.0)
 
 
 def _profit(slots: list[SlotResult], eng: Engine) -> np.ndarray | None:

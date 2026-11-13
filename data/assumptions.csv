@@ -126,3 +126,5 @@ st.ecw_step,stress,well salinity scenario step,1,dS/m,+1 and +2 dS/m; highly-sal
 conv.tds_per_ec,calibration,TDS (mg/L) per dS/m,640,mg/L per dS/m,ppm to dS/m conversion used in Soil_Water_Measured,FAO-29 (Soil_Water_Measured note)
 cal.s6_system,calibration,irrigation system assumed for the S6 wheat holdout,furrow,-,S6 does not state the method; DRC station trials used furrow (S1),assumption
 cal.s1_system,calibration,irrigation system of the S1 barley trial,furrow,-,weekly furrow irrigation ~400 mm/season,S1 / Local_Yields
+st.peak_share,stress,share of seasonal irrigation applied in the peak-demand period,0.5,fraction,mid-season (highest Kc) is 35-45 % of the season and carries about half the seasonal ETc; the well cap binds only then,FAO-56 Table 11 stage shares (assumption)
+yield.ky,yield,seasonal yield response factor to water deficit,1.0,-,FAO-33 seasonal Ky is 0.85-1.25 for the field crops here; 1.0 used for all,FAO-33 (Doorenbos & Kassam 1979)

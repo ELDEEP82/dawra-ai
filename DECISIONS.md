@@ -65,3 +65,19 @@ Each entry: what was decided, why, and where it lives. Model numbers are in `dat
   (risk_climate = robustness from M7). The current rotation is always simulated with the same `simulate()`.
 - **D21 Speed.** Assumptions are cached in a dict, prices pre-mapped and plan evaluations memoised: ~1.8 ms per plan,
   ~27 s per NSGA-II run (120 × 200).
+
+## P4 — Stress test & explanation (M7)
+- **D22 Bootstrap blocks = agricultural years** (W(y) + the following S(y+1)); three blocks drawn with replacement give
+  200 distinct 3-year sequences (a fixed 3-year moving block would give only 42). Start years 1981–2024 with complete data.
+- **D23 Well cap in scenarios.** Planted area is fixed beforehand from the typical climate. In a scenario the peak gross
+  demand (hotter → higher ETc; saltier → higher LR) may exceed the well's m³/day; during the peak period
+  (`st.peak_share` = 50 % of seasonal water) only Q/(area·peak) is delivered. The shortfall removes leaching water first
+  (ECe rises), then crop water (FAO-33 Ky = 1, `yield.ky`). In the typical climate this changes nothing (r = 1).
+- **D24 Robustness** = pooled share over 7 scenario families × 200 draws (Prompt 6 definition). CMIP6 deltas are wired
+  as an extra family and reported `"cmip6": "pending"` until Earth Engine runs.
+- **D25 Finding, not hidden:** robustness is ≥ 95 % for all F001 plans. With FAO-29 leaching applied, yield per feddan
+  stays near potential; heat and salinity are paid in water per feddan (fewer irrigable feddan), which the optimiser
+  counts. Rain changes barely matter (rain ≈ 2.5 % of ET0). The current rotation is the least robust (salt build-up
+  after summer fallow).
+- **D26 Cards** are template-built from the plan JSON (EN + Egyptian-friendly Arabic, Western digits). `llm_polish` is
+  an optional hook that raises if any number changes.
